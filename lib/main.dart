@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'auth.dart';
-import 'registration.dart';
+import 'package:flutter/services.dart';
+import 'Pages/auth.dart';
+import 'Pages/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyThemeApp());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+    .then((_) {
+      runApp(new MyThemeApp());
+    });
 }
 
 class MyThemeApp extends StatelessWidget {
@@ -17,9 +21,8 @@ class MyThemeApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const AuthPage(),
-        '/registration': (context) => const RegistrationPage(),
+        '/home':(context) => const HomePageUser()
       },
     );
   }
 }
-
