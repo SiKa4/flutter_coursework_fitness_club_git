@@ -18,216 +18,274 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  final _formKey = GlobalKey<FormState>();
-  // regular expression to check if string
+  TextEditingController loginReg = TextEditingController();
+  TextEditingController passwordReg = TextEditingController();
+  TextEditingController password2Reg = TextEditingController();
   RegExp pass_valid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
-  double password_strength = 0;
-  bool validatePassword(String pass) {
-    if (pass.isEmpty) {
-      setState(() {
-        password_strength = 0;
-      });
-    } else if (pass.length < 6) {
-      setState(() {
-        password_strength = 1 / 4;
-      });
-    } else if (pass.length < 8) {
-      setState(() {
-        password_strength = 2 / 4;
-      });
-    } else {
-      if (pass_valid.hasMatch(pass)) {
-        setState(() {
-          password_strength = 4 / 4;
-        });
-        return true;
-      } else {
-        setState(() {
-          password_strength = 3 / 4;
-        });
-        return false;
-      }
-    }
-    return false;
+  void ShowToast(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
+  // RegExp emailValid = RegExp(
+  //     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  double password_strength = 0;
   void ShowBottomSheet() {
     showModalBottomSheet<void>(
-      context: context,
-      barrierColor: Colors.black45,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return FractionallySizedBox(
-          heightFactor: 0.73,
-          child: Center(
-            child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.73,
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 28, 28, 28),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(60),
-                        topRight: Radius.circular(60))),
-                child: Column(
-                  children: [
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-                    const Text(
-                      "Зарегестрирйте аккаунт используя \nлогин и пароль",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: 'MontserratLight',
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 43, 82, 136),
-                      ),
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                    Container(
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        width: MediaQuery.of(context).size.width * 0.8,
+        context: context,
+        barrierColor: Colors.black45,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter mystate) {
+              bool validatePassword(String pass) {
+                if (pass.isEmpty) {
+                  mystate(() {
+                    password_strength = 0;
+                  });
+                } else if (pass.length < 6) {
+                  mystate(() {
+                    password_strength = 1 / 4;
+                  });
+                } else if (pass.length < 8) {
+                  mystate(() {
+                    password_strength = 2 / 4;
+                  });
+                } else {
+                  if (pass_valid.hasMatch(pass)) {
+                    mystate(() {
+                      password_strength = 4 / 4;
+                    });
+                    return true;
+                  } else {
+                    mystate(() {
+                      password_strength = 3 / 4;
+                    });
+                    return false;
+                  }
+                }
+                return false;
+              }
+
+              return FractionallySizedBox(
+                heightFactor: 0.73,
+                child: Center(
+                  child: Scaffold(
+                    resizeToAvoidBottomInset: false,
+                    backgroundColor: Colors.transparent,
+                    body: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.73,
                         decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 54, 54, 54),
-                            borderRadius: BorderRadius.circular(20)),
-                        child: TextField(
-                          controller: loginReg,
-                          decoration: const InputDecoration(
-                              label: Text("Логин",
-                                  style: TextStyle(
-                                      color: Colors.white30, fontSize: 20)),
-                              hintStyle: TextStyle(color: Colors.white),
-                              border: InputBorder.none,
-                              prefixIcon: Icon(Icons.account_circle_rounded,
-                                  color: Colors.white, size: 40)),
-                          style: const TextStyle(
-                              fontSize: 22.0,
-                              color: Colors.white,
-                              fontFamily: 'MontserratLight'),
-                          cursorColor: Colors.white10,
-                        )),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                    Form(
-                      key: _formKey,
-                      child: Column(children: [
-                        Container(
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 54, 54, 54),
-                                borderRadius: BorderRadius.circular(20)),
-                            child: TextField(
-                              obscureText: true,
-                              enableSuggestions: false,
-                              autocorrect: false,
-                              controller: passwordReg,
-                              onChanged: (value) {
-                                validatePassword(passwordReg.text);
-                              },
-                              // ignore: prefer_const_constructors
-                              decoration: InputDecoration(
-                                  label: const Text(
-                                    "Пароль",
-                                    style: TextStyle(
-                                        color: Colors.white30, fontSize: 20),
-                                  ),
-                                  hintStyle: TextStyle(color: Colors.white),
-                                  border: InputBorder.none,
-                                  // ignore: prefer_const_constructors
-                                  prefixIcon: Icon(Icons.password,
-                                      color: Colors.white, size: 40)),
-                              style: const TextStyle(
-                                  fontSize: 22.0,
-                                  color: Colors.white,
-                                  fontFamily: 'MontserratLight'),
-                              cursorColor: Colors.white10,
-                            )),
-                        Container(
-                         height: MediaQuery.of(context).size.height * 0.004,
-                         width: MediaQuery.of(context).size.width * 0.75,
-                          child: LinearProgressIndicator(
-                            value: password_strength,
-                            backgroundColor: Colors.grey[300],
-                            minHeight: 5,
-                            color: password_strength <= 1 / 4
-                                ? Colors.red
-                                : password_strength == 2 / 4
-                                    ? Colors.yellow
-                                    : password_strength == 3 / 4
-                                        ? Colors.blue
-                                        : Colors.green,
-                          ),
-                        ),
-                      ]),
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                    Container(
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 54, 54, 54),
-                            borderRadius: BorderRadius.circular(20)),
-                        child: TextField(
-                          obscureText: true,
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          controller: password2Reg,
-                          // ignore: prefer_const_constructors
-                          decoration: InputDecoration(
-                              label: const Text(
-                                "Повторите пароль",
-                                style: TextStyle(
-                                    color: Colors.white30, fontSize: 20),
+                            color: Color.fromARGB(255, 28, 28, 28),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(60),
+                                topRight: Radius.circular(60))),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.04),
+                            const Text(
+                              "Зарегестрирйте аккаунт используя \nлогин и пароль",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'MontserratLight',
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 43, 82, 136),
                               ),
-                              hintStyle: const TextStyle(color: Colors.white),
-                              border: InputBorder.none,
-                              // ignore: prefer_const_constructors
-                              prefixIcon: Icon(Icons.password,
-                                  color: Colors.white, size: 40)),
-                          style: const TextStyle(
-                              fontSize: 22.0,
-                              color: Colors.white,
-                              fontFamily: 'MontserratLight'),
-                          cursorColor: Colors.white10,
+                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.03),
+                            Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.07,
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 54, 54, 54),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: TextField(
+                                  controller: loginReg,
+                                  decoration: const InputDecoration(
+                                      label: Text("Логин",
+                                          style: TextStyle(
+                                              color: Colors.white30,
+                                              fontSize: 20)),
+                                      hintStyle: TextStyle(color: Colors.white),
+                                      border: InputBorder.none,
+                                      prefixIcon: Icon(
+                                          Icons.account_circle_rounded,
+                                          color: Colors.white,
+                                          size: 40)),
+                                  style: const TextStyle(
+                                      fontSize: 22.0,
+                                      color: Colors.white,
+                                      fontFamily: 'MontserratLight'),
+                                  cursorColor: Colors.white10,
+                                )),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.02),
+                            Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.07,
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 54, 54, 54),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: TextField(
+                                  obscureText: true,
+                                  enableSuggestions: false,
+                                  autocorrect: false,
+                                  controller: passwordReg,
+                                  onChanged: (value) {
+                                    validatePassword(passwordReg.text);
+                                  },
+                                  // ignore: prefer_const_constructors
+                                  decoration: InputDecoration(
+                                      label: const Text(
+                                        "Пароль",
+                                        style: TextStyle(
+                                            color: Colors.white30,
+                                            fontSize: 20),
+                                      ),
+                                      hintStyle: TextStyle(color: Colors.white),
+                                      border: InputBorder.none,
+                                      // ignore: prefer_const_constructors
+                                      prefixIcon: Icon(Icons.password,
+                                          color: Colors.white, size: 40)),
+                                  style: const TextStyle(
+                                      fontSize: 22.0,
+                                      color: Colors.white,
+                                      fontFamily: 'MontserratLight'),
+                                  cursorColor: Colors.white10,
+                                )),
+                            Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.004,
+                              width: MediaQuery.of(context).size.width * 0.75,
+                              child: LinearProgressIndicator(
+                                value: password_strength,
+                                backgroundColor: Colors.grey[300],
+                                minHeight: 5,
+                                color: password_strength <= 1 / 4
+                                    ? Colors.red
+                                    : password_strength == 2 / 4
+                                        ? Colors.yellow
+                                        : password_strength == 3 / 4
+                                            ? Colors.blue
+                                            : Colors.green,
+                              ),
+                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.02),
+                            Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.07,
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 54, 54, 54),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: TextField(
+                                  obscureText: true,
+                                  enableSuggestions: false,
+                                  autocorrect: false,
+                                  controller: password2Reg,
+                                  // ignore: prefer_const_constructors
+                                  decoration: InputDecoration(
+                                      label: const Text(
+                                        "Повторите пароль",
+                                        style: TextStyle(
+                                            color: Colors.white30,
+                                            fontSize: 20),
+                                      ),
+                                      hintStyle:
+                                          const TextStyle(color: Colors.white),
+                                      border: InputBorder.none,
+                                      // ignore: prefer_const_constructors
+                                      prefixIcon: Icon(Icons.password,
+                                          color: Colors.white, size: 40)),
+                                  style: const TextStyle(
+                                      fontSize: 22.0,
+                                      color: Colors.white,
+                                      fontFamily: 'MontserratLight'),
+                                  cursorColor: Colors.white10,
+                                )),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.03),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.05,
+                              width: MediaQuery.of(context).size.width * 0.75,
+                              child: OutlinedButton(
+                                // ignore: sort_child_properties_last
+                                child: const Text(
+                                  'Зарегистрироваться',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color.fromARGB(255, 149, 178, 218),
+                                      fontFamily: 'MontserratBold'),
+                                ),
+                                style: OutlinedButton.styleFrom(
+                                    primary: Colors.white,
+                                    backgroundColor:
+                                        Color.fromARGB(255, 28, 55, 92),
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)))),
+                                onPressed: () async {
+                                  if (passwordReg.text == password2Reg.text) {
+                                    if (password_strength >= 3 / 4) {
+                                      if (loginReg.text.length > 5) {
+                                        var loginIsExisting = ApiService()
+                                            .isExistsUserByLog(loginReg.text);
+                                        bool? isExisting =
+                                            await loginIsExisting;
+                                        if (!isExisting) {
+                                          var answer = ApiService()
+                                              .setNewUserByLoginAndPassword(
+                                                  loginReg.text,
+                                                  passwordReg.text);
+                                          bool? isOk = await answer;
+                                          if (isOk) {
+                                            ShowToast(
+                                                "Пользователь успешно зарегестрирован!");
+                                          } else {
+                                            ShowToast("Ошибка!");
+                                          }
+                                          Navigator.pop(context);
+                                        } else {
+                                          ShowToast("Ошибка!");
+                                        }
+                                      } else {
+                                        ShowToast("Логин слишком короткий!");
+                                      }
+                                    } else {
+                                      ShowToast(
+                                          "Придумайте более надежный пароль!");
+                                    }
+                                  } else {
+                                    ShowToast("Пароли не совпадают!");
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
                         )),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                      width: MediaQuery.of(context).size.width * 0.75,
-                      child: OutlinedButton(
-                        // ignore: sort_child_properties_last
-                        child: const Text(
-                          'Зарегистрироваться',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromARGB(255, 149, 178, 218),
-                              fontFamily: 'MontserratBold'),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                            primary: Colors.white,
-                            backgroundColor: Color.fromARGB(255, 28, 55, 92),
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)))),
-                        onPressed: () {
-                          if (passwordReg.text == password2Reg.text &&
-                              passwordReg.text.length > 5) {}
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  ],
-                )),
-          ),
-        );
-      },
-    );
+                  ),
+                ),
+              );
+            },
+          );
+        });
   }
 
   TextEditingController loginAuth = TextEditingController();
   TextEditingController passwordAuth = TextEditingController();
-  TextEditingController loginReg = TextEditingController();
-  TextEditingController passwordReg = TextEditingController();
-  TextEditingController password2Reg = TextEditingController();
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -371,10 +429,7 @@ class _AuthPageState extends State<AuthPage> {
                               ApiService.user = user;
                               Navigator.popAndPushNamed(context, "/home");
                             } else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Text("Пользователь не найден."),
-                              ));
+                                ShowToast("Пользователь не найден.");
                             }
                             setState(() {
                               isLoading = false;
