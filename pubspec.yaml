@@ -30,6 +30,7 @@ environment:
 dependencies:
   drop_shadow: ^0.0.1+4
   modal_bottom_sheet: ^2.1.2
+  smooth_page_indicator: ^1.0.1
   http: ^0.13.5
   flutter:
     sdk: flutter
@@ -66,6 +67,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets\images\logofitnes.png
+    - assets\images\1fit.jpg
+    - assets\images\2fit.jpg
+    - assets\images\3fit.jpg
+    - assets\images\4fit.jpg
+    - assets\images\5fit.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

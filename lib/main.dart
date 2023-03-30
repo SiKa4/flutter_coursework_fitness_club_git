@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'Pages/auth.dart';
 import 'Pages/home.dart';
+import 'Pages/profile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,8 @@ class MyThemeApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const AuthPage(),
-        '/home':(context) => const HomePageUser()
+        '/home':(context) => const HomePageUser(),
+        '/test':(context) => const MyWidget()
       },
     );
   }

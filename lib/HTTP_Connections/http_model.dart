@@ -6,13 +6,14 @@ import 'package:http/http.dart' as http;
 import '../Models/UsersLogins.dart';
 
 class ApiService {
+  static var user;
   var baseUrl = 'http://217.66.25.160:5001/api';
   var headers = {
     'ApiKey': 'gc2tPOwfXPOFHX5SYOzZFFmN9DXiH40xzN2o3h0MQzJ5y',
     'Content-Type': 'application/json'
   };
 
-  Future<Users?> getUserLogPass(String login, String password) async {
+  Future<Users?> getUserByLogPass(String login, String password) async {
     await Future.delayed(const Duration(seconds: 1));
     var body = {'login': '$login', 'password': '$password'};
     final response = await http.post(Uri.parse('$baseUrl/logins/logPass'),
@@ -25,6 +26,17 @@ class ApiService {
       return await Users.fromJson(json.decode(responseUser.body));
     } else {
       return null;
+    }
+  }
+
+  Future<bool> isExistsUserByLog(String login) async {
+    await Future.delayed(const Duration(seconds: 1));
+    final response = await http.get(Uri.parse('$baseUrl/logins/logPass/$login'),
+        headers: headers);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
     }
   }
 }
