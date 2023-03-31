@@ -29,7 +29,15 @@ class ApiService {
     }
   }
 
-  Future<Users?> getUserById(int id_User) async {}
+  Future<Users?> getUserById(int id_User) async {
+    final response = await http.get(Uri.parse('$baseUrl/logins/users/$id_User'),
+        headers: headers);
+    if (response.statusCode == 200) {
+      return Users.fromJson(json.decode(response.body));;
+    } else {
+      return null;
+    }
+  }
 
   Future<bool> isExistsUserByLog(String login) async {
     final response = await http.get(Uri.parse('$baseUrl/logins/logPass/$login'),

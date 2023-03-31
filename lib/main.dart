@@ -9,7 +9,7 @@ import 'Pages/profile.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final int? id_User = prefs.getInt('UserId');
+  final int? id_User = await prefs.getInt('UserId');
   if (id_User != null) {
     ApiService.user = ApiService().getUserById(id_User);
   }
@@ -26,7 +26,7 @@ class MyThemeApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: ApiService.user != null ? '/home' : '/',
       routes: {
         '/': (context) => const AuthPage(),
         '/home': (context) => const HomePageUser(),
