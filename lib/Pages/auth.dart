@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Animation/anim.dart';
 import '../HTTP_Connections/http_model.dart';
@@ -427,9 +428,13 @@ class _AuthPageState extends State<AuthPage> {
                             // ignore: use_build_context_synchronously
                             if (user != null) {
                               ApiService.user = user;
+                              final SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              await prefs.setInt('UserId', user.id_User ?? -1);
+                              // ignore: use_build_context_synchronously
                               Navigator.popAndPushNamed(context, "/home");
                             } else {
-                                ShowToast("Пользователь не найден.");
+                              ShowToast("Пользователь не найден.");
                             }
                             setState(() {
                               isLoading = false;

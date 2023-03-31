@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_coursework_fitness_club/Pages/profile.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../Animation/anim.dart';
 import 'homeImageView.dart';
 
 class MainBody extends StatefulWidget {
@@ -81,7 +83,9 @@ class _MainBodyState extends State<MainBody> {
               backgroundColor: Color.fromARGB(255, 28, 55, 92),
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)))),
-          onPressed: () {Navigator.popAndPushNamed(context, '/test');},
+          onPressed: () {
+            Navigator.of(context).push(Animations().createRoute(Profile()));
+          },
         ),
       ),
       SizedBox(height: MediaQuery.of(context).size.height * 0.01),

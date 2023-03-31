@@ -29,6 +29,8 @@ class ApiService {
     }
   }
 
+  Future<Users?> getUserById(int id_User) async {}
+
   Future<bool> isExistsUserByLog(String login) async {
     final response = await http.get(Uri.parse('$baseUrl/logins/logPass/$login'),
         headers: headers);

@@ -31,6 +31,7 @@ dependencies:
   drop_shadow: ^0.0.1+4
   modal_bottom_sheet: ^2.1.2
   smooth_page_indicator: ^1.0.1
+  shared_preferences: ^2.0.20
   http: ^0.13.5
   flutter:
     sdk: flutter
