@@ -18,7 +18,7 @@ class _HomePageUserState extends State<HomePageUser> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color.fromARGB(255, 28, 28, 28),
-        appBar: AppBar(backgroundColor: Color.fromARGB(255, 28, 55, 92)),
+        appBar: AppBar(backgroundColor: Color.fromARGB(255, 28, 55, 92), title: Text("Главная"),),
         drawer: Drawer(),
         body: MainBody());
   }

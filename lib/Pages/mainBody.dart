@@ -84,7 +84,7 @@ class _MainBodyState extends State<MainBody> {
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)))),
           onPressed: () {
-            Navigator.of(context).push(Animations().createRoute(Profile()));
+            Navigator.of(context).push(Animations().createRoute(ProfilePage()));
           },
         ),
       ),
