@@ -1,118 +1,135 @@
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatelessWidget {
-  final String login = "123";
-  final String fullName = "123";
-  final String role = "123";
-  final String imageUrl = "12324";
+import '../HTTP_Connections/http_model.dart';
+import '../Models/UsersLogins.dart';
 
+class MyProfile extends StatefulWidget {
+  const MyProfile({super.key});
+
+  @override
+  State<MyProfile> createState() => _MyProfileState();
+}
+
+class _MyProfileState extends State<MyProfile> {
+   @override
+   void initState() {
+     super.initState();
+     FullNameController.text = ApiService.user.fullName;
+     NumberController.text = ApiService.user.number.toString();
+     EmailController.text = ApiService.login.login;
+     FullNameController.text = ApiService.user.fullName;
+  }
+  TextEditingController FullNameController = TextEditingController();
+  TextEditingController EmailController = TextEditingController();
+  TextEditingController RoleNameController = TextEditingController();
+  TextEditingController NumberController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 28, 28, 28),
-      appBar: AppBar(
-        title: Text('Мой профиль'),
-        backgroundColor: Color.fromARGB(255, 28, 55, 92),
-        elevation: 0.0,
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          SizedBox(height: 20),
-          CircleAvatar(
-            radius: 70,
-            backgroundImage: NetworkImage(imageUrl),
-          ),
-          SizedBox(height: 20),
-          Text(
-            fullName,
-            style: TextStyle(
-                fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          SizedBox(height: 5),
-          Text(
-            login,
-            style: TextStyle(fontSize: 18, color: Colors.grey),
-          ),
-          SizedBox(height: 20),
-          Card(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            color: Colors.white,
-            child: ListTile(
-              leading: Icon(
-                Icons.person,
-                color: Colors.black,
-              ),
-              title: Text(
-                'Роль',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              subtitle: Text(
-                role,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black,
-                ),
-              ),
+        appBar: AppBar(
+          title: Text('Мой профиль'),
+          backgroundColor: Color.fromARGB(255, 28, 55, 92),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 10.0),
+          child: Column(children: [
+            TextField(
+              controller: FullNameController,
+              // ignore: prefer_const_constructors
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide: BorderSide.none,
+                  ),
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width,
+                  ),
+                  label: const Text("Полное имя",
+                      style: TextStyle(color: Colors.white30, fontSize: 20)),
+                  hintStyle: const TextStyle(color: Colors.white),
+                  // ignore: prefer_const_constructors
+                  prefixIcon: Icon(Icons.account_circle_rounded,
+                      color: Colors.white, size: 40)),
+              style: const TextStyle(
+                  fontSize: 22.0,
+                  color: Colors.white,
+                  fontFamily: 'MontserratLight'),
+              cursorColor: Colors.white10,
             ),
-          ),
-          SizedBox(height: 20),
-          Card(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            color: Colors.white,
-            child: Column(
-              children: [
-                ListTile(
-                  leading: Icon(
-                    Icons.email,
-                    color: Colors.black,
+            TextField(
+              controller: EmailController,
+              enabled: false,
+              // ignore: prefer_const_constructors
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide: BorderSide.none,
                   ),
-                  title: Text(
-                    'E-mail',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width,
                   ),
-                  subtitle: Text(
-                    'example@mail.com',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.phone,
-                    color: Colors.black,
-                  ),
-                  title: Text(
-                    'Телефон',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                  subtitle: Text(
-                    '+7 (123) 456-78-90',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ],
+                  label: const Text("Почта",
+                      style: TextStyle(color: Colors.white30, fontSize: 20)),
+                  hintStyle: const TextStyle(color: Colors.white),
+                  // ignore: prefer_const_constructors
+                  prefixIcon: Icon(Icons.account_circle_rounded,
+                      color: Colors.white, size: 40)),
+              style: const TextStyle(
+                  fontSize: 22.0,
+                  color: Colors.white,
+                  fontFamily: 'MontserratLight'),
+              cursorColor: Colors.white10,
             ),
-          ),
-        ],
-      ),
-    );
+            TextField(
+              controller: NumberController,
+              // ignore: prefer_const_constructors
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide: BorderSide.none,
+                  ),
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width,
+                  ),
+                  label: const Text("Номер телефона",
+                      style: TextStyle(color: Colors.white30, fontSize: 20)),
+                  hintStyle: const TextStyle(color: Colors.white),
+                  // ignore: prefer_const_constructors
+                  prefixIcon: Icon(Icons.account_circle_rounded,
+                      color: Colors.white, size: 40)),
+              style: const TextStyle(
+                  fontSize: 22.0,
+                  color: Colors.white,
+                  fontFamily: 'MontserratLight'),
+              cursorColor: Colors.white10,
+            ),
+            TextField(
+              controller: RoleNameController,
+              enabled: false,
+              // ignore: prefer_const_constructors
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide: BorderSide.none,
+                  ),
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width,
+                  ),
+                  label: const Text("Тип учетной записи",
+                      style: TextStyle(color: Colors.white30, fontSize: 20)),
+                  hintStyle: const TextStyle(color: Colors.white),
+                  // ignore: prefer_const_constructors
+                  prefixIcon: Icon(Icons.account_circle_rounded,
+                      color: Colors.white, size: 40)),
+              style: const TextStyle(
+                  fontSize: 22.0,
+                  color: Colors.white,
+                  fontFamily: 'MontserratLight'),
+              cursorColor: Colors.white10,
+            ),
+          ]),
+        ));
   }
 }

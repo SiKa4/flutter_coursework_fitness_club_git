@@ -11,7 +11,8 @@ void main() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final int? id_User = prefs.getInt('UserId');
   if (id_User != null) {
-    ApiService.user = ApiService().getUserById(id_User);
+    ApiService.user = await ApiService().getUserById(id_User);
+    ApiService.login = await ApiService().getLoginsByIdUser(id_User);
   }
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {

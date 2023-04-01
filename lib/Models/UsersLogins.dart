@@ -2,7 +2,8 @@ class Users {
   int? id_User;
   String? fullName;
   int? role_id;
-  Users({this.id_User, this.fullName, this.role_id});
+  String? number;
+  Users({this.id_User, this.fullName, this.role_id, this.number});
 
   static fromJson(Map<String, dynamic> jsonResponse) {
     // ignore: unnecessary_null_comparison
@@ -10,7 +11,8 @@ class Users {
     return Users(
         id_User: jsonResponse['id_User'],
         fullName: jsonResponse['fullName'],
-        role_id: jsonResponse['role_id']);
+        role_id: jsonResponse['role_id'],
+        number: jsonResponse['number']);
   }
 }
 
