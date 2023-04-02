@@ -380,6 +380,7 @@ class _AuthPageState extends State<AuthPage> {
                                             .isExistsUserByLog(emailReg.text);
                                         bool? isEnabled = await Enabled;
                                         if (isEnabled) {
+                                          FocusScope.of(context).unfocus();
                                           var answer = ApiService()
                                               .setNewUserByLoginAndPassword(
                                                   emailReg.text,
@@ -560,6 +561,7 @@ class _AuthPageState extends State<AuthPage> {
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(20)))),
                             onPressed: () async {
+                              FocusScope.of(context).unfocus();
                               setState(() {
                                 isLoading = true;
                               });
@@ -569,12 +571,14 @@ class _AuthPageState extends State<AuthPage> {
                               // ignore: use_build_context_synchronously
                               if (user != null) {
                                 ApiService.user = user;
+                                ApiService.login = await ApiService().getLoginsByIdUser(user.id_User ?? -1);
                                 final SharedPreferences prefs =
                                     await SharedPreferences.getInstance();
                                 await prefs.setInt(
                                     'UserId', user.id_User ?? -1);
                                 // ignore: use_build_context_synchronously
                                 Navigator.popAndPushNamed(context, "/home");
+                                
                               } else {
                                 ShowToast("Пользователь не найден.");
                               }

@@ -10,7 +10,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final int? id_User = prefs.getInt('UserId');
-  if (id_User != null) {
+  if (id_User != -1 && id_User != null) {
     ApiService.user = await ApiService().getUserById(id_User);
     ApiService.login = await ApiService().getLoginsByIdUser(id_User);
   }
