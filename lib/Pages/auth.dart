@@ -379,7 +379,7 @@ class _AuthPageState extends State<AuthPage> {
                                         var Enabled = ApiService()
                                             .isExistsUserByLog(emailReg.text);
                                         bool? isEnabled = await Enabled;
-                                        if (isEnabled) {
+                                        if (!isEnabled) {
                                           FocusScope.of(context).unfocus();
                                           var answer = ApiService()
                                               .setNewUserByLoginAndPassword(

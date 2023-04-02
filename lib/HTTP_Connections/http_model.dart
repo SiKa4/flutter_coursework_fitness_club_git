@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:http/http.dart' as http;
 
+import '../Models/SheduleClassesAndTypes.dart';
 import '../Models/UsersLogins.dart';
 
 class ApiService {
@@ -93,6 +94,17 @@ class ApiService {
         headers: headers, body: json.encode(body));
     if (response.statusCode == 200) {
       return await Users.fromJson(json.decode(response.body));
+    } else {
+      return null;
+    }
+  }
+
+  Future<List<SheduleClassesAndTypes?>?> GetAllShedulesAndFullInfo() async {
+    final response = await http.get(Uri.parse('$baseUrl/shedules'),
+        headers: headers);
+    if (response.statusCode == 200) {
+      List<SheduleClassesAndTypes> posts = List<SheduleClassesAndTypes>.from(json.decode(response.body).map((model)=> SheduleClassesAndTypes.fromJson(model)));
+      return posts;
     } else {
       return null;
     }
