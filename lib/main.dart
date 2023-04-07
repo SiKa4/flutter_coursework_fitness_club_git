@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'HTTP_Connections/http_model.dart';
 import 'Pages/auth.dart';
@@ -10,6 +12,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final int? id_User = prefs.getInt('UserId');
+  Intl.systemLocale = 'ru';
+  initializeDateFormatting('ru'); 
+  
   if (id_User != -1 && id_User != null) {
     ApiService.user = await ApiService().getUserById(id_User);
     ApiService.login = await ApiService().getLoginsByIdUser(id_User);

@@ -32,15 +32,25 @@ class SheduleClassesAndTypes {
         id_ScheduleClass: jsonResponse['id_ScheduleClass'],
         location: jsonResponse['location'],
         timeStart: DateTime.parse(jsonResponse['timeStart']),
-        timeEnd:  DateTime.parse(jsonResponse['timeEnd']),
+        timeEnd: DateTime.parse(jsonResponse['timeEnd']),
         maxOfPeople: jsonResponse['maxOfPeople'],
         scheduleClassType_id: jsonResponse['scheduleClassType_id'],
         teacher_id: jsonResponse['teacher_id'],
-        timeDuration: DateTime.parse(jsonResponse['timeEnd']).difference(DateTime.parse(jsonResponse['timeStart'])),
+        timeDuration: DateTime.parse(jsonResponse['timeEnd'])
+            .difference(DateTime.parse(jsonResponse['timeStart'])),
         teacher_FullName: jsonResponse['teacher_FullName'],
         type_Name: jsonResponse['type_Name'],
         details: jsonResponse['details'],
         image_Type: jsonResponse['image_Type']);
   }
+}
 
+class DateInApi {
+  DateTime? date;
+  DateInApi({this.date});
+
+  static fromJson(Map<String, dynamic> jsonResponse) {
+    if (jsonResponse == null) return null;
+    return DateInApi(date: DateTime.parse(jsonResponse['date']));
+  }
 }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:http/http.dart' as http;
 
@@ -105,6 +104,17 @@ class ApiService {
     if (response.statusCode == 200) {
       List<SheduleClassesAndTypes> posts = List<SheduleClassesAndTypes>.from(json.decode(response.body).map((model)=> SheduleClassesAndTypes.fromJson(model)));
       return posts;
+    } else {
+      return null;
+    }
+  }
+
+  Future<List<DateInApi?>?> GetAllDateWeek() async {
+    final response = await http.get(Uri.parse('$baseUrl/dateAPI'),
+        headers: headers);
+    if (response.statusCode == 200) {
+      List<DateInApi> date = List<DateInApi>.from(json.decode(response.body).map((model)=> DateInApi.fromJson(model)));
+      return date;
     } else {
       return null;
     }

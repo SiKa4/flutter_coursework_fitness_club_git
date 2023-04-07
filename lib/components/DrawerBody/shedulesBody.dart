@@ -1,8 +1,7 @@
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../HTTP_Connections/http_model.dart';
 import '../../Models/SheduleClassesAndTypes.dart';
@@ -15,8 +14,10 @@ class ShedulesPage extends StatefulWidget {
 }
 
 class _ShedulesPageState extends State<ShedulesPage> {
-  int _selectedDayIndex = 0;
   List<SheduleClassesAndTypes>? sheduleClassesAndTypes;
+  List<SheduleClassesAndTypes>? mainSheduleClassesAndTypes;
+  List<DateInApi>? dateInApi;
+  int _selectedDayIndex = 0;
   bool isLoading = false;
   @override
   void initState() {
@@ -25,15 +26,28 @@ class _ShedulesPageState extends State<ShedulesPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _asyncMethodGet();
     });
-  }
-
-  _asyncMethodGet() async {
-    sheduleClassesAndTypes = (await ApiService().GetAllShedulesAndFullInfo())
-        as List<SheduleClassesAndTypes>?;
-    setState(() {});
     isLoading = false;
   }
 
+  _asyncMethodGet() async {
+    mainSheduleClassesAndTypes = (await ApiService()
+        .GetAllShedulesAndFullInfo()) as List<SheduleClassesAndTypes>?;
+    dateInApi = (await ApiService().GetAllDateWeek()) as List<DateInApi>?;
+    _selectedDayIndex = dateInApi?.indexOf(
+            dateInApi!.where((x) => x.date?.day == DateTime.now().day).first) ??
+        0;
+    sheduleClassesAndTypes = mainSheduleClassesAndTypes
+        ?.where((x) =>
+            DateFormat('yMMMMd').format(x.timeStart as DateTime) ==
+            DateFormat('yMMMMd').format(
+                dateInApi?.elementAt(_selectedDayIndex).date as DateTime))
+        .toList();
+    setState(() {});
+  }
+
+  final ItemScrollController itemScrollController = ItemScrollController();
+  final ItemPositionsListener itemPositionsListener =
+      ItemPositionsListener.create();
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -44,27 +58,49 @@ class _ShedulesPageState extends State<ShedulesPage> {
               height: 50.0,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                //itemCount: daysOfWeek.length,
+                // itemScrollController: itemScrollController,
+                // itemPositionsListener: itemPositionsListener,
+                itemCount: dateInApi?.length ?? 0,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedDayIndex = index;
+                        sheduleClassesAndTypes = mainSheduleClassesAndTypes
+                            ?.where((x) =>
+                                DateFormat('yMMMMd')
+                                    .format(x.timeStart as DateTime) ==
+                                DateFormat('yMMMMd').format(dateInApi
+                                    ?.elementAt(index)
+                                    .date as DateTime))
+                            .toList();
                       });
+                      _selectedDayIndex = index;
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 20.0),
                       alignment: Alignment.center,
                       color:
                           index == _selectedDayIndex ? Colors.grey[800] : null,
-                      // child: Text(
-                      //   daysOfWeek[index],
-                      //   style: TextStyle(
-                      //     fontSize: 18.0,
-                      //     fontFamily: 'MontserratLight',
-                      //     color: Colors.white,
-                      //   ),
-                      // ),
+                      child: Column(
+                        children: [
+                          Text(
+                            "${DateFormat('EE').format(dateInApi?[index].date as DateTime)}",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontFamily: 'MontserratLight',
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            "${DateFormat('MMMMd').format(dateInApi![index].date as DateTime)}",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontFamily: 'MontserratLight',
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -84,27 +120,27 @@ class _ShedulesPageState extends State<ShedulesPage> {
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.1,
                           width: MediaQuery.of(context).size.width * 0.05),
-                      Column(crossAxisAlignment: CrossAxisAlignment.center,children: [
-                        Text(
-                          DateFormat('kk:mm').format(
-                              sheduleClassesAndTypes?[index].timeStart ??
-                                  DateTime.now()),
-                          style: const TextStyle(
-                              fontSize: 22.0,
-                              color: Colors.white,
-                              fontFamily: 'MontserratBold'),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                           "${sheduleClassesAndTypes?[index]
-                                  .timeDuration
-                                  ?.inMinutes} мин",
-                          style: const TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.white,
-                              fontFamily: 'MontserratLight'),
-                        ),
-                      ]),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              DateFormat('kk:mm').format(
+                                  sheduleClassesAndTypes?[index].timeStart ??
+                                      DateTime.now()),
+                              style: const TextStyle(
+                                  fontSize: 22.0,
+                                  color: Colors.white,
+                                  fontFamily: 'MontserratBold'),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              "${sheduleClassesAndTypes?[index].timeDuration?.inMinutes} мин",
+                              style: const TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.white,
+                                  fontFamily: 'MontserratLight'),
+                            ),
+                          ]),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.12,
                           width: MediaQuery.of(context).size.width * 0.07),
