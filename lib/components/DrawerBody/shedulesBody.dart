@@ -19,14 +19,42 @@ class _ShedulesPageState extends State<ShedulesPage> {
   List<DateInApi>? dateInApi;
   int _selectedDayIndex = 0;
   bool isLoading = false;
+
   @override
   void initState() {
     isLoading = true;
+    asyncInitState();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _asyncMethodGet();
     });
     isLoading = false;
+  }
+
+  Future<void> asyncInitState() async {
+    await ApiService.GetNewShedulesAndFullInfo();
+    initSession();
+  }
+
+  void initSession() async {
+    await ApiService.hubConnection
+        .on("GetShedules", _handleAClientProvidedFunction);
+  }
+
+  void _handleAClientProvidedFunction(var parameters) {
+    var sheduleClasseAndType = SheduleClassesAndTypes.fromJson(parameters[0]);
+    int? index = mainSheduleClassesAndTypes?.indexOf(mainSheduleClassesAndTypes!
+        .where((element) =>
+            element.id_ScheduleClass == sheduleClasseAndType.id_ScheduleClass)
+        .first);
+    mainSheduleClassesAndTypes![index!] = sheduleClasseAndType;
+    sheduleClassesAndTypes = mainSheduleClassesAndTypes
+        ?.where((x) =>
+            DateFormat('yMMMMd').format(x.timeStart as DateTime) ==
+            DateFormat('yMMMMd')
+                .format(dateInApi?.elementAt(_selectedDayIndex).date as DateTime))
+        .toList();
+    setState(() {});
   }
 
   _asyncMethodGet() async {

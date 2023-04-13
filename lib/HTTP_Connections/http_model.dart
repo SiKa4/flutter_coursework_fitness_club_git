@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:signalr_netcore/signalr_client.dart';
 
 import '../Models/SheduleClassesAndTypes.dart';
 import '../Models/UsersLogins.dart';
@@ -31,8 +33,8 @@ class ApiService {
   }
 
   Future<Users?> getUserById(int id_User) async {
-    final response = await http.get(Uri.parse('$baseUrl/users/$id_User'),
-        headers: headers);
+    final response =
+        await http.get(Uri.parse('$baseUrl/users/$id_User'), headers: headers);
     if (response.statusCode == 200) {
       return Users.fromJson(json.decode(response.body));
     } else {
@@ -88,7 +90,12 @@ class ApiService {
 
   Future<Users?> UpdateUser(Users user) async {
     await Future.delayed(const Duration(seconds: 1));
-    var body = {'id_User': user.id_User, 'FullName': user.fullName, 'Role_id': user.role_id, 'Number': '${user.number}'};
+    var body = {
+      'id_User': user.id_User,
+      'FullName': user.fullName,
+      'Role_id': user.role_id,
+      'Number': '${user.number}'
+    };
     final response = await http.put(Uri.parse('$baseUrl/users/${user.id_User}'),
         headers: headers, body: json.encode(body));
     if (response.statusCode == 200) {
@@ -99,10 +106,13 @@ class ApiService {
   }
 
   Future<List<SheduleClassesAndTypes?>?> GetAllShedulesAndFullInfo() async {
-    final response = await http.get(Uri.parse('$baseUrl/shedules'),
-        headers: headers);
+    final response =
+        await http.get(Uri.parse('$baseUrl/shedules'), headers: headers);
     if (response.statusCode == 200) {
-      List<SheduleClassesAndTypes> posts = List<SheduleClassesAndTypes>.from(json.decode(response.body).map((model)=> SheduleClassesAndTypes.fromJson(model)));
+      List<SheduleClassesAndTypes> posts = List<SheduleClassesAndTypes>.from(
+          json
+              .decode(response.body)
+              .map((model) => SheduleClassesAndTypes.fromJson(model)));
       return posts;
     } else {
       return null;
@@ -110,13 +120,22 @@ class ApiService {
   }
 
   Future<List<DateInApi?>?> GetAllDateWeek() async {
-    final response = await http.get(Uri.parse('$baseUrl/dateAPI'),
-        headers: headers);
+    final response =
+        await http.get(Uri.parse('$baseUrl/dateAPI'), headers: headers);
     if (response.statusCode == 200) {
-      List<DateInApi> date = List<DateInApi>.from(json.decode(response.body).map((model)=> DateInApi.fromJson(model)));
+      List<DateInApi> date = List<DateInApi>.from(
+          json.decode(response.body).map((model) => DateInApi.fromJson(model)));
       return date;
     } else {
       return null;
     }
+  }
+
+  static var hubConnection;
+  static Future<void> GetNewShedulesAndFullInfo() async {
+    hubConnection = HubConnectionBuilder()
+        .withUrl("http://217.66.25.160:5001/signalRHubShedules")
+        .build();
+    hubConnection.start();
   }
 }
