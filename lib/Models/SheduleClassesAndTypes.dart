@@ -29,7 +29,7 @@ class SheduleClassesAndTypes {
     // ignore: unnecessary_null_comparison
     if (jsonResponse == null) return null;
     return SheduleClassesAndTypes(
-        id_ScheduleClass: jsonResponse['id_ScheduleClass'],
+        id_ScheduleClass: jsonResponse['id_ScheduleСlass'],
         location: jsonResponse['location'],
         timeStart: DateTime.parse(jsonResponse['timeStart']),
         timeEnd: DateTime.parse(jsonResponse['timeEnd']),

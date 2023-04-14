@@ -43,17 +43,27 @@ class _ShedulesPageState extends State<ShedulesPage> {
 
   void _handleAClientProvidedFunction(var parameters) {
     var sheduleClasseAndType = SheduleClassesAndTypes.fromJson(parameters[0]);
-    int? index = mainSheduleClassesAndTypes?.indexOf(mainSheduleClassesAndTypes!
+    bool? isEmpty = mainSheduleClassesAndTypes!
         .where((element) =>
             element.id_ScheduleClass == sheduleClasseAndType.id_ScheduleClass)
-        .first);
-    mainSheduleClassesAndTypes![index!] = sheduleClasseAndType;
+        .isEmpty;
+    if (isEmpty) {
+      mainSheduleClassesAndTypes?.add(sheduleClasseAndType);
+    } else {
+      int? index = mainSheduleClassesAndTypes?.indexOf(
+          mainSheduleClassesAndTypes!
+              .where((element) =>
+                  element.id_ScheduleClass ==
+                  sheduleClasseAndType.id_ScheduleClass)
+              .first);
+      mainSheduleClassesAndTypes?[index!] = sheduleClasseAndType;
+    }
     sheduleClassesAndTypes = mainSheduleClassesAndTypes
-        ?.where((x) =>
-            DateFormat('yMMMMd').format(x.timeStart as DateTime) ==
-            DateFormat('yMMMMd')
-                .format(dateInApi?.elementAt(_selectedDayIndex).date as DateTime))
-        .toList();
+          ?.where((x) =>
+              DateFormat('yMMMMd').format(x.timeStart as DateTime) ==
+              DateFormat('yMMMMd').format(
+                  dateInApi?.elementAt(_selectedDayIndex).date as DateTime))
+          .toList();
     setState(() {});
   }
 
