@@ -62,6 +62,17 @@ class ApiService {
     }
   }
 
+  Future<String?> getSendCodeEmailAdress(String login) async {
+    final response = await http.get(Uri.parse('$baseUrl/emailSend/$login'),
+        headers: headers);
+    if (response.statusCode == 200) {
+      final jsonResponce = json.decode(response.body);
+      var code = jsonResponce['numberCode'];
+      return code;
+    }
+    return null;
+  }
+
   Future<bool> setNewUserByLoginAndPassword(
       String login, String password) async {
     var body = {'id_User': 1, 'FullName': '', 'Role_id': 3, 'Number': ''};

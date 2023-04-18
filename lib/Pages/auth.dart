@@ -33,12 +33,33 @@ class _AuthPageState extends State<AuthPage> {
         .showSnackBar(SnackBar(content: Text(message)));
   }
 
+  bool isCodeEnter = false;
+  var listFocuseNode = [
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+    FocusNode()
+  ];
+  var listTextEditingController = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController()
+  ];
+  String? codeString;
+
   double password_strength = 0;
   void ShowBottomSheet() {
     dispose() {
       emailReg.text = "";
       passwordReg.text = "";
       password2Reg.text = "";
+      listTextEditingController.forEach((element) {
+        element.text = "";
+      });
+      isCodeEnter = false;
     }
 
     showModalBottomSheet<void>(
@@ -78,6 +99,38 @@ class _AuthPageState extends State<AuthPage> {
                 return false;
               }
 
+              Future<int> GetNextIndexEmptyController() async {
+                if (!listTextEditingController
+                    .where((element) => element.text == "")
+                    .isEmpty) {
+                  int index = listTextEditingController.indexOf(
+                      listTextEditingController
+                          .where((element) => element.text == "")
+                          .first);
+                  return index;
+                } else {
+                  if (codeString != null &&
+                      codeString ==
+                          "${listTextEditingController[0].text}${listTextEditingController[1].text}${listTextEditingController[2].text}${listTextEditingController[3].text}${listTextEditingController[4].text}") {
+                    var answer = ApiService().setNewUserByLoginAndPassword(
+                        emailReg.text, passwordReg.text);
+                    bool? isOk = await answer;
+                    if (isOk) {
+                      ShowToast("Пользователь успешно зарегестрирован!");
+                    } else {
+                      ShowToast("Ошибка!");
+                    }
+                    dispose();
+                    Navigator.pop(context);
+                  } else {
+                    listTextEditingController.forEach((element) {
+                      element.text = "";
+                    });
+                  }
+                  return 0;
+                }
+              }
+
               return FractionallySizedBox(
                 heightFactor: 0.73,
                 child: Form(
@@ -98,313 +151,659 @@ class _AuthPageState extends State<AuthPage> {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 24.0, vertical: 32.0),
-                              child: Column(children: [
-                                const Text(
-                                  "Зарегистрируйте аккаунт используя \nпочту и пароль",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'MontserratLight',
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 43, 82, 136),
-                                  ),
-                                ),
-                                SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.03),
-                                TextFormField(
-                                  controller: emailReg,
-                                  keyboardType: TextInputType.emailAddress,
-                                  decoration: InputDecoration(
-                                      constraints: BoxConstraints(
-                                        maxWidth:
-                                            MediaQuery.of(context).size.width *
-                                                0.8,
-                                      ),
-                                      filled: true,
-                                      fillColor:
-                                          Color.fromARGB(255, 54, 54, 54),
-                                      border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide:
-                                            BorderSide(color: Colors.red),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide:
-                                            BorderSide(color: Colors.red),
-                                      ),
-                                      label: Text("Почта",
-                                          style: TextStyle(
-                                              color: Colors.white30,
-                                              fontSize: 20)),
-                                      hintStyle: TextStyle(color: Colors.white),
-                                      prefixIcon: Icon(
-                                          Icons.account_circle_rounded,
-                                          color: Colors.white,
-                                          size: 40)),
-                                  onChanged: (value) {
-                                    if (isCheck) {
-                                      _formKey.currentState!.validate();
-                                    }
-                                  },
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Пожалуйста введите почту.';
-                                    } else if (!EmailValidator.validate(
-                                        value)) {
-                                      return 'Пожалуйста введите валидную почту!';
-                                    }
-                                    return null;
-                                  },
-                                  style: const TextStyle(
-                                      fontSize: 22.0,
-                                      color: Colors.white,
-                                      fontFamily: 'MontserratLight'),
-                                  cursorColor: Colors.white10,
-                                ),
-                                SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.02),
-                                TextFormField(
-                                  obscureText: _isObscure,
-                                  enableSuggestions: false,
-                                  autocorrect: false,
-                                  controller: passwordReg,
-                                  onChanged: (value) {
-                                    if (isCheck) {
-                                      _formKey.currentState!.validate();
-                                    }
-                                    validatePassword(passwordReg.text);
-                                  },
-                                  validator: (value) {
-                                    if (password_strength < 3 / 4) {
-                                      return "Придумайте более надежный пароль!";
-                                    }
-                                    return null;
-                                  },
-
-                                  // ignore: prefer_const_constructors
-                                  decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide:
-                                            BorderSide(color: Colors.red),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide:
-                                            BorderSide(color: Colors.red),
-                                      ),
-                                      constraints: BoxConstraints(
-                                        maxWidth:
-                                            MediaQuery.of(context).size.width *
-                                                0.8,
-                                      ),
-                                      filled: true,
-                                      fillColor:
-                                          Color.fromARGB(255, 54, 54, 54),
-                                      label: const Text(
-                                        "Пароль",
+                              child: !isCodeEnter
+                                  ? Column(children: [
+                                      const Text(
+                                        "Зарегистрируйте аккаунт используя \nпочту и пароль",
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          color: Colors.white30,
-                                          fontSize: 20,
+                                          fontSize: 15,
+                                          fontFamily: 'MontserratLight',
+                                          fontWeight: FontWeight.bold,
+                                          color:
+                                              Color.fromARGB(255, 43, 82, 136),
                                         ),
                                       ),
-                                      suffixIcon: IconButton(
-                                        icon: Icon(
-                                            !_isObscure
-                                                ? Icons.visibility
-                                                : Icons.visibility_off,
-                                            color: Colors.white),
-                                        onPressed: () {
-                                          mystate(() {
-                                            _isObscure = !_isObscure;
-                                          });
-                                        },
-                                      ),
-                                      hintStyle: TextStyle(color: Colors.white),
-                                      // ignore: prefer_const_constructors
-                                      prefixIcon: Icon(Icons.password,
-                                          color: Colors.white, size: 40)),
-
-                                  style: const TextStyle(
-                                      fontSize: 22.0,
-                                      color: Colors.white,
-                                      fontFamily: 'MontserratLight'),
-                                  cursorColor: Colors.white10,
-                                ),
-                                Container(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.004,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.75,
-                                  child: LinearProgressIndicator(
-                                    value: password_strength,
-                                    backgroundColor: Colors.grey[300],
-                                    minHeight: 5,
-                                    color: password_strength <= 1 / 4
-                                        ? Colors.red
-                                        : password_strength == 2 / 4
-                                            ? Colors.yellow
-                                            : password_strength == 3 / 4
-                                                ? Colors.blue
-                                                : Colors.green,
-                                  ),
-                                ),
-                                SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.02),
-                                TextFormField(
-                                  obscureText: _isConfirmObscure,
-                                  enableSuggestions: false,
-                                  autocorrect: false,
-                                  controller: password2Reg,
-                                  // ignore: prefer_const_constructors
-                                  decoration: InputDecoration(
-                                      constraints: BoxConstraints(
-                                        maxWidth:
-                                            MediaQuery.of(context).size.width *
-                                                0.8,
-                                      ),
-                                      filled: true,
-                                      fillColor:
-                                          Color.fromARGB(255, 54, 54, 54),
-                                      label: const Text(
-                                        "Повторите пароль",
-                                        style: TextStyle(
-                                            color: Colors.white30,
-                                            fontSize: 20),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide:
-                                            BorderSide(color: Colors.red),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide:
-                                            BorderSide(color: Colors.red),
-                                      ),
-                                      suffixIcon: IconButton(
-                                        icon: Icon(
-                                          !_isConfirmObscure
-                                              ? Icons.visibility
-                                              : Icons.visibility_off,
-                                          color: Colors.white,
-                                        ),
-                                        onPressed: () {
-                                          mystate(() {
-                                            _isConfirmObscure =
-                                                !_isConfirmObscure;
-                                          });
-                                        },
-                                      ),
-                                      hintStyle:
-                                          const TextStyle(color: Colors.white),
-                                      // ignore: prefer_const_constructors
-                                      prefixIcon: Icon(Icons.password,
-                                          color: Colors.white, size: 40)),
-                                  validator: (value) {
-                                    if (passwordReg.text != password2Reg.text ||
-                                        password2Reg.text == "") {
-                                      return "Пароли не совпадают!";
-                                    }
-                                    return null;
-                                  },
-                                  onChanged: (value) {
-                                    if (isCheck) {
-                                      _formKey.currentState!.validate();
-                                    }
-                                  },
-                                  style: const TextStyle(
-                                      fontSize: 22.0,
-                                      color: Colors.white,
-                                      fontFamily: 'MontserratLight'),
-
-                                  cursorColor: Colors.white10,
-                                ),
-                                SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.03),
-                                SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.05,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.75,
-                                  child: OutlinedButton(
-                                    // ignore: sort_child_properties_last
-                                    child: const Text(
-                                      'Зарегистрироваться',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          color: Color.fromARGB(
-                                              255, 149, 178, 218),
-                                          fontFamily: 'MontserratBold'),
-                                    ),
-                                    style: OutlinedButton.styleFrom(
-                                        primary: Colors.white,
-                                        backgroundColor:
-                                            Color.fromARGB(255, 28, 55, 92),
-                                        shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(20)))),
-                                    onPressed: () async {
-                                      isCheck = true;
-                                      final FormState? formState =
-                                          _formKey.currentState;
-                                      formState!.save();
-                                      if (formState.validate()) {
-                                        var Enabled = ApiService()
-                                            .isExistsUserByLog(emailReg.text);
-                                        bool? isEnabled = await Enabled;
-                                        if (!isEnabled) {
-                                          FocusScope.of(context).unfocus();
-                                          var answer = ApiService()
-                                              .setNewUserByLoginAndPassword(
-                                                  emailReg.text,
-                                                  passwordReg.text);
-                                          bool? isOk = await answer;
-                                          Navigator.pop(context);
-                                          dispose();
-                                          if (isOk) {
-                                            ShowToast(
-                                                "Пользователь успешно зарегестрирован!");
-                                          } else {
-                                            ShowToast("Ошибка!");
+                                      SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.03),
+                                      TextFormField(
+                                        controller: emailReg,
+                                        keyboardType:
+                                            TextInputType.emailAddress,
+                                        decoration: InputDecoration(
+                                            constraints: BoxConstraints(
+                                              maxWidth: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.8,
+                                            ),
+                                            filled: true,
+                                            fillColor:
+                                                Color.fromARGB(255, 54, 54, 54),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            errorBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide:
+                                                  BorderSide(color: Colors.red),
+                                            ),
+                                            focusedErrorBorder:
+                                                OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide:
+                                                  BorderSide(color: Colors.red),
+                                            ),
+                                            label: Text("Почта",
+                                                style: TextStyle(
+                                                    color: Colors.white30,
+                                                    fontSize: 20)),
+                                            hintStyle:
+                                                TextStyle(color: Colors.white),
+                                            prefixIcon: Icon(
+                                                Icons.account_circle_rounded,
+                                                color: Colors.white,
+                                                size: 40)),
+                                        onChanged: (value) {
+                                          if (isCheck) {
+                                            _formKey.currentState!.validate();
                                           }
-                                        } else {
-                                          ShowToast(
-                                              "Ошибка!\n Такая почта уже зарегистрирована!");
-                                        }
+                                        },
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Пожалуйста введите почту.';
+                                          } else if (!EmailValidator.validate(
+                                              value)) {
+                                            return 'Пожалуйста введите валидную почту!';
+                                          }
+                                          return null;
+                                        },
+                                        style: const TextStyle(
+                                            fontSize: 22.0,
+                                            color: Colors.white,
+                                            fontFamily: 'MontserratLight'),
+                                        cursorColor: Colors.white10,
+                                      ),
+                                      SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.02),
+                                      TextFormField(
+                                        obscureText: _isObscure,
+                                        enableSuggestions: false,
+                                        autocorrect: false,
+                                        controller: passwordReg,
+                                        onChanged: (value) {
+                                          if (isCheck) {
+                                            _formKey.currentState!.validate();
+                                          }
+                                          validatePassword(passwordReg.text);
+                                        },
+                                        validator: (value) {
+                                          if (password_strength < 3 / 4) {
+                                            return "Придумайте более надежный пароль!";
+                                          }
+                                          return null;
+                                        },
 
-                                        // ignore: use_build_context_synchronously
-                                      }
-                                    },
-                                  ),
-                                ),
-                              ]),
+                                        // ignore: prefer_const_constructors
+                                        decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            errorBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide:
+                                                  BorderSide(color: Colors.red),
+                                            ),
+                                            focusedErrorBorder:
+                                                OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide:
+                                                  BorderSide(color: Colors.red),
+                                            ),
+                                            constraints: BoxConstraints(
+                                              maxWidth: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.8,
+                                            ),
+                                            filled: true,
+                                            fillColor:
+                                                Color.fromARGB(255, 54, 54, 54),
+                                            label: const Text(
+                                              "Пароль",
+                                              style: TextStyle(
+                                                color: Colors.white30,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            suffixIcon: IconButton(
+                                              icon: Icon(
+                                                  !_isObscure
+                                                      ? Icons.visibility
+                                                      : Icons.visibility_off,
+                                                  color: Colors.white),
+                                              onPressed: () {
+                                                mystate(() {
+                                                  _isObscure = !_isObscure;
+                                                });
+                                              },
+                                            ),
+                                            hintStyle:
+                                                TextStyle(color: Colors.white),
+                                            // ignore: prefer_const_constructors
+                                            prefixIcon: Icon(Icons.password,
+                                                color: Colors.white, size: 40)),
+
+                                        style: const TextStyle(
+                                            fontSize: 22.0,
+                                            color: Colors.white,
+                                            fontFamily: 'MontserratLight'),
+                                        cursorColor: Colors.white10,
+                                      ),
+                                      Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.004,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.75,
+                                        child: LinearProgressIndicator(
+                                          value: password_strength,
+                                          backgroundColor: Colors.grey[300],
+                                          minHeight: 5,
+                                          color: password_strength <= 1 / 4
+                                              ? Colors.red
+                                              : password_strength == 2 / 4
+                                                  ? Colors.yellow
+                                                  : password_strength == 3 / 4
+                                                      ? Colors.blue
+                                                      : Colors.green,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.02),
+                                      TextFormField(
+                                        obscureText: _isConfirmObscure,
+                                        enableSuggestions: false,
+                                        autocorrect: false,
+                                        controller: password2Reg,
+                                        // ignore: prefer_const_constructors
+                                        decoration: InputDecoration(
+                                            constraints: BoxConstraints(
+                                              maxWidth: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.8,
+                                            ),
+                                            filled: true,
+                                            fillColor:
+                                                Color.fromARGB(255, 54, 54, 54),
+                                            label: const Text(
+                                              "Повторите пароль",
+                                              style: TextStyle(
+                                                  color: Colors.white30,
+                                                  fontSize: 20),
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            errorBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide:
+                                                  BorderSide(color: Colors.red),
+                                            ),
+                                            focusedErrorBorder:
+                                                OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide:
+                                                  BorderSide(color: Colors.red),
+                                            ),
+                                            suffixIcon: IconButton(
+                                              icon: Icon(
+                                                !_isConfirmObscure
+                                                    ? Icons.visibility
+                                                    : Icons.visibility_off,
+                                                color: Colors.white,
+                                              ),
+                                              onPressed: () {
+                                                mystate(() {
+                                                  _isConfirmObscure =
+                                                      !_isConfirmObscure;
+                                                });
+                                              },
+                                            ),
+                                            hintStyle: const TextStyle(
+                                                color: Colors.white),
+                                            // ignore: prefer_const_constructors
+                                            prefixIcon: Icon(Icons.password,
+                                                color: Colors.white, size: 40)),
+                                        validator: (value) {
+                                          if (passwordReg.text !=
+                                                  password2Reg.text ||
+                                              password2Reg.text == "") {
+                                            return "Пароли не совпадают!";
+                                          }
+                                          return null;
+                                        },
+                                        onChanged: (value) {
+                                          if (isCheck) {
+                                            _formKey.currentState!.validate();
+                                          }
+                                        },
+                                        style: const TextStyle(
+                                            fontSize: 22.0,
+                                            color: Colors.white,
+                                            fontFamily: 'MontserratLight'),
+
+                                        cursorColor: Colors.white10,
+                                      ),
+                                      SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.03),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.05,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.75,
+                                        child: OutlinedButton(
+                                          // ignore: sort_child_properties_last
+                                          child: const Text(
+                                            'Зарегистрироваться',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Color.fromARGB(
+                                                    255, 149, 178, 218),
+                                                fontFamily: 'MontserratBold'),
+                                          ),
+                                          style: OutlinedButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 28, 55, 92),
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  20)))),
+                                          onPressed: () async {
+                                            isCheck = true;
+                                            final FormState? formState =
+                                                _formKey.currentState;
+                                            formState!.save();
+                                            if (formState.validate()) {
+                                              var Enabled = ApiService()
+                                                  .isExistsUserByLog(
+                                                      emailReg.text);
+                                              bool? isEnabled = await Enabled;
+                                              if (!isEnabled) {
+                                                codeString = await ApiService()
+                                                    .getSendCodeEmailAdress(
+                                                        emailReg.text);
+                                                FocusScope.of(context)
+                                                    .unfocus();
+                                                mystate(() {
+                                                  isCodeEnter = true;
+                                                });
+                                                listFocuseNode[0]
+                                                    .requestFocus();
+                                              } else {
+                                                ShowToast(
+                                                    "Ошибка!\n Такая почта уже зарегистрирована!");
+                                              }
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                      // ignore: dead_code
+                                    ])
+                                  : Column(
+                                      children: [
+                                        const Text(
+                                          "Подтвердите почту",
+                                          style: TextStyle(
+                                            fontSize: 22,
+                                            fontFamily: 'MontserratBold',
+                                            color: Color.fromARGB(
+                                                255, 149, 178, 218),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.01),
+                                        const Text(
+                                          "Код был отправлен вам на почтовый адрес",
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: 'MontserratLight',
+                                            fontWeight: FontWeight.bold,
+                                            color: Color.fromARGB(
+                                                255, 43, 82, 136),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.03),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.1,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.12,
+                                              child: TextFormField(
+                                                focusNode: listFocuseNode[0],
+                                                controller:
+                                                    listTextEditingController[
+                                                        0],
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                maxLength: 1,
+                                                cursorHeight: 0,
+                                                cursorWidth: 0,
+                                                inputFormatters: <
+                                                    TextInputFormatter>[
+                                                  FilteringTextInputFormatter
+                                                      .allow(RegExp(r'[0-9]')),
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly
+                                                ],
+                                                onChanged: (value) async {
+                                                  listFocuseNode[
+                                                          await GetNextIndexEmptyController()]
+                                                      .requestFocus();
+                                                },
+                                                decoration: InputDecoration(
+                                                  counterText: '',
+                                                  filled: true,
+                                                  disabledBorder:
+                                                      InputBorder.none,
+                                                  fillColor: Color.fromARGB(
+                                                      255, 28, 55, 92),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(
+                                                                18)),
+                                                  ),
+                                                ),
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 38, 122, 240),
+                                                    fontSize: 45),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.02,
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.1,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.12,
+                                              child: TextFormField(
+                                                focusNode: listFocuseNode[1],
+                                                controller:
+                                                    listTextEditingController[
+                                                        1],
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                maxLength: 1,
+                                                cursorHeight: 0,
+                                                cursorWidth: 0,
+                                                inputFormatters: <
+                                                    TextInputFormatter>[
+                                                  FilteringTextInputFormatter
+                                                      .allow(RegExp(r'[0-9]')),
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly
+                                                ],
+                                                onChanged: (value) async {
+                                                  listFocuseNode[
+                                                          await GetNextIndexEmptyController()]
+                                                      .requestFocus();
+                                                },
+                                                decoration: InputDecoration(
+                                                  counterText: '',
+                                                  filled: true,
+                                                  disabledBorder:
+                                                      InputBorder.none,
+                                                  fillColor: Color.fromARGB(
+                                                      255, 28, 55, 92),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(
+                                                                18)),
+                                                  ),
+                                                ),
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 38, 122, 240),
+                                                    fontSize: 45),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.02,
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.1,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.12,
+                                              child: TextFormField(
+                                                focusNode: listFocuseNode[2],
+                                                controller:
+                                                    listTextEditingController[
+                                                        2],
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                maxLength: 1,
+                                                cursorHeight: 0,
+                                                cursorWidth: 0,
+                                                inputFormatters: <
+                                                    TextInputFormatter>[
+                                                  FilteringTextInputFormatter
+                                                      .allow(RegExp(r'[0-9]')),
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly
+                                                ],
+                                                onChanged: (value) async {
+                                                  listFocuseNode[
+                                                          await GetNextIndexEmptyController()]
+                                                      .requestFocus();
+                                                },
+                                                decoration: InputDecoration(
+                                                  counterText: '',
+                                                  filled: true,
+                                                  disabledBorder:
+                                                      InputBorder.none,
+                                                  fillColor: Color.fromARGB(
+                                                      255, 28, 55, 92),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(
+                                                                18)),
+                                                  ),
+                                                ),
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 38, 122, 240),
+                                                    fontSize: 45),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.02,
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.1,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.12,
+                                              child: TextFormField(
+                                                focusNode: listFocuseNode[3],
+                                                controller:
+                                                    listTextEditingController[
+                                                        3],
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                maxLength: 1,
+                                                cursorHeight: 0,
+                                                cursorWidth: 0,
+                                                inputFormatters: <
+                                                    TextInputFormatter>[
+                                                  FilteringTextInputFormatter
+                                                      .allow(RegExp(r'[0-9]')),
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly
+                                                ],
+                                                onChanged: (value) async {
+                                                  listFocuseNode[
+                                                          await GetNextIndexEmptyController()]
+                                                      .requestFocus();
+                                                },
+                                                decoration: InputDecoration(
+                                                  counterText: '',
+                                                  filled: true,
+                                                  disabledBorder:
+                                                      InputBorder.none,
+                                                  fillColor: Color.fromARGB(
+                                                      255, 28, 55, 92),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(
+                                                                18)),
+                                                  ),
+                                                ),
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 38, 122, 240),
+                                                    fontSize: 45),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.02,
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.1,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.12,
+                                              child: TextFormField(
+                                                focusNode: listFocuseNode[4],
+                                                controller:
+                                                    listTextEditingController[
+                                                        4],
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                maxLength: 1,
+                                                cursorHeight: 0,
+                                                cursorWidth: 0,
+                                                inputFormatters: <
+                                                    TextInputFormatter>[
+                                                  FilteringTextInputFormatter
+                                                      .allow(RegExp(r'[0-9]')),
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly
+                                                ],
+                                                onChanged: (value) async {
+                                                  listFocuseNode[
+                                                          await GetNextIndexEmptyController()]
+                                                      .requestFocus();
+                                                },
+                                                decoration: InputDecoration(
+                                                  counterText: '',
+                                                  filled: true,
+                                                  disabledBorder:
+                                                      InputBorder.none,
+                                                  fillColor: Color.fromARGB(
+                                                      255, 28, 55, 92),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(
+                                                                18)),
+                                                  ),
+                                                ),
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 38, 122, 240),
+                                                    fontSize: 45),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                             ),
                           )),
                     ),
