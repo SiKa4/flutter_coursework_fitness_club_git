@@ -227,7 +227,7 @@ class _AuthPageState extends State<AuthPage> {
                                       ),
                                       suffixIcon: IconButton(
                                         icon: Icon(
-                                            _isObscure
+                                            !_isObscure
                                                 ? Icons.visibility
                                                 : Icons.visibility_off,
                                             color: Colors.white),
@@ -309,7 +309,7 @@ class _AuthPageState extends State<AuthPage> {
                                       ),
                                       suffixIcon: IconButton(
                                         icon: Icon(
-                                          _isConfirmObscure
+                                          !_isConfirmObscure
                                               ? Icons.visibility
                                               : Icons.visibility_off,
                                           color: Colors.white,
@@ -462,8 +462,7 @@ class _AuthPageState extends State<AuthPage> {
                           ),
                         ),
                         SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 0.007),
+                            height: MediaQuery.of(context).size.height * 0.007),
                         const Text(
                           "Войдите в свой аккаунт",
                           style: TextStyle(
@@ -474,8 +473,7 @@ class _AuthPageState extends State<AuthPage> {
                           ),
                         ),
                         SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 0.03),
+                            height: MediaQuery.of(context).size.height * 0.03),
                         TextField(
                           controller: loginAuth,
                           // ignore: prefer_const_constructors
@@ -504,8 +502,7 @@ class _AuthPageState extends State<AuthPage> {
                           cursorColor: Colors.white10,
                         ),
                         SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 0.02),
+                            height: MediaQuery.of(context).size.height * 0.02),
                         TextField(
                           obscureText: true,
                           enableSuggestions: false,
@@ -539,8 +536,7 @@ class _AuthPageState extends State<AuthPage> {
                           cursorColor: Colors.white10,
                         ),
                         SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 0.03),
+                            height: MediaQuery.of(context).size.height * 0.03),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
                           width: MediaQuery.of(context).size.width * 0.75,
@@ -558,8 +554,8 @@ class _AuthPageState extends State<AuthPage> {
                                 backgroundColor:
                                     Color.fromARGB(255, 28, 55, 92),
                                 shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20)))),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20)))),
                             onPressed: () async {
                               FocusScope.of(context).unfocus();
                               setState(() {
@@ -571,14 +567,14 @@ class _AuthPageState extends State<AuthPage> {
                               // ignore: use_build_context_synchronously
                               if (user != null) {
                                 ApiService.user = user;
-                                ApiService.login = await ApiService().getLoginsByIdUser(user.id_User ?? -1);
+                                ApiService.login = await ApiService()
+                                    .getLoginsByIdUser(user.id_User ?? -1);
                                 final SharedPreferences prefs =
                                     await SharedPreferences.getInstance();
                                 await prefs.setInt(
                                     'UserId', user.id_User ?? -1);
                                 // ignore: use_build_context_synchronously
                                 Navigator.popAndPushNamed(context, "/home");
-                                
                               } else {
                                 ShowToast("Пользователь не найден.");
                               }
@@ -589,8 +585,7 @@ class _AuthPageState extends State<AuthPage> {
                           ),
                         ),
                         SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 0.01),
+                            height: MediaQuery.of(context).size.height * 0.01),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.6,
                           // ignore: prefer_const_constructors
@@ -600,8 +595,7 @@ class _AuthPageState extends State<AuthPage> {
                           ),
                         ),
                         SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 0.01),
+                            height: MediaQuery.of(context).size.height * 0.01),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
                           width: MediaQuery.of(context).size.width * 0.75,
@@ -620,24 +614,22 @@ class _AuthPageState extends State<AuthPage> {
                                 backgroundColor:
                                     Color.fromARGB(255, 28, 55, 92),
                                 shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20)))),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20)))),
                             onPressed: () {
                               ShowBottomSheet();
                             },
                           ),
                         ),
                         SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 0.05),
+                            height: MediaQuery.of(context).size.height * 0.05),
                         Image(
                             height: MediaQuery.of(context).size.height * 0.05,
                             width: MediaQuery.of(context).size.width * 0.1,
                             image: NetworkImage(
                                 "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-icon-png-transparent-background-osteopathy-16.png")),
                         SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 0.02),
+                            height: MediaQuery.of(context).size.height * 0.02),
                         const InkWell(
                           child: Text(
                             "Забыли пароль? Восстановить.",

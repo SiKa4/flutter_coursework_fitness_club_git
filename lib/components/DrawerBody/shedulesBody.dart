@@ -39,198 +39,202 @@ class _ShedulesPageState extends State<ShedulesPage> {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(60),
                         topRight: Radius.circular(60))),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
-                    ),
-                    Text(
-                      "${sheduleClassesAndTypes.type_Name}",
-                      style: TextStyle(
-                        fontSize: 22.0,
-                        fontFamily: 'MontserratBold',
-                        color: Colors.white,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 200,
-                      child: Divider(
-                        color: Color.fromARGB(255, 56, 124, 220),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Начало: ",
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'MontserratLight',
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          "${DateFormat('kk:mm').format(sheduleClassesAndTypes.timeStart as DateTime)}",
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'MontserratLight',
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          " (${sheduleClassesAndTypes.timeDuration?.inMinutes} мин)",
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'MontserratLight',
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Icon(
-                      Icons.arrow_downward_sharp,
-                      color: Color.fromARGB(255, 56, 124, 220),
-                      size: 30.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Конец: ",
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'MontserratLight',
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          "${DateFormat('kk:mm').format(sheduleClassesAndTypes.timeEnd as DateTime)}",
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'MontserratLight',
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 300,
-                      child: Divider(
-                        color: Color.fromARGB(255, 56, 124, 220),
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      child: OutlinedButton(
-                        // ignore: sort_child_properties_last
-                        child: const Text(
-                          'Записаться',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(255, 149, 178, 218),
-                            fontFamily: 'MontserratBold',
-                          ),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                            primary: Colors.white,
-                            backgroundColor: Color.fromARGB(255, 28, 55, 92),
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)))),
-                        onPressed: () {},
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    const SizedBox(
-                      width: 300,
-                      child: Divider(
-                        color: Color.fromARGB(255, 56, 124, 220),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Кабинет: ",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontFamily: 'MontserratLight',
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          "${sheduleClassesAndTypes.location}",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontFamily: 'MontserratLight',
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Преподаватель: ",
-                          style: TextStyle(
-                            fontSize: 13.0,
-                            fontFamily: 'MontserratLight',
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          "${sheduleClassesAndTypes.teacher_FullName}",
-                          style: TextStyle(
-                            fontSize: 13.0,
-                            fontFamily: 'MontserratLight',
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 350,
-                      child: Divider(
-                        color: Color.fromARGB(255, 56, 124, 220),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                      child: Text(
-                        "${sheduleClassesAndTypes.details}",
+                      Text(
+                        "${sheduleClassesAndTypes.type_Name}",
                         style: TextStyle(
-                          fontSize: 13.0,
-                          fontFamily: 'MontserratLight',
+                          fontSize: 22.0,
+                          fontFamily: 'MontserratBold',
                           color: Colors.white,
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20), // Image border
-                      child: SizedBox.fromSize(
-                        // Image radius
-                        child: Image.network(
-                          '${sheduleClassesAndTypes.image_Type}',
-                          fit: BoxFit.fill,
-                          height: 150,
-                          width: 300,
+                      const SizedBox(
+                        width: 200,
+                        child: Divider(
+                          color: Color.fromARGB(255, 56, 124, 220),
                         ),
                       ),
-                    )
-                  ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Начало: ",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: 'MontserratLight',
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            "${DateFormat('kk:mm').format(sheduleClassesAndTypes.timeStart as DateTime)}",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: 'MontserratLight',
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            " (${sheduleClassesAndTypes.timeDuration?.inMinutes} мин)",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: 'MontserratLight',
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Icon(
+                        Icons.arrow_downward_sharp,
+                        color: Color.fromARGB(255, 56, 124, 220),
+                        size: 30.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Конец: ",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: 'MontserratLight',
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            "${DateFormat('kk:mm').format(sheduleClassesAndTypes.timeEnd as DateTime)}",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: 'MontserratLight',
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 300,
+                        child: Divider(
+                          color: Color.fromARGB(255, 56, 124, 220),
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: OutlinedButton(
+                          // ignore: sort_child_properties_last
+                          child: const Text(
+                            'Записаться',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 149, 178, 218),
+                              fontFamily: 'MontserratBold',
+                            ),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Color.fromARGB(255, 28, 55, 92),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20)))),
+                          onPressed: () {
+                            //code na zapis
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
+                      ),
+                      const SizedBox(
+                        width: 300,
+                        child: Divider(
+                          color: Color.fromARGB(255, 56, 124, 220),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Кабинет: ",
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: 'MontserratLight',
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            "${sheduleClassesAndTypes.location}",
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: 'MontserratLight',
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Преподаватель: ",
+                            style: TextStyle(
+                              fontSize: 13.0,
+                              fontFamily: 'MontserratLight',
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            "${sheduleClassesAndTypes.teacher_FullName}",
+                            style: TextStyle(
+                              fontSize: 13.0,
+                              fontFamily: 'MontserratLight',
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 350,
+                        child: Divider(
+                          color: Color.fromARGB(255, 56, 124, 220),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                        child: Text(
+                          "${sheduleClassesAndTypes.details}",
+                          style: TextStyle(
+                            fontSize: 13.0,
+                            fontFamily: 'MontserratLight',
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: SizedBox.fromSize(
+                          child: Image.network(
+                            '${sheduleClassesAndTypes.image_Type}',
+                            fit: BoxFit.fill,
+                            height: 150,
+                            width: 300,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             );
@@ -246,7 +250,6 @@ class _ShedulesPageState extends State<ShedulesPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _asyncMethodGet();
     });
-    isLoading = false;
   }
 
   Future<void> asyncInitState() async {
@@ -282,7 +285,6 @@ class _ShedulesPageState extends State<ShedulesPage> {
             DateFormat('yMMMMd').format(
                 dateInApi?.elementAt(_selectedDayIndex).date as DateTime))
         .toList();
-    setState(() {});
   }
 
   _asyncMethodGet() async {
@@ -298,7 +300,9 @@ class _ShedulesPageState extends State<ShedulesPage> {
             DateFormat('yMMMMd').format(
                 dateInApi?.elementAt(_selectedDayIndex).date as DateTime))
         .toList();
-    setState(() {});
+    setState(() {
+      isLoading = false;
+    });
   }
 
   final ItemScrollController itemScrollController = ItemScrollController();
