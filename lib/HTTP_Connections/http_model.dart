@@ -74,8 +74,13 @@ class ApiService {
   }
 
   Future<bool> setNewUserByLoginAndPassword(
-      String login, String password) async {
-    var body = {'id_User': 1, 'FullName': '', 'Role_id': 3, 'Number': ''};
+      String login, String password, String fullName, String Number) async {
+    var body = {
+      'id_User': 1,
+      'FullName': '$fullName',
+      'Role_id': 3,
+      'Number': '$Number'
+    };
     final response = await http.post(Uri.parse('$baseUrl/users'),
         headers: headers, body: json.encode(body));
     if (response.statusCode == 200) {

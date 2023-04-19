@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Animation/anim.dart';
@@ -21,6 +22,8 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   TextEditingController emailReg = TextEditingController();
+  TextEditingController fullNameReg = TextEditingController();
+  TextEditingController numberPhoneReg = TextEditingController();
   TextEditingController passwordReg = TextEditingController();
   TextEditingController password2Reg = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -28,6 +31,10 @@ class _AuthPageState extends State<AuthPage> {
   bool _isObscure = true;
   bool _isConfirmObscure = true;
   RegExp pass_valid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
+  RegExp fullName_valid =
+      new RegExp('^[а-яА-ЯёЁa-zA-Z]+ [а-яА-ЯёЁa-zA-Z]+ [а-яА-ЯёЁa-zA-Z]+\$');
+  RegExp number_valid = new RegExp(
+      '^((\\+7|7|8) \\(([0-9]{3})\\) ([0-9]){3}-([0-9]){2}-([0-9]){2})\$');
   void ShowToast(String message) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
@@ -49,6 +56,10 @@ class _AuthPageState extends State<AuthPage> {
     TextEditingController()
   ];
   String? codeString;
+  var maskFormatter = new MaskTextInputFormatter(
+      mask: '+7 (###) ###-##-##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
 
   double password_strength = 0;
   void ShowBottomSheet() {
@@ -113,7 +124,10 @@ class _AuthPageState extends State<AuthPage> {
                       codeString ==
                           "${listTextEditingController[0].text}${listTextEditingController[1].text}${listTextEditingController[2].text}${listTextEditingController[3].text}${listTextEditingController[4].text}") {
                     var answer = ApiService().setNewUserByLoginAndPassword(
-                        emailReg.text, passwordReg.text);
+                        emailReg.text,
+                        passwordReg.text,
+                        fullNameReg.text,
+                        numberPhoneReg.text);
                     bool? isOk = await answer;
                     if (isOk) {
                       ShowToast("Пользователь успешно зарегестрирован!");
@@ -168,7 +182,7 @@ class _AuthPageState extends State<AuthPage> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.03),
+                                              0.02),
                                       TextFormField(
                                         controller: emailReg,
                                         keyboardType:
@@ -208,7 +222,7 @@ class _AuthPageState extends State<AuthPage> {
                                             hintStyle:
                                                 TextStyle(color: Colors.white),
                                             prefixIcon: Icon(
-                                                Icons.account_circle_rounded,
+                                                Icons.alternate_email,
                                                 color: Colors.white,
                                                 size: 40)),
                                         onChanged: (value) {
@@ -231,6 +245,137 @@ class _AuthPageState extends State<AuthPage> {
                                             fontFamily: 'MontserratLight'),
                                         cursorColor: Colors.white10,
                                       ),
+                                      SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.02),
+                                      TextFormField(
+                                        controller: fullNameReg,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Пожалуйста введите ФИО.';
+                                          } else if (!fullName_valid
+                                              .hasMatch(value)) {
+                                            return 'Пожалуйста введите полное ФИО!';
+                                          }
+                                          return null;
+                                        },
+                                        onChanged: (value) {
+                                          if (isCheck) {
+                                            _formKey.currentState!.validate();
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                            constraints: BoxConstraints(
+                                              maxWidth: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.8,
+                                            ),
+                                            filled: true,
+                                            fillColor:
+                                                Color.fromARGB(255, 54, 54, 54),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            errorBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide:
+                                                  BorderSide(color: Colors.red),
+                                            ),
+                                            focusedErrorBorder:
+                                                OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide:
+                                                  BorderSide(color: Colors.red),
+                                            ),
+                                            label: Text("ФИО",
+                                                style: TextStyle(
+                                                    color: Colors.white30,
+                                                    fontSize: 20)),
+                                            hintStyle:
+                                                TextStyle(color: Colors.white),
+                                            prefixIcon: Icon(
+                                                Icons.account_circle_rounded,
+                                                color: Colors.white,
+                                                size: 40)),
+                                        style: const TextStyle(
+                                            fontSize: 22.0,
+                                            color: Colors.white,
+                                            fontFamily: 'MontserratLight'),
+                                        cursorColor: Colors.white10,
+                                      ),
+                                      SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.02),
+                                      TextFormField(
+                                        inputFormatters: [maskFormatter],
+                                        controller: numberPhoneReg,
+                                        keyboardType: TextInputType.phone,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Пожалуйста введите номер телефона.';
+                                          } else if (!number_valid
+                                              .hasMatch(value)) {
+                                            return 'Пожалуйста введите телефон полностью!';
+                                          }
+                                          return null;
+                                        },
+                                        onChanged: (value) {
+                                          if (isCheck) {
+                                            _formKey.currentState!.validate();
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                            constraints: BoxConstraints(
+                                              maxWidth: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.8,
+                                            ),
+                                            filled: true,
+                                            fillColor:
+                                                Color.fromARGB(255, 54, 54, 54),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            errorBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide:
+                                                  BorderSide(color: Colors.red),
+                                            ),
+                                            focusedErrorBorder:
+                                                OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              borderSide:
+                                                  BorderSide(color: Colors.red),
+                                            ),
+                                            label: Text("Номер телефона",
+                                                style: TextStyle(
+                                                    color: Colors.white30,
+                                                    fontSize: 20)),
+                                            hintStyle:
+                                                TextStyle(color: Colors.white),
+                                            prefixIcon: Icon(Icons.call,
+                                                color: Colors.white, size: 40)),
+                                        style: const TextStyle(
+                                            fontSize: 22.0,
+                                            color: Colors.white,
+                                            fontFamily: 'MontserratLight'),
+                                        cursorColor: Colors.white10,
+                                      ),
+
                                       SizedBox(
                                           height: MediaQuery.of(context)
                                                   .size
@@ -892,7 +1037,7 @@ class _AuthPageState extends State<AuthPage> {
                                       color: Colors.white30, fontSize: 20)),
                               hintStyle: const TextStyle(color: Colors.white),
                               // ignore: prefer_const_constructors
-                              prefixIcon: Icon(Icons.account_circle_rounded,
+                              prefixIcon: Icon(Icons.alternate_email,
                                   color: Colors.white, size: 40)),
                           style: const TextStyle(
                               fontSize: 22.0,
