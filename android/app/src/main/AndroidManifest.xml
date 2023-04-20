@@ -2,7 +2,7 @@
     package="com.example.flutter_coursework_fitness_club">
      <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="flutter_coursework_fitness_club"
+        android:label="GLY UP"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

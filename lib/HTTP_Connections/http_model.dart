@@ -53,7 +53,7 @@ class ApiService {
   }
 
   Future<bool> isExistsUserByLog(String login) async {
-    final response = await http.get(Uri.parse('$baseUrl/logins/logPass/$login'),
+    final response = await http.get(Uri.parse('$baseUrl/logins/$login'),
         headers: headers);
     if (response.statusCode == 200) {
       return true;
