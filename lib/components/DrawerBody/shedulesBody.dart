@@ -143,9 +143,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
                               shape: const RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20)))),
-                          onPressed: () {
-                            //code na zapis
-                          },
+                          onPressed: () {},
                         ),
                       ),
                       SizedBox(
@@ -305,6 +303,11 @@ class _ShedulesPageState extends State<ShedulesPage> {
     });
   }
 
+  void ShowToast(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
   final ItemScrollController itemScrollController = ItemScrollController();
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
@@ -375,13 +378,19 @@ class _ShedulesPageState extends State<ShedulesPage> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                         side: const BorderSide(color: Colors.black)),
-                    color: Color.fromARGB(255, 54, 54, 54),
+                    color: sheduleClassesAndTypes![index].isActive!
+                        ? Color.fromARGB(255, 54, 54, 54)
+                        : Color.fromARGB(255, 37, 37, 37),
                     child: InkWell(
                       customBorder: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      onTap: () =>
-                          {ShowBottomSheet(sheduleClassesAndTypes![index])},
+                      onTap: () => {
+                        if (sheduleClassesAndTypes![index].isActive!)
+                          {ShowBottomSheet(sheduleClassesAndTypes![index])}
+                        else
+                          {ShowToast("Запись на данное занятие прекращена!")}
+                      },
                       child: Row(children: [
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.1,

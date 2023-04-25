@@ -11,6 +11,7 @@ class SheduleClassesAndTypes {
   String? details;
   String? image_Type;
   Duration? timeDuration;
+  bool? isActive;
   SheduleClassesAndTypes(
       {this.id_ScheduleClass,
       this.location,
@@ -23,7 +24,8 @@ class SheduleClassesAndTypes {
       this.type_Name,
       this.details,
       this.image_Type,
-      this.timeDuration});
+      this.timeDuration,
+      this.isActive});
 
   static fromJson(Map<String, dynamic> jsonResponse) {
     // ignore: unnecessary_null_comparison
@@ -41,7 +43,8 @@ class SheduleClassesAndTypes {
         teacher_FullName: jsonResponse['teacher_FullName'],
         type_Name: jsonResponse['type_Name'],
         details: jsonResponse['details'],
-        image_Type: jsonResponse['image_Type']);
+        image_Type: jsonResponse['image_Type'],
+        isActive: jsonResponse['isActive']);
   }
 }
 
