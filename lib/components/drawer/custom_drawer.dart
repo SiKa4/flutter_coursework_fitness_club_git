@@ -68,6 +68,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   Navigator.pop(context);
                 },
               ),
+              const Divider(color: Colors.grey),
+              InkWell(
+                child: CustomListTile(
+                  isCollapsed: _isCollapsed,
+                  icon: Icons.assignment_turned_in_outlined,
+                  title: 'Мои занятия',
+                  infoCount: 0,
+                ),
+                onTap: () {
+                  widget.callback(2);
+                  Navigator.pop(context);
+                },
+              ),
               const Spacer(),
               //-------------------------------bottom
               const SizedBox(height: 10),

@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_coursework_fitness_club/components/DrawerBody/shedulesBody.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../components/DrawerBody/mySchedulesBody.dart';
 import '../components/drawer/custom_drawer.dart';
 import '../components/DrawerBody/mainBody.dart';
 
@@ -15,18 +16,15 @@ class HomePageUser extends StatefulWidget {
 }
 
 class _HomePageUserState extends State<HomePageUser> {
-  var listBodys = {
-    MainBody(),
-    ShedulesPage()
-  };
-  var listAppBarTitle ={
-      "Главная",
-      "Расписание занятий"
-  };
+  var listBodys = {MainBody(), ShedulesPage(), MySchedulesBody()};
+  var listAppBarTitle = {"Главная", "Расписание занятий", "Мои занятия"};
   int index = 0;
   void _setState(int index) {
-    setState(() {this.index = index;});
+    setState(() {
+      this.index = index;
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
