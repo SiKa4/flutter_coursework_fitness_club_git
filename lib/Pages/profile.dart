@@ -16,7 +16,7 @@ class _MyProfileState extends State<MyProfile> {
   void initState() {
     super.initState();
     FullNameController.text = ApiService.user.fullName;
-    NumberController.text = ApiService.user.number.toString();
+    NumberController.text = ApiService.user.number;
     EmailController.text = ApiService.login.login;
     FullNameController.text = ApiService.user.fullName;
   }

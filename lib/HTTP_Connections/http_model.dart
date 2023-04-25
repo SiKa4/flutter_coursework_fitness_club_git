@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:signalr_netcore/signalr_client.dart';
 
+import '../Models/ScheduleСlassesUsers.dart';
 import '../Models/SheduleClassesAndTypes.dart';
 import '../Models/UsersLogins.dart';
 
@@ -142,6 +143,18 @@ class ApiService {
       List<DateInApi> date = List<DateInApi>.from(
           json.decode(response.body).map((model) => DateInApi.fromJson(model)));
       return date;
+    } else {
+      return null;
+    }
+  }
+
+  Future<List<ScheduleClassesUsersFullInfo?>?> GetAllUserSchedulesAndFullInfo(int idUser) async {
+    final response =
+        await http.get(Uri.parse('$baseUrl/scheduleСlassesUsers/$idUser'), headers: headers);
+    if (response.statusCode == 200) {
+      List<ScheduleClassesUsersFullInfo> scheduleClassesUsersFullInfo = List<ScheduleClassesUsersFullInfo>.from(
+          json.decode(response.body).map((model) => ScheduleClassesUsersFullInfo.fromJson(model)));
+      return scheduleClassesUsersFullInfo;
     } else {
       return null;
     }
