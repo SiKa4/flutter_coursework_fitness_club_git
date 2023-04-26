@@ -1118,7 +1118,8 @@ class _AuthPageState extends State<AuthPage> {
                                 await prefs.setInt(
                                     'UserId', user.id_User ?? -1);
                                 // ignore: use_build_context_synchronously
-                                Navigator.popAndPushNamed(context, "/home");
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, "/home", (route) => false);
                               } else {
                                 ShowToast("Пользователь не найден.");
                               }

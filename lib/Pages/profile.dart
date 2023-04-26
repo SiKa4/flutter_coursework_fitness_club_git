@@ -42,8 +42,10 @@ class _MyProfileState extends State<MyProfile> {
                 final SharedPreferences prefs =
                     await SharedPreferences.getInstance();
                 await prefs.setInt('UserId', -1);
+                ApiService.user = null;
                 // ignore: use_build_context_synchronously
-                Navigator.popAndPushNamed(context, "/");
+                Navigator.pushNamedAndRemoveUntil(
+                                    context, "/", (route) => false);
                 FocusScope.of(context).unfocus();
               },
             )

@@ -90,8 +90,10 @@ class BottomUserInfo extends StatelessWidget {
                             final SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                             await prefs.setInt('UserId', -1);
+                            ApiService.user = null;
                             // ignore: use_build_context_synchronously
-                            Navigator.popAndPushNamed(context, "/");
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, "/", (route) => false);
                           },
                           icon: const Icon(
                             Icons.logout,
@@ -138,8 +140,10 @@ class BottomUserInfo extends StatelessWidget {
                       final SharedPreferences prefs =
                           await SharedPreferences.getInstance();
                       await prefs.setInt('UserId', -1);
+                       ApiService.user = null;
                       // ignore: use_build_context_synchronously
-                      Navigator.popAndPushNamed(context, "/");
+                      Navigator.pushNamedAndRemoveUntil(
+                                context, "/", (route) => false);
                     },
                     icon: const Icon(
                       Icons.logout,

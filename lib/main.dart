@@ -13,8 +13,8 @@ void main() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final int? id_User = prefs.getInt('UserId');
   Intl.systemLocale = 'ru';
-  initializeDateFormatting('ru'); 
-  
+  initializeDateFormatting('ru');
+
   if (id_User != -1 && id_User != null) {
     ApiService.user = await ApiService().getUserById(id_User);
     ApiService.login = await ApiService().getLoginsByIdUser(id_User);
@@ -32,11 +32,20 @@ class MyThemeApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: ApiService.user != null ? '/home' : '/',
+      initialRoute: '/',
       routes: {
-        '/': (context) => const AuthPage(),
-        '/home': (context) => const HomePageUser()
+        '/': (context) => const Landing(),
+        '/home': (context) => const HomePageUser(),
       },
     );
+  }
+}
+
+class Landing extends StatelessWidget {
+  const Landing({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ApiService.user != null ? const HomePageUser() : const AuthPage();
   }
 }
