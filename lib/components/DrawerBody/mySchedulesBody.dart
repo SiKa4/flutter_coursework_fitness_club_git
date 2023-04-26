@@ -33,10 +33,16 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
     mainSheduleClassesUsersFullInfo = (await ApiService()
             .GetAllUserSchedulesAndFullInfo(ApiService.user.id_User))
         as List<ScheduleClassesUsersFullInfo>?;
+    sheduleClassesUsersFullInfo = mainSheduleClassesUsersFullInfo;
     //---------
     setState(() {
       isLoading = false;
     });
+  }
+
+  void ShowToast(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   Widget build(BuildContext context) {
@@ -49,7 +55,8 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
                 side: const BorderSide(color: Colors.black)),
-            color: sheduleClassesUsersFullInfo![index].isActive!
+            color: sheduleClassesUsersFullInfo![index].isActive! &&
+                    sheduleClassesUsersFullInfo![index].isActiveUser!
                 ? Color.fromARGB(255, 54, 54, 54)
                 : Color.fromARGB(255, 37, 37, 37),
             child: InkWell(
@@ -57,7 +64,14 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
                 borderRadius: BorderRadius.circular(15),
               ),
               onTap: () => {
-                //----------------
+                if (sheduleClassesUsersFullInfo![index].isActive! &&
+                    sheduleClassesUsersFullInfo![index].isActiveUser!)
+                  {}
+                else
+                  {
+                    ShowToast(
+                        "Вы больше не можете просмотреть детали мероприятия!")
+                  }
               },
               child: Row(children: [
                 SizedBox(
@@ -67,14 +81,20 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        DateFormat('kk:mm').format(
-                            sheduleClassesUsersFullInfo?[index].timeStart ??
-                                DateTime.now()),
-                        style: const TextStyle(
-                            fontSize: 22.0,
-                            color: Colors.white,
-                            fontFamily: 'MontserratBold'),
-                        textAlign: TextAlign.center,
+                        "${DateFormat('MMMMd').format(sheduleClassesUsersFullInfo?[index].timeStart as DateTime)}",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'MontserratBold',
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        "${DateFormat('kk:mm (${sheduleClassesUsersFullInfo?[index].timeDuration?.inMinutes} мин)').format(sheduleClassesUsersFullInfo?[index].timeStart as DateTime)}",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontFamily: 'MontserratLight',
+                          color: Colors.white,
+                        ),
                       ),
                       // Text(
                       //   "${sheduleClassesUsersFullInfo?[index].timeDuration?.inMinutes} мин",
@@ -86,7 +106,7 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
                     ]),
                 SizedBox(
                     height: MediaQuery.of(context).size.height * 0.12,
-                    width: MediaQuery.of(context).size.width * 0.07),
+                    width: MediaQuery.of(context).size.width * 0.04),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

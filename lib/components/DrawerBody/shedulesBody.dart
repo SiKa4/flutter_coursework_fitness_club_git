@@ -207,9 +207,10 @@ class _ShedulesPageState extends State<ShedulesPage> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                        padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                         child: Text(
                           "${sheduleClassesAndTypes.details}",
+                          textAlign: TextAlign.justify,
                           style: TextStyle(
                             fontSize: 13.0,
                             fontFamily: 'MontserratLight',

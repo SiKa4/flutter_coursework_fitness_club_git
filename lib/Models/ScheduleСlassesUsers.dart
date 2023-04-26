@@ -29,6 +29,8 @@ class ScheduleClassesUsersFullInfo {
   String? type_Name;
   String? details;
   String? image_Type;
+  Duration? timeDuration;
+  bool? isActiveUser;
   bool? isActive;
   bool? isDelete;
   ScheduleClassesUsersFullInfo(
@@ -44,8 +46,10 @@ class ScheduleClassesUsersFullInfo {
       this.type_Name,
       this.details,
       this.image_Type,
-      this.isActive,
-      this.isDelete});
+      this.isActiveUser,
+      this.isDelete,
+      this.timeDuration,
+      this.isActive});
 
   static fromJson(Map<String, dynamic> jsonResponse) {
     if (jsonResponse == null) return null;
@@ -60,8 +64,11 @@ class ScheduleClassesUsersFullInfo {
         teacher_id: jsonResponse['teacher_id'],
         teacher_FullName: jsonResponse['teacher_FullName'],
         type_Name: jsonResponse['type_Name'],
+        timeDuration: DateTime.parse(jsonResponse['timeEnd'])
+            .difference(DateTime.parse(jsonResponse['timeStart'])),
         details: jsonResponse['details'],
         image_Type: jsonResponse['image_Type'],
+        isActiveUser: jsonResponse['isActiveUser'],
         isActive: jsonResponse['isActive'],
         isDelete: jsonResponse['isDelete']);
   }
