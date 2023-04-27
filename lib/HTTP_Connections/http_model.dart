@@ -105,7 +105,7 @@ class ApiService {
     }
   }
 
-  Future<bool> setScheduleClassAndUser(int id_ScheduleClass, int id_User) async {
+  Future<ScheduleClassesUsersFullInfo?> setScheduleClassAndUser(int id_ScheduleClass, int id_User) async {
     var body = {
       'scheduleСlass_id': id_ScheduleClass,
       'user_id': id_User,
@@ -114,9 +114,9 @@ class ApiService {
     final response = await http.post(Uri.parse('$baseUrl/scheduleСlassesUsers'),
         headers: headers, body: json.encode(body));
     if (response.statusCode == 200) {
-      return true;
+      return ScheduleClassesUsersFullInfo.fromJson(json.decode(response.body));
     } else {
-      return false;
+      return null;
     }
   }
 

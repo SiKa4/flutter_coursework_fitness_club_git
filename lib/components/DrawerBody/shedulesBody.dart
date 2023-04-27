@@ -148,22 +148,17 @@ class _ShedulesPageState extends State<ShedulesPage> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20)))),
                           onPressed: () async {
-                            bool isWrite = await ApiService()
+                            var isWrite = await ApiService()
                                 .setScheduleClassAndUser(
                                     sheduleClassesAndTypes.id_ScheduleClass!,
                                     ApiService.user.id_User);
                             Navigator.pop(context);
-                            if (isWrite) {
-                              ShowToast("Вы успешно записаны на занятие!");
-                              sheduleClassesUsersFullInfo!.add(
-                                  new ScheduleClassesUsersFullInfo(
-                                      scheduleClass_id: sheduleClassesAndTypes
-                                          .id_ScheduleClass,
-                                      user_id: ApiService.user.id_User,
-                                      isActiveUser: true,
-                                      isActive: true));
-                            } else
+                            if (isWrite == null)
                               ShowToast("Произошла ошибка!");
+                            else {
+                              ShowToast("Вы успешно записаны на занятие!");
+                              sheduleClassesUsersFullInfo!.add(isWrite);
+                            }
                             setState(() {});
                           },
                         ),
