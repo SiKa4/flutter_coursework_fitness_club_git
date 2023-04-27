@@ -46,11 +46,13 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
   }
 
   Widget getBlockDateTime(int index) {
-    if (blockDateTime != sheduleClassesUsersFullInfo?[index].timeStart) {
+    if (blockDateTime == null ||
+        DateFormat('yyyy-MM-dd').format(blockDateTime!) !=
+            DateFormat('yyyy-MM-dd').format(
+                sheduleClassesUsersFullInfo?[index].timeStart as DateTime)) {
       blockDateTime = sheduleClassesUsersFullInfo?[index].timeStart;
       return Column(children: [
-        SizedBox(
-            height: MediaQuery.of(context).size.height * 0.01),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
         Container(
           height: MediaQuery.of(context).size.height * 0.03,
           width: MediaQuery.of(context).size.width * 0.35,
@@ -68,8 +70,7 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
             ),
           ),
         ),
-         SizedBox(
-            height: MediaQuery.of(context).size.height * 0.01),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
       ]);
     } else
       return SizedBox.shrink();
@@ -80,8 +81,8 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
   Widget build(BuildContext context) {
     return Center(
       child: Stack(children: [
-        Column(children: [SizedBox(
-            height: MediaQuery.of(context).size.height * 0.007),
+        Column(children: [
+          SizedBox(height: MediaQuery.of(context).size.height * 0.007),
           Expanded(
             child: ListView.builder(
               itemCount: sheduleClassesUsersFullInfo?.length ?? 0,
@@ -184,7 +185,9 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
                       ),
                     ),
                   ]);
-                } else{ return SizedBox.shrink();}
+                } else {
+                  return SizedBox.shrink();
+                }
               },
             ),
           ),

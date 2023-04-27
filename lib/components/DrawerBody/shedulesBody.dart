@@ -23,7 +23,8 @@ class _ShedulesPageState extends State<ShedulesPage> {
   int _selectedDayIndex = 0;
   bool isLoading = false;
 
-  void ShowBottomSheet(SheduleClassesAndTypes sheduleClassesAndTypes) {
+  void ShowBottomSheet(
+      SheduleClassesAndTypes sheduleClassesAndTypes, int index) {
     showModalBottomSheet<void>(
         context: context,
         barrierColor: Colors.black45,
@@ -146,7 +147,25 @@ class _ShedulesPageState extends State<ShedulesPage> {
                               shape: const RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20)))),
-                          onPressed: () {},
+                          onPressed: () async {
+                            bool isWrite = await ApiService()
+                                .setScheduleClassAndUser(
+                                    sheduleClassesAndTypes.id_ScheduleClass!,
+                                    ApiService.user.id_User);
+                            Navigator.pop(context);
+                            if (isWrite) {
+                              ShowToast("Вы успешно записаны на занятие!");
+                              sheduleClassesUsersFullInfo!.add(
+                                  new ScheduleClassesUsersFullInfo(
+                                      scheduleClass_id: sheduleClassesAndTypes
+                                          .id_ScheduleClass,
+                                      user_id: ApiService.user.id_User,
+                                      isActiveUser: true,
+                                      isActive: true));
+                            } else
+                              ShowToast("Произошла ошибка!");
+                            setState(() {});
+                          },
                         ),
                       ),
                       SizedBox(
@@ -331,110 +350,114 @@ class _ShedulesPageState extends State<ShedulesPage> {
           if (sheduleClassesUsersFullInfo!
               .where((x) =>
                   x.scheduleClass_id ==
-                  sheduleClassesAndTypes![index].id_ScheduleClass)
+                      sheduleClassesAndTypes![index].id_ScheduleClass &&
+                  x.isActiveUser == true)
               .isNotEmpty) {
             ShowToast("Вы уже записаны на это занятие!");
             return;
           }
           if (sheduleClassesAndTypes![index].isActive!) {
-            ShowBottomSheet(sheduleClassesAndTypes![index]);
+            ShowBottomSheet(sheduleClassesAndTypes![index], index);
           } else if (sheduleClassesAndTypes![index].isActive!) {
             ShowToast("Запись на данное занятие прекращена!");
           }
         },
-        child:
-          Row(children: [
+        child: Row(children: [
+          SizedBox(
+              height: MediaQuery.of(context).size.height * 0.1,
+              width: MediaQuery.of(context).size.width * 0.05),
+          Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Text(
+              DateFormat('kk:mm').format(
+                  sheduleClassesAndTypes?[index].timeStart ?? DateTime.now()),
+              style: const TextStyle(
+                  fontSize: 22.0,
+                  color: Colors.white,
+                  fontFamily: 'MontserratBold'),
+              textAlign: TextAlign.center,
+            ),
             SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
+                height: MediaQuery.of(context).size.height * 0.005,
                 width: MediaQuery.of(context).size.width * 0.05),
-            Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Text(
+              "${sheduleClassesAndTypes?[index].timeDuration?.inMinutes} мин",
+              style: const TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.white,
+                  fontFamily: 'MontserratLight'),
+            ),
+          ]),
+          SizedBox(
+              height: MediaQuery.of(context).size.height * 0.12,
+              width: MediaQuery.of(context).size.width * 0.07),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Text(
-                DateFormat('kk:mm').format(
-                    sheduleClassesAndTypes?[index].timeStart ?? DateTime.now()),
+                "${sheduleClassesAndTypes?[index].type_Name}",
                 style: const TextStyle(
                     fontSize: 22.0,
                     color: Colors.white,
                     fontFamily: 'MontserratBold'),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.005,
-                  width: MediaQuery.of(context).size.width * 0.05),
               Text(
-                "${sheduleClassesAndTypes?[index].timeDuration?.inMinutes} мин",
+                "${sheduleClassesAndTypes?[index].location}",
                 style: const TextStyle(
                     fontSize: 18.0,
                     color: Colors.white,
                     fontFamily: 'MontserratLight'),
+                textAlign: TextAlign.center,
               ),
-            ]),
-            SizedBox(
-                height: MediaQuery.of(context).size.height * 0.12,
-                width: MediaQuery.of(context).size.width * 0.07),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "${sheduleClassesAndTypes?[index].type_Name}",
-                  style: const TextStyle(
-                      fontSize: 22.0,
-                      color: Colors.white,
-                      fontFamily: 'MontserratBold'),
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  "${sheduleClassesAndTypes?[index].location}",
-                  style: const TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.white,
-                      fontFamily: 'MontserratLight'),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  width: 200,
-                  child: Divider(
-                    color: sheduleClassesUsersFullInfo!
-                            .where((x) =>
-                                x.scheduleClass_id ==
-                                sheduleClassesAndTypes![index].id_ScheduleClass)
-                            .isNotEmpty
-                        ? Color.fromARGB(255, 142, 255, 185)
-                        : Color.fromARGB(255, 56, 124, 220),
-                    thickness: 1.3,
-                  ),
-                ),
-                Text(
-                  "${sheduleClassesAndTypes?[index].teacher_FullName}",
-                  style: const TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.white,
-                      fontFamily: 'MontserratLight'),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-            SizedBox(
-                height: MediaQuery.of(context).size.height * 0.12,
-                width: MediaQuery.of(context).size.width * 0.07),
-            Column(
-              children: [
-                Icon(
-                  sheduleClassesAndTypes![index].isActive!
-                      ? Icons.beenhere_outlined
-                      : Icons.block_outlined,
+              SizedBox(
+                width: 200,
+                child: Divider(
                   color: sheduleClassesUsersFullInfo!
                           .where((x) =>
                               x.scheduleClass_id ==
-                              sheduleClassesAndTypes![index].id_ScheduleClass)
+                                  sheduleClassesAndTypes![index]
+                                      .id_ScheduleClass &&
+                              x.isActiveUser == true)
                           .isNotEmpty
                       ? Color.fromARGB(255, 142, 255, 185)
                       : Color.fromARGB(255, 56, 124, 220),
-                  size: 30.0,
+                  thickness: 1.3,
                 ),
-              ],
-            )
-          ]),
-        ),
+              ),
+              Text(
+                "${sheduleClassesAndTypes?[index].teacher_FullName}",
+                style: const TextStyle(
+                    fontSize: 15.0,
+                    color: Colors.white,
+                    fontFamily: 'MontserratLight'),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          SizedBox(
+              height: MediaQuery.of(context).size.height * 0.12,
+              width: MediaQuery.of(context).size.width * 0.07),
+          Column(
+            children: [
+              Icon(
+                sheduleClassesAndTypes![index].isActive!
+                    ? Icons.beenhere_outlined
+                    : Icons.block_outlined,
+                color: sheduleClassesUsersFullInfo!
+                        .where((x) =>
+                            x.scheduleClass_id ==
+                                sheduleClassesAndTypes![index]
+                                    .id_ScheduleClass &&
+                            x.isActiveUser == true)
+                        .isNotEmpty
+                    ? Color.fromARGB(255, 142, 255, 185)
+                    : Color.fromARGB(255, 56, 124, 220),
+                size: 30.0,
+              ),
+            ],
+          )
+        ]),
+      ),
     );
   }
 
@@ -511,9 +534,9 @@ class _ShedulesPageState extends State<ShedulesPage> {
                       cardList(index),
                       Center(
                         child: Column(children: [
-                           SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.005,
-                      ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.005,
+                          ),
                           Container(
                             height: MediaQuery.of(context).size.height * 0.12,
                             width: MediaQuery.of(context).size.width * 0.977,

@@ -105,6 +105,21 @@ class ApiService {
     }
   }
 
+  Future<bool> setScheduleClassAndUser(int id_ScheduleClass, int id_User) async {
+    var body = {
+      'scheduleСlass_id': id_ScheduleClass,
+      'user_id': id_User,
+      'isActive': true
+    };
+    final response = await http.post(Uri.parse('$baseUrl/scheduleСlassesUsers'),
+        headers: headers, body: json.encode(body));
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<Users?> UpdateUser(Users user) async {
     await Future.delayed(const Duration(seconds: 1));
     var body = {
@@ -135,6 +150,8 @@ class ApiService {
       return null;
     }
   }
+
+  
 
   Future<List<DateInApi?>?> GetAllDateWeek() async {
     final response =
