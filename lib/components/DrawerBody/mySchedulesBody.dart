@@ -17,7 +17,6 @@ class MySchedulesBody extends StatefulWidget {
 class _MySchedulesBodyState extends State<MySchedulesBody> {
   bool isLoading = false;
   List<ScheduleClassesUsersFullInfo>? sheduleClassesUsersFullInfo;
-  List<ScheduleClassesUsersFullInfo>? mainSheduleClassesUsersFullInfo;
 
   @override
   void initState() {
@@ -30,10 +29,9 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
   }
 
   _asyncMethodGet() async {
-    mainSheduleClassesUsersFullInfo = (await ApiService()
+    sheduleClassesUsersFullInfo = (await ApiService()
             .GetAllUserSchedulesAndFullInfo(ApiService.user.id_User))
         as List<ScheduleClassesUsersFullInfo>?;
-    sheduleClassesUsersFullInfo = mainSheduleClassesUsersFullInfo;
     //---------
     setState(() {
       isLoading = false;
@@ -41,8 +39,10 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
   }
 
   void ShowToast(String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      duration: const Duration(seconds: 2),
+    ));
   }
 
   Widget getBlockDateTime(int index) {
@@ -78,6 +78,130 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
 
   DateTime? blockDateTime;
 
+  void ShowBottomSheet(
+      ScheduleClassesUsersFullInfo scheduleUserFullInfo, int index) {
+    showModalBottomSheet<void>(
+        context: context,
+        barrierColor: Colors.black45,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter mystate) {
+            return FractionallySizedBox(
+              heightFactor: 0.27,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.73,
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 48, 48, 48),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(60),
+                        topRight: Radius.circular(60))),
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      Text(
+                        "${scheduleUserFullInfo.type_Name}",
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          fontFamily: 'MontserratBold',
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 200,
+                        child: Divider(
+                          color: Color.fromARGB(255, 56, 124, 220),
+                        ),
+                      ),
+                      Text(
+                        "Начало: ${DateFormat('kk:mm').format(scheduleUserFullInfo.timeStart as DateTime)} (${scheduleUserFullInfo.timeDuration?.inMinutes} мин)",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'MontserratLight',
+                          color: Colors.white,
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_downward_sharp,
+                        color: Color.fromARGB(255, 56, 124, 220),
+                        size: 30.0,
+                      ),
+                      Text(
+                        "Конец: ${DateFormat('kk:mm').format(scheduleUserFullInfo.timeEnd as DateTime)}",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'MontserratLight',
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 300,
+                        child: Divider(
+                          color: Color.fromARGB(255, 56, 124, 220),
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: OutlinedButton.icon(
+                          // ignore: sort_child_properties_last
+                          label: const Text(
+                            'Отменить запись',
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Color.fromARGB(255, 149, 178, 218),
+                              fontFamily: 'MontserratBold',
+                            ),
+                          ),
+                          icon: Icon(
+                            Icons.close,
+                            color: Color.fromARGB(255, 149, 178, 218),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Color.fromARGB(255, 28, 55, 92),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20)))),
+                          onPressed: () async {
+                            scheduleUserFullInfo.isActiveUser = false;
+                            ScheduleClassesUsersFullInfo answer =
+                                await ApiService()
+                                        .PutSchedulesUsers(scheduleUserFullInfo)
+                                    as ScheduleClassesUsersFullInfo;
+                            Navigator.pop(context);
+                            setState(() {
+                              if (answer != null) {
+                                sheduleClassesUsersFullInfo?[index] = answer;
+                                ShowToast("Вы успешно отменили запись!");
+                              } else {
+                                ShowToast("Произошла ошибка!");
+                              }
+                            });
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          });
+        });
+  }
+
   Widget build(BuildContext context) {
     return Center(
       child: Stack(children: [
@@ -107,7 +231,10 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
                         onTap: () => {
                           if (sheduleClassesUsersFullInfo![index].isActive! &&
                               sheduleClassesUsersFullInfo![index].isActiveUser!)
-                            {}
+                            {
+                              ShowBottomSheet(
+                                  sheduleClassesUsersFullInfo![index], index)
+                            }
                           else
                             {
                               ShowToast(
@@ -174,7 +301,7 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
                               Text(
                                 "${sheduleClassesUsersFullInfo?[index].teacher_FullName}",
                                 style: const TextStyle(
-                                    fontSize: 15.0,
+                                    fontSize: 12.0,
                                     color: Colors.white,
                                     fontFamily: 'MontserratLight'),
                                 textAlign: TextAlign.center,

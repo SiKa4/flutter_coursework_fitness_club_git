@@ -62,7 +62,7 @@ class _MainBodyState extends State<MainBody> {
       ]),
       SizedBox(height: MediaQuery.of(context).size.height * 0.02),
       SizedBox(
-        height: MediaQuery.of(context).size.height * 0.04,
+        height: MediaQuery.of(context).size.height * 0.044,
         width: MediaQuery.of(context).size.width * 0.75,
         child: OutlinedButton.icon(
           // ignore: sort_child_properties_last
@@ -88,13 +88,13 @@ class _MainBodyState extends State<MainBody> {
           },
         ),
       ),
-      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+      SizedBox(height: MediaQuery.of(context).size.height * 0.02),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.04,
+            height: MediaQuery.of(context).size.height * 0.044,
             width: MediaQuery.of(context).size.width * 0.45,
             child: OutlinedButton.icon(
               // ignore: sort_child_properties_last
@@ -119,7 +119,7 @@ class _MainBodyState extends State<MainBody> {
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.04,
+            height: MediaQuery.of(context).size.height * 0.044,
             width: MediaQuery.of(context).size.width * 0.45,
             child: OutlinedButton.icon(
               // ignore: sort_child_properties_last
@@ -144,7 +144,15 @@ class _MainBodyState extends State<MainBody> {
             ),
           ),
         ],
-      )
+      ),
+      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+      const SizedBox(
+        width: 350,
+        child: Divider(
+          color: Color.fromARGB(255, 56, 124, 220),
+        ),
+      ),
+      //listposecheniya
     ]);
   }
 }

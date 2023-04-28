@@ -54,8 +54,8 @@ class ApiService {
   }
 
   Future<bool> isExistsUserByLog(String login) async {
-    final response = await http.get(Uri.parse('$baseUrl/logins/$login'),
-        headers: headers);
+    final response =
+        await http.get(Uri.parse('$baseUrl/logins/$login'), headers: headers);
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -105,7 +105,8 @@ class ApiService {
     }
   }
 
-  Future<ScheduleClassesUsersFullInfo?> setScheduleClassAndUser(int id_ScheduleClass, int id_User) async {
+  Future<ScheduleClassesUsersFullInfo?> setScheduleClassAndUser(
+      int id_ScheduleClass, int id_User) async {
     var body = {
       'scheduleСlass_id': id_ScheduleClass,
       'user_id': id_User,
@@ -151,7 +152,22 @@ class ApiService {
     }
   }
 
-  
+  Future<ScheduleClassesUsersFullInfo?> PutSchedulesUsers(
+      ScheduleClassesUsersFullInfo scheduleClassesUsersFullInfo) async {
+    var body = {
+      'scheduleСlass_id': scheduleClassesUsersFullInfo.scheduleClass_id,
+      'user_id': scheduleClassesUsersFullInfo.user_id,
+      'isActive': scheduleClassesUsersFullInfo.isActiveUser
+    };
+    final response = await http.put(Uri.parse('$baseUrl/scheduleСlassesUsers'),
+        headers: headers, body: json.encode(body));
+    if (response.statusCode == 200) {
+      return await ScheduleClassesUsersFullInfo.fromJson(
+          json.decode(response.body));
+    } else {
+      return null;
+    }
+  }
 
   Future<List<DateInApi?>?> GetAllDateWeek() async {
     final response =
@@ -165,12 +181,16 @@ class ApiService {
     }
   }
 
-  Future<List<ScheduleClassesUsersFullInfo?>?> GetAllUserSchedulesAndFullInfo(int idUser) async {
-    final response =
-        await http.get(Uri.parse('$baseUrl/scheduleСlassesUsers/$idUser'), headers: headers);
+  Future<List<ScheduleClassesUsersFullInfo?>?> GetAllUserSchedulesAndFullInfo(
+      int idUser) async {
+    final response = await http.get(
+        Uri.parse('$baseUrl/scheduleСlassesUsers/$idUser'),
+        headers: headers);
     if (response.statusCode == 200) {
-      List<ScheduleClassesUsersFullInfo> scheduleClassesUsersFullInfo = List<ScheduleClassesUsersFullInfo>.from(
-          json.decode(response.body).map((model) => ScheduleClassesUsersFullInfo.fromJson(model)));
+      List<ScheduleClassesUsersFullInfo> scheduleClassesUsersFullInfo =
+          List<ScheduleClassesUsersFullInfo>.from(json
+              .decode(response.body)
+              .map((model) => ScheduleClassesUsersFullInfo.fromJson(model)));
       return scheduleClassesUsersFullInfo;
     } else {
       return null;

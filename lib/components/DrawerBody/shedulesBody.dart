@@ -131,15 +131,19 @@ class _ShedulesPageState extends State<ShedulesPage> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.05,
                         width: MediaQuery.of(context).size.width * 0.6,
-                        child: OutlinedButton(
+                        child: OutlinedButton.icon(
                           // ignore: sort_child_properties_last
-                          child: const Text(
+                          label: const Text(
                             'Записаться',
                             style: TextStyle(
                               fontSize: 20,
                               color: Color.fromARGB(255, 149, 178, 218),
                               fontFamily: 'MontserratBold',
                             ),
+                          ),
+                          icon: Icon(
+                            Icons.add_box_outlined,
+                            color: Color.fromARGB(255, 149, 178, 218),
                           ),
                           style: OutlinedButton.styleFrom(
                               primary: Colors.white,
@@ -172,50 +176,24 @@ class _ShedulesPageState extends State<ShedulesPage> {
                           color: Color.fromARGB(255, 56, 124, 220),
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Кабинет: ",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontFamily: 'MontserratLight',
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            "${sheduleClassesAndTypes.location}",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontFamily: 'MontserratLight',
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        "Кабинет: ${sheduleClassesAndTypes.location}",
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontFamily: 'MontserratLight',
+                          color: Colors.white,
+                        ),
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.01,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Преподаватель: ",
-                            style: TextStyle(
-                              fontSize: 13.0,
-                              fontFamily: 'MontserratLight',
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            "${sheduleClassesAndTypes.teacher_FullName}",
-                            style: TextStyle(
-                              fontSize: 13.0,
-                              fontFamily: 'MontserratLight',
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        "Преподаватель: ${sheduleClassesAndTypes.teacher_FullName}",
+                        style: TextStyle(
+                          fontSize: 13.0,
+                          fontFamily: 'MontserratLight',
+                          color: Colors.white,
+                        ),
                       ),
                       const SizedBox(
                         width: 350,
@@ -307,8 +285,9 @@ class _ShedulesPageState extends State<ShedulesPage> {
 
   _asyncMethodGet() async {
     sheduleClassesUsersFullInfo = (await ApiService()
-            .GetAllUserSchedulesAndFullInfo(ApiService.user.id_User))
-        as List<ScheduleClassesUsersFullInfo>?;
+                .GetAllUserSchedulesAndFullInfo(ApiService.user.id_User))
+            as List<ScheduleClassesUsersFullInfo>? ??
+        <ScheduleClassesUsersFullInfo>[];
     mainSheduleClassesAndTypes = (await ApiService()
         .GetAllShedulesAndFullInfo()) as List<SheduleClassesAndTypes>?;
     dateInApi = (await ApiService().GetAllDateWeek()) as List<DateInApi>?;
@@ -429,9 +408,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
               ),
             ],
           ),
-          SizedBox(
-              height: MediaQuery.of(context).size.height * 0.12,
-              width: MediaQuery.of(context).size.width * 0.07),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.12),
           Column(
             children: [
               Icon(
