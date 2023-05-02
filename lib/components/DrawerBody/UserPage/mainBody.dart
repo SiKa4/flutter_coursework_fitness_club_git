@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_coursework_fitness_club/Pages/profile.dart';
-import 'package:flutter_coursework_fitness_club/components/DrawerBody/homeImageView.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../Animation/anim.dart';
+import '../../../Animation/anim.dart';
+import 'homeImageView.dart';
 
 class MainBody extends StatefulWidget {
   const MainBody({super.key});

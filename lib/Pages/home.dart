@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_coursework_fitness_club/components/DrawerBody/shedulesBody.dart';
+import 'package:flutter_coursework_fitness_club/components/DrawerBody/UserPage/teachersRaitingPage.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../components/DrawerBody/mySchedulesBody.dart';
+import '../components/DrawerBody/UserPage/mainBody.dart';
+import '../components/DrawerBody/UserPage/mySchedulesBody.dart';
+import '../components/DrawerBody/UserPage/shedulesBody.dart';
 import '../components/drawer/custom_drawer.dart';
-import '../components/DrawerBody/mainBody.dart';
 
 class HomePageUser extends StatefulWidget {
   const HomePageUser({super.key});
@@ -16,8 +17,18 @@ class HomePageUser extends StatefulWidget {
 }
 
 class _HomePageUserState extends State<HomePageUser> {
-  var listBodys = {MainBody(), ShedulesPage(), MySchedulesBody()};
-  var listAppBarTitle = {"Главная", "Расписание занятий", "Мои занятия"};
+  var listBodys = {
+    MainBody(),
+    ShedulesPage(),
+    MySchedulesBody(),
+    TeacherRaitingPage()
+  };
+  var listAppBarTitle = {
+    "Главная",
+    "Расписание занятий",
+    "Мои занятия",
+    "Тренера"
+  };
   int index = 0;
   void _setState(int index) {
     setState(() {

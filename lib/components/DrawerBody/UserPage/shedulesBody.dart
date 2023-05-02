@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-import '../../HTTP_Connections/http_model.dart';
-import '../../Models/ScheduleСlassesUsers.dart';
-import '../../Models/SheduleClassesAndTypes.dart';
+import '../../../HTTP_Connections/http_model.dart';
+import '../../../Models/ScheduleСlassesUsers.dart';
+import '../../../Models/SheduleClassesAndTypes.dart';
 
 class ShedulesPage extends StatefulWidget {
   const ShedulesPage({super.key});

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_coursework_fitness_club/components/DrawerBody/mainBody.dart';
-import 'package:flutter_coursework_fitness_club/components/DrawerBody/shedulesBody.dart';
 
 import '../../Pages/home.dart';
 import 'bottom_user_info.dart';
@@ -78,6 +76,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ),
                 onTap: () {
                   widget.callback(2);
+                  Navigator.pop(context);
+                },
+              ),
+              const Divider(color: Colors.grey),
+              InkWell(
+                child: CustomListTile(
+                  isCollapsed: _isCollapsed,
+                  icon: Icons.people_alt_outlined,
+                  title: 'Тренера',
+                  infoCount: 0,
+                ),
+                onTap: () {
+                  widget.callback(3);
                   Navigator.pop(context);
                 },
               ),

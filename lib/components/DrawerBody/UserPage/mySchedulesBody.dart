@@ -5,7 +5,7 @@ import 'package:flutter_coursework_fitness_club/HTTP_Connections/http_model.dart
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-import '../../Models/ScheduleСlassesUsers.dart';
+import '../../../Models/ScheduleСlassesUsers.dart';
 
 class MySchedulesBody extends StatefulWidget {
   const MySchedulesBody({super.key});
@@ -41,7 +41,7 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
   void ShowToast(String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message),
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 2000),
     ));
   }
 
