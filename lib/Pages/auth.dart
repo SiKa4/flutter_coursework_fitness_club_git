@@ -968,240 +968,251 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 28, 55, 92),
       resizeToAvoidBottomInset: false,
-      body: Center(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Column(
-              children: [
-                DropShadow(
-                  blurRadius: 12,
-                  borderRadius: 20,
-                  child: Image.asset(
-                    "assets/images/logofitnes.png",
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    height: MediaQuery.of(context).size.height * 0.2,
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Center(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Column(
+                children: [
+                  DropShadow(
+                    blurRadius: 12,
+                    borderRadius: 20,
+                    child: Image.asset(
+                      "assets/images/logofitnes.png",
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: MediaQuery.of(context).size.height * 0.2,
+                    ),
                   ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.726,
-                  decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 28, 28, 28),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(60),
-                          topRight: Radius.circular(60))),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24.0, vertical: 32.0),
-                    child: Column(
-                      children: [
-                        const Text(
-                          "Фитнес-клуб - 'GLY UP'",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontFamily: 'MontserratBold',
-                            color: Color.fromARGB(255, 149, 178, 218),
-                          ),
-                        ),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.007),
-                        const Text(
-                          "Войдите в свой аккаунт",
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontFamily: 'MontserratLight',
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 43, 82, 136),
-                          ),
-                        ),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.03),
-                        TextField(
-                          controller: loginAuth,
-                          // ignore: prefer_const_constructors
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide: BorderSide.none,
-                              ),
-                              constraints: BoxConstraints(
-                                maxWidth:
-                                    MediaQuery.of(context).size.width * 0.8,
-                              ),
-                              filled: true,
-                              fillColor: Color.fromARGB(255, 54, 54, 54),
-                              label: const Text("Почта",
-                                  style: TextStyle(
-                                      color: Colors.white30, fontSize: 20)),
-                              hintStyle: const TextStyle(color: Colors.white),
-                              // ignore: prefer_const_constructors
-                              prefixIcon: Icon(Icons.alternate_email,
-                                  color: Colors.white, size: 40)),
-                          style: const TextStyle(
-                              fontSize: 22.0,
-                              color: Colors.white,
-                              fontFamily: 'MontserratLight'),
-                          cursorColor: Colors.white10,
-                        ),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.02),
-                        TextField(
-                          obscureText: true,
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          controller: passwordAuth,
-                          // ignore: prefer_const_constructors
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide: BorderSide.none,
-                              ),
-                              constraints: BoxConstraints(
-                                maxWidth:
-                                    MediaQuery.of(context).size.width * 0.8,
-                              ),
-                              filled: true,
-                              fillColor: Color.fromARGB(255, 54, 54, 54),
-                              label: const Text(
-                                "Пароль",
-                                style: TextStyle(
-                                    color: Colors.white30, fontSize: 20),
-                              ),
-                              hintStyle: TextStyle(color: Colors.white),
-                              // ignore: prefer_const_constructors
-                              prefixIcon: Icon(Icons.password,
-                                  color: Colors.white, size: 40)),
-                          style: const TextStyle(
-                              fontSize: 22.0,
-                              color: Colors.white,
-                              fontFamily: 'MontserratLight'),
-                          cursorColor: Colors.white10,
-                        ),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.03),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          width: MediaQuery.of(context).size.width * 0.75,
-                          child: OutlinedButton(
-                            // ignore: sort_child_properties_last
-                            child: const Text(
-                              'Войти',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Color.fromARGB(255, 149, 178, 218),
-                                  fontFamily: 'MontserratBold'),
-                            ),
-                            style: OutlinedButton.styleFrom(
-                                primary: Colors.white,
-                                backgroundColor:
-                                    Color.fromARGB(255, 28, 55, 92),
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20)))),
-                            onPressed: () async {
-                              FocusScope.of(context).unfocus();
-                              setState(() {
-                                isLoading = true;
-                              });
-                              var userFuture = ApiService().getUserByLogPass(
-                                  loginAuth.text, passwordAuth.text);
-                              Users? user = await userFuture;
-                              // ignore: use_build_context_synchronously
-                              if (user != null) {
-                                ApiService.user = user;
-                                ApiService.login = await ApiService()
-                                    .getLoginsByIdUser(user.id_User ?? -1);
-                                final SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                await prefs.setInt(
-                                    'UserId', user.id_User ?? -1);
-                                // ignore: use_build_context_synchronously
-                                Navigator.pushNamedAndRemoveUntil(
-                                    context, "/home", (route) => false);
-                              } else {
-                                ShowToast("Пользователь не найден.");
-                              }
-                              setState(() {
-                                isLoading = false;
-                              });
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.01),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          // ignore: prefer_const_constructors
-                          child: Divider(
-                            thickness: 1,
-                            color: const Color.fromARGB(255, 43, 82, 136),
-                          ),
-                        ),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.01),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          width: MediaQuery.of(context).size.width * 0.75,
-                          child: OutlinedButton(
-                            // ignore: sort_child_properties_last
-                            child: const Text(
-                              'Регистрация',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Color.fromARGB(255, 149, 178, 218),
-                                fontFamily: 'MontserratBold',
-                              ),
-                            ),
-                            style: OutlinedButton.styleFrom(
-                                primary: Colors.white,
-                                backgroundColor:
-                                    Color.fromARGB(255, 28, 55, 92),
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20)))),
-                            onPressed: () {
-                              ShowBottomSheet();
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.05),
-                        Image(
-                            height: MediaQuery.of(context).size.height * 0.05,
-                            width: MediaQuery.of(context).size.width * 0.1,
-                            image: NetworkImage(
-                                "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-icon-png-transparent-background-osteopathy-16.png")),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.02),
-                        const InkWell(
-                          child: Text(
-                            "Забыли пароль? Восстановить.",
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.726,
+                    decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 28, 28, 28),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(60),
+                            topRight: Radius.circular(60))),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24.0, vertical: 32.0),
+                      child: Column(
+                        children: [
+                          const Text(
+                            "Фитнес-клуб - 'GLY UP'",
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 24,
                               fontFamily: 'MontserratBold',
                               color: Color.fromARGB(255, 149, 178, 218),
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.007),
+                          const Text(
+                            "Войдите в свой аккаунт",
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontFamily: 'MontserratLight',
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 43, 82, 136),
+                            ),
+                          ),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.03),
+                          TextField(
+                            controller: loginAuth,
+                            // ignore: prefer_const_constructors
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderSide: BorderSide.none,
+                                ),
+                                constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                ),
+                                filled: true,
+                                fillColor: Color.fromARGB(255, 54, 54, 54),
+                                label: const Text("Почта",
+                                    style: TextStyle(
+                                        color: Colors.white30, fontSize: 20)),
+                                hintStyle: const TextStyle(color: Colors.white),
+                                // ignore: prefer_const_constructors
+                                prefixIcon: Icon(Icons.alternate_email,
+                                    color: Colors.white, size: 40)),
+                            style: const TextStyle(
+                                fontSize: 22.0,
+                                color: Colors.white,
+                                fontFamily: 'MontserratLight'),
+                            cursorColor: Colors.white10,
+                          ),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.02),
+                          TextField(
+                            obscureText: true,
+                            enableSuggestions: false,
+                            autocorrect: false,
+                            controller: passwordAuth,
+                            // ignore: prefer_const_constructors
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderSide: BorderSide.none,
+                                ),
+                                constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                ),
+                                filled: true,
+                                fillColor: Color.fromARGB(255, 54, 54, 54),
+                                label: const Text(
+                                  "Пароль",
+                                  style: TextStyle(
+                                      color: Colors.white30, fontSize: 20),
+                                ),
+                                hintStyle: TextStyle(color: Colors.white),
+                                // ignore: prefer_const_constructors
+                                prefixIcon: Icon(Icons.password,
+                                    color: Colors.white, size: 40)),
+                            style: const TextStyle(
+                                fontSize: 22.0,
+                                color: Colors.white,
+                                fontFamily: 'MontserratLight'),
+                            cursorColor: Colors.white10,
+                          ),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.03),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            width: MediaQuery.of(context).size.width * 0.75,
+                            child: OutlinedButton(
+                              // ignore: sort_child_properties_last
+                              child: const Text(
+                                'Войти',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Color.fromARGB(255, 149, 178, 218),
+                                    fontFamily: 'MontserratBold'),
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                  primary: Colors.white,
+                                  backgroundColor:
+                                      Color.fromARGB(255, 28, 55, 92),
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20)))),
+                              onPressed: () async {
+                                FocusScope.of(context).unfocus();
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                var userFuture = ApiService().getUserByLogPass(
+                                    loginAuth.text, passwordAuth.text);
+                                Users? user = await userFuture;
+                                // ignore: use_build_context_synchronously
+                                if (user != null) {
+                                  ApiService.user = user;
+                                  ApiService.login = await ApiService()
+                                      .getLoginsByIdUser(user.id_User ?? -1);
+                                  final SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  await prefs.setInt(
+                                      'UserId', user.id_User ?? -1);
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context, "/home", (route) => false);
+                                } else {
+                                  ShowToast("Пользователь не найден.");
+                                }
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.01),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            // ignore: prefer_const_constructors
+                            child: Divider(
+                              thickness: 1,
+                              color: const Color.fromARGB(255, 43, 82, 136),
+                            ),
+                          ),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.01),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            width: MediaQuery.of(context).size.width * 0.75,
+                            child: OutlinedButton(
+                              // ignore: sort_child_properties_last
+                              child: const Text(
+                                'Регистрация',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Color.fromARGB(255, 149, 178, 218),
+                                  fontFamily: 'MontserratBold',
+                                ),
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                  primary: Colors.white,
+                                  backgroundColor:
+                                      Color.fromARGB(255, 28, 55, 92),
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20)))),
+                              onPressed: () {
+                                ShowBottomSheet();
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.05),
+                          Image(
+                              height: MediaQuery.of(context).size.height * 0.05,
+                              width: MediaQuery.of(context).size.width * 0.1,
+                              image: NetworkImage(
+                                  "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-icon-png-transparent-background-osteopathy-16.png")),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.02),
+                          const InkWell(
+                            child: Text(
+                              "Забыли пароль? Восстановить.",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'MontserratBold',
+                                color: Color.fromARGB(255, 149, 178, 218),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            isLoading
-                ? Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.black45,
-                    child: LoadingAnimationWidget.fourRotatingDots(
-                      color: Colors.blue,
-                      size: 50,
-                    ))
-                : SizedBox.shrink()
-          ],
+                ],
+              ),
+              isLoading
+                  ? Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.black45,
+                      child: LoadingAnimationWidget.fourRotatingDots(
+                        color: Colors.blue,
+                        size: 50,
+                      ))
+                  : SizedBox.shrink()
+            ],
+          ),
         ),
       ),
     );
