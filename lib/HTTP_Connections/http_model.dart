@@ -6,6 +6,7 @@ import 'package:signalr_netcore/signalr_client.dart';
 
 import '../Models/ScheduleСlassesUsers.dart';
 import '../Models/SheduleClassesAndTypes.dart';
+import '../Models/ShopClasses.dart';
 import '../Models/UsersLogins.dart';
 
 class ApiService {
@@ -176,6 +177,30 @@ class ApiService {
       List<DateInApi> date = List<DateInApi>.from(
           json.decode(response.body).map((model) => DateInApi.fromJson(model)));
       return date;
+    } else {
+      return null;
+    }
+  }
+
+  Future<List<Coach?>?> GetAllCoachAndFullInfo() async {
+    final response =
+        await http.get(Uri.parse('$baseUrl/users/coach'), headers: headers);
+    if (response.statusCode == 200) {
+      List<Coach> coachList = List<Coach>.from(
+          json.decode(response.body).map((model) => Coach.fromJson(model)));
+      return coachList;
+    } else {
+      return null;
+    }
+  }
+
+  Future<List<Item?>?> GetAllItem() async {
+    final response =
+        await http.get(Uri.parse('$baseUrl/shopItem'), headers: headers);
+    if (response.statusCode == 200) {
+      List<Item> itemList = List<Item>.from(
+          json.decode(response.body).map((model) => Item.fromJson(model)));
+      return itemList;
     } else {
       return null;
     }

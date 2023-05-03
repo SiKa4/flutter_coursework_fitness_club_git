@@ -92,6 +92,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   Navigator.pop(context);
                 },
               ),
+              const Divider(color: Colors.grey),
+              InkWell(
+                child: CustomListTile(
+                  isCollapsed: _isCollapsed,
+                  icon: Icons.shopping_basket_outlined,
+                  title: 'Магазин',
+                  infoCount: 0,
+                ),
+                onTap: () {
+                  widget.callback(4);
+                  Navigator.pop(context);
+                },
+              ),
               const Spacer(),
               //-------------------------------bottom
               const SizedBox(height: 10),

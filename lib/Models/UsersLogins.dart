@@ -33,3 +33,32 @@ class Logins {
         user_id: jsonResponse['user_id']);
   }
 }
+
+class Coach {
+  int? id_User;
+  String? fullName;
+  int? role_id;
+  String? number;
+  String? description;
+  String? image_URL;
+  String? email;
+  Coach(
+      {this.id_User,
+      this.fullName,
+      this.role_id,
+      this.number,
+      this.description,
+      this.image_URL,
+      this.email});
+  static fromJson(Map<String, dynamic> jsonResponse) {
+    return Coach(
+      id_User: jsonResponse['id_User'],
+      fullName: jsonResponse['fullName'],
+      role_id: jsonResponse['role_id'],
+      number: jsonResponse['number'],
+      description: jsonResponse['description'],
+      image_URL: jsonResponse['image_URL'],
+      email: jsonResponse['email'],
+    );
+  }
+}
