@@ -258,21 +258,25 @@ class _ShedulesPageState extends State<ShedulesPage> {
 
   void _handleAClientProvidedFunction(var parameters) {
     var sheduleClasseAndType = SheduleClassesAndTypes.fromJson(parameters[0]);
-    int? index = mainSheduleClassesAndTypes?.indexOf(mainSheduleClassesAndTypes!
-        .where((element) =>
-            element.id_ScheduleClass == sheduleClasseAndType.id_ScheduleClass)
-        .first);
-    if (sheduleClasseAndType!.isDelete) {
-      mainSheduleClassesAndTypes?.remove(mainSheduleClassesAndTypes![index!]);
-    }
     bool? isEmpty = mainSheduleClassesAndTypes!
         .where((element) =>
             element.id_ScheduleClass == sheduleClasseAndType.id_ScheduleClass)
         .isEmpty;
+    if (!isEmpty) {
+      int? index = mainSheduleClassesAndTypes?.indexOf(
+          mainSheduleClassesAndTypes!
+              .where((element) =>
+                  element.id_ScheduleClass ==
+                  sheduleClasseAndType.id_ScheduleClass)
+              .first);
+      if (sheduleClasseAndType!.isDelete) {
+        mainSheduleClassesAndTypes?.remove(mainSheduleClassesAndTypes![index!]);
+      } else {
+        mainSheduleClassesAndTypes?[index!] = sheduleClasseAndType;
+      }
+    }
     if (isEmpty) {
       mainSheduleClassesAndTypes?.add(sheduleClasseAndType);
-    } else {
-      mainSheduleClassesAndTypes?[index!] = sheduleClasseAndType;
     }
     sheduleClassesAndTypes = mainSheduleClassesAndTypes
         ?.where((x) =>
