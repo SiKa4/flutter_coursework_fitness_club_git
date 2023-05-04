@@ -15,6 +15,7 @@ class ItemPage extends StatefulWidget {
 
 class _ItemPageState extends State<ItemPage> {
   List<Item>? listItem;
+  bool? isDispose = false;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -23,11 +24,19 @@ class _ItemPageState extends State<ItemPage> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    isDispose = true;
+    super.dispose();
+  }
+
   void _asyncMethodGet() async {
     widget.callback(true);
     listItem = await ApiService().GetAllItem() as List<Item>;
     widget.callback(false);
-    setState(() {});
+    if (!isDispose!) {
+      setState(() {});
+    }
   }
 
   void ShowBottomSheet() {

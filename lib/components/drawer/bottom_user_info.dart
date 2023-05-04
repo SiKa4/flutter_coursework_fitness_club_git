@@ -69,7 +69,7 @@ class BottomUserInfo extends StatelessWidget {
                           ),
                           Expanded(
                             child: Text(
-                              'Посетитель',
+                              '${ApiService.user.role_Name}',
                               style: TextStyle(
                                 color: Colors.grey,
                               ),

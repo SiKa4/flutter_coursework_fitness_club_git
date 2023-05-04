@@ -182,6 +182,7 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
                             setState(() {
                               if (answer != null) {
                                 sheduleClassesUsersFullInfo?[index] = answer;
+                                blockDateTime = null;
                                 ShowToast("Вы успешно отменили запись!");
                               } else {
                                 ShowToast("Произошла ошибка!");

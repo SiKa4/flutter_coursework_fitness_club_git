@@ -18,18 +18,29 @@ class ShopPage extends StatefulWidget {
   State<ShopPage> createState() => _ShopPageState();
 }
 
-bool isLoading = false;
+
+
 
 class _ShopPageState extends State<ShopPage> {
   @override
+  bool isLoading = false;
+  bool isDispose = false;
   void initState() {
     super.initState();
   }
 
+  @override
+  void dispose(){
+    isDispose = true;
+    super.dispose();
+  }
+
   void _setState(bool _isLoading) {
-    setState(() {
-      isLoading = _isLoading;
-    });
+    if (!isDispose) {
+      setState(() {
+        isLoading = _isLoading;
+      });
+    }
   }
 
   final PageController controller = PageController();
@@ -41,7 +52,7 @@ class _ShopPageState extends State<ShopPage> {
       BasketPage(callback: _setState),
       HistoryPage(callback: _setState)
     ];
-    
+
     return Stack(children: [
       Scaffold(
           extendBody: true,
@@ -51,7 +62,8 @@ class _ShopPageState extends State<ShopPage> {
             padding: EdgeInsets.fromLTRB(20, 0, 20, 3),
             child: Container(
               decoration: new BoxDecoration(
-                border: Border.all(width: 1, color: Color.fromARGB(255, 20, 20, 20)),
+                border: Border.all(
+                    width: 1, color: Color.fromARGB(255, 20, 20, 20)),
                 borderRadius: new BorderRadius.all(Radius.circular(25.0)),
               ),
               child: ClipRRect(

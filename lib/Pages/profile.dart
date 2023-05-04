@@ -20,7 +20,7 @@ class _MyProfileState extends State<MyProfile> {
     FullNameController.text = ApiService.user.fullName;
     NumberController.text = ApiService.user.number;
     EmailController.text = ApiService.login.login;
-    FullNameController.text = ApiService.user.fullName;
+    RoleNameController.text = ApiService.user.role_Name;
   }
 
   TextEditingController FullNameController = TextEditingController();
@@ -100,7 +100,7 @@ class _MyProfileState extends State<MyProfile> {
                       prefixIcon: Icon(Icons.account_circle_rounded,
                           color: Colors.white, size: 40)),
                   style: const TextStyle(
-                      fontSize: 18.0,
+                      fontSize: 22.0,
                       color: Colors.white,
                       fontFamily: 'MontserratLight'),
                   cursorColor: Colors.white10,
@@ -229,7 +229,7 @@ class _MyProfileState extends State<MyProfile> {
                       prefixIcon: Icon(Icons.account_circle_rounded,
                           color: Colors.white, size: 40)),
                   style: const TextStyle(
-                      fontSize: 18.0,
+                      fontSize: 22.0,
                       color: Colors.white,
                       fontFamily: 'MontserratLight'),
                   cursorColor: Colors.white10,
