@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 class BasketPage extends StatefulWidget {
-  const BasketPage({super.key});
+  final void Function(bool) callback;
+  const BasketPage({super.key, required this.callback});
 
   @override
   State<BasketPage> createState() => _BasketPageState();

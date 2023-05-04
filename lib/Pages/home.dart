@@ -18,14 +18,6 @@ class HomePageUser extends StatefulWidget {
 }
 
 class _HomePageUserState extends State<HomePageUser> {
-  var listBodys = {
-    MainBody(),
-    ShedulesPage(),
-    MySchedulesBody(),
-    TeacherRaitingPage(),
-    ShopPage()
-  };
-
   var listAppBarTitle = {
     "Главная",
     "Расписание занятий",
@@ -42,6 +34,13 @@ class _HomePageUserState extends State<HomePageUser> {
 
   @override
   Widget build(BuildContext context) {
+    var listBodys = {
+      MainBody(callback: _setState),
+      ShedulesPage(),
+      MySchedulesBody(),
+      TeacherRaitingPage(),
+      ShopPage()
+    };
     return Scaffold(
         backgroundColor: Color.fromARGB(255, 28, 28, 28),
         appBar: AppBar(

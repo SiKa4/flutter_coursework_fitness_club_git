@@ -2,7 +2,7 @@ class Item {
   int? id_ShopItem;
   String? shopItemName;
   String? description;
-  double? price;
+  num? price;
   int? itemCount;
   String? image_URL;
   Item(
@@ -30,10 +30,10 @@ class BasketFullInfo {
   int? user_id;
   String? item_name;
   String? item_Description;
-  double? item_Price;
+  num? item_Price;
   int? item_Count;
   String? user_Name;
-  double? fullPriceThisPosition;
+  num? fullPriceThisPosition;
   int? itemCount;
   String? image_URL;
   BasketFullInfo(

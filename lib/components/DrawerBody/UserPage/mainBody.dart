@@ -9,7 +9,8 @@ import '../../../Animation/anim.dart';
 import 'homeImageView.dart';
 
 class MainBody extends StatefulWidget {
-  const MainBody({super.key});
+  final void Function(int) callback;
+  const MainBody({super.key, required this.callback});
 
   @override
   State<MainBody> createState() => _MainBodyState();
@@ -115,7 +116,9 @@ class _MainBodyState extends State<MainBody> {
                   backgroundColor: Color.fromARGB(255, 28, 55, 92),
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)))),
-              onPressed: () {},
+              onPressed: () {
+                widget.callback(4);
+              },
             ),
           ),
           SizedBox(

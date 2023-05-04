@@ -2,7 +2,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 class HistoryPage extends StatefulWidget {
-  const HistoryPage({super.key});
+  final void Function(bool) callback;
+  const HistoryPage({super.key, required this.callback});
+  
 
   @override
   State<HistoryPage> createState() => _HistoryPageState();
