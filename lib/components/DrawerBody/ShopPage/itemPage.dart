@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../HTTP_Connections/http_model.dart';
 import '../../../Models/ScheduleСlassesUsers.dart';
 import '../../../Models/ShopClasses.dart';
+import '../UserPage/homeImageView.dart';
 
 class ItemPage extends StatefulWidget {
   final void Function(bool) callback;
@@ -39,7 +41,9 @@ class _ItemPageState extends State<ItemPage> {
     }
   }
 
-  void ShowBottomSheet() {
+  PageController _controller = PageController();
+
+  void ShowBottomSheet(Item item) {
     showModalBottomSheet<void>(
         context: context,
         barrierColor: Colors.black45,
@@ -49,16 +53,117 @@ class _ItemPageState extends State<ItemPage> {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter mystate) {
             return FractionallySizedBox(
-                heightFactor: 0.7,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.7,
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 48, 48, 48),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(60),
-                          topRight: Radius.circular(60))),
-                ));
+              heightFactor: 0.83,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.83,
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 48, 48, 48),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(60),
+                        topRight: Radius.circular(60))),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 20, 10, 5),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.07,
+                        child: Text(
+                          "${item.shopItemName}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontFamily: 'MontserratBold',
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: Divider(
+                        color: Color.fromARGB(255, 56, 124, 220),
+                        thickness: 2,
+                      ),
+                    ),
+                    Stack(alignment: Alignment.bottomCenter, children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        width: MediaQuery.of(context).size.width,
+                        child: PageView(
+                          controller: _controller,
+                          physics: const BouncingScrollPhysics(),
+                          children: [
+                            itemImageView(
+                              "${item.image_URL}",
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                        child: Container(
+                          alignment: Alignment.bottomCenter,
+                          child: SmoothPageIndicator(
+                            controller: _controller,
+                            effect: WormEffect(
+                                activeDotColor:
+                                    Color.fromARGB(255, 58, 111, 185)),
+                            count: 5,
+                          ),
+                        ),
+                      )
+                    ]),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.95,
+                      child: Divider(
+                        color: Color.fromARGB(255, 56, 124, 220),
+                        thickness: 2,
+                      ),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          child: Scrollbar(
+                            isAlwaysShown: true,
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                              child: SingleChildScrollView(
+                                physics: const BouncingScrollPhysics(),
+                                child: Text(
+                                  "${item.description}",
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontFamily: 'MontserratLight',
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.95,
+                      child: Divider(
+                        color: Color.fromARGB(255, 56, 124, 220),
+                        thickness: 2,
+                      ),
+                    ),
+                    Text(
+                      "${item.price}₽",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: 26.0,
+                        fontFamily: 'MontserratBold',
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
           });
         });
   }
@@ -82,7 +187,7 @@ class _ItemPageState extends State<ItemPage> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(20.0),
                 onTap: () {
-                  ShowBottomSheet();
+                  ShowBottomSheet(listItem![index]);
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,7 +203,7 @@ class _ItemPageState extends State<ItemPage> {
                       ),
                     ),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.032,
+                      height: MediaQuery.of(context).size.height * 0.036,
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(10, 6, 0, 0),
                         child: Text(
@@ -128,8 +233,8 @@ class _ItemPageState extends State<ItemPage> {
                       ),
                     ),
                     Center(
-                      child: const SizedBox(
-                        width: 180,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.42,
                         child: Divider(
                           color: Color.fromARGB(255, 56, 124, 220),
                           thickness: 2,
@@ -137,7 +242,7 @@ class _ItemPageState extends State<ItemPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(10, 3, 0, 0),
+                      padding: EdgeInsets.fromLTRB(10, 1, 0, 0),
                       child: Row(children: [
                         Text(
                           "${listItem![index].price}₽",
@@ -149,7 +254,7 @@ class _ItemPageState extends State<ItemPage> {
                           ),
                         ),
                         Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                            padding: EdgeInsets.fromLTRB(1, 0, 0, 0),
                             child: Text(
                               "●",
                               style: TextStyle(
