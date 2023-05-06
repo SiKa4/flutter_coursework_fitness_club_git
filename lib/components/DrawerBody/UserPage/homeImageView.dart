@@ -41,7 +41,10 @@ class itemImageView extends StatelessWidget {
       child: Center(
         child: Stack(alignment: Alignment.bottomLeft, children: [
           Positioned.fill(
-              child: Container(color: Color.fromARGB(255, 255, 255, 255))),
+              child: Container(
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  width: MediaQuery.of(context).size.width)),
           Image.network(image,
               fit: BoxFit.contain,
               height: MediaQuery.of(context).size.height * 0.3,

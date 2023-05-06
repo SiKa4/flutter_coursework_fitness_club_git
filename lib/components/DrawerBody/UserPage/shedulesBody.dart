@@ -340,99 +340,98 @@ class _ShedulesPageState extends State<ShedulesPage> {
             ShowToast("Запись на данное занятие прекращена!");
           }
         },
-        child: Row(children: [
-          SizedBox(
-              height: MediaQuery.of(context).size.height * 0.1,
-              width: MediaQuery.of(context).size.width * 0.05),
-          Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            Text(
-              DateFormat('kk:mm').format(
-                  sheduleClassesAndTypes?[index].timeStart ?? DateTime.now()),
-              style: const TextStyle(
-                  fontSize: 22.0,
-                  color: Colors.white,
-                  fontFamily: 'MontserratBold'),
-              textAlign: TextAlign.center,
-            ),
+        child: Row(
+          children: [
             SizedBox(
-                height: MediaQuery.of(context).size.height * 0.005,
+                height: MediaQuery.of(context).size.height * 0.1,
                 width: MediaQuery.of(context).size.width * 0.05),
-            Text(
-              "${sheduleClassesAndTypes?[index].timeDuration?.inMinutes} мин",
-              style: const TextStyle(
-                  fontSize: 18.0,
-                  color: Colors.white,
-                  fontFamily: 'MontserratLight'),
-            ),
-          ]),
-          SizedBox(
-              height: MediaQuery.of(context).size.height * 0.12,
-              width: MediaQuery.of(context).size.width * 0.07),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
               Text(
-                "${sheduleClassesAndTypes?[index].type_Name}",
-                style: const TextStyle(
-                    fontSize: 22.0,
+                DateFormat('kk:mm').format(
+                    sheduleClassesAndTypes?[index].timeStart ?? DateTime.now()),
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.06,
                     color: Colors.white,
                     fontFamily: 'MontserratBold'),
                 textAlign: TextAlign.center,
               ),
-              Text(
-                "${sheduleClassesAndTypes?[index].location}",
-                style: const TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.white,
-                    fontFamily: 'MontserratLight'),
-                textAlign: TextAlign.center,
-              ),
               SizedBox(
-                width: 200,
-                child: Divider(
-                  color: sheduleClassesUsersFullInfo!
-                          .where((x) =>
-                              x.scheduleClass_id ==
-                                  sheduleClassesAndTypes![index]
-                                      .id_ScheduleClass &&
-                              x.isActiveUser == true)
-                          .isNotEmpty
-                      ? Color.fromARGB(255, 142, 255, 185)
-                      : Color.fromARGB(255, 56, 124, 220),
-                  thickness: 1.3,
-                ),
-              ),
+                  height: MediaQuery.of(context).size.height * 0.005,
+                  width: MediaQuery.of(context).size.width * 0.05),
               Text(
-                "${sheduleClassesAndTypes?[index].teacher_FullName}",
-                style: const TextStyle(
-                    fontSize: 15.0,
+                "${sheduleClassesAndTypes?[index].timeDuration?.inMinutes} мин",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.044,
                     color: Colors.white,
                     fontFamily: 'MontserratLight'),
-                textAlign: TextAlign.center,
               ),
-            ],
-          ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.12),
-          Column(
-            children: [
-              Icon(
+            ]),
+            SizedBox(
+                height: MediaQuery.of(context).size.height * 0.12,
+                width: MediaQuery.of(context).size.width * 0.07),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${sheduleClassesAndTypes?[index].type_Name}",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05,
+                      color: Colors.white,
+                      fontFamily: 'MontserratBold'),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  "${sheduleClassesAndTypes?[index].location}",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.044,
+                      color: Colors.white,
+                      fontFamily: 'MontserratLight'),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: Divider(
+                    color: sheduleClassesUsersFullInfo!
+                            .where((x) =>
+                                x.scheduleClass_id ==
+                                    sheduleClassesAndTypes![index]
+                                        .id_ScheduleClass &&
+                                x.isActiveUser == true)
+                            .isNotEmpty
+                        ? Color.fromARGB(255, 142, 255, 185)
+                        : Color.fromARGB(255, 56, 124, 220),
+                    thickness: 1.3,
+                  ),
+                ),
+                Text(
+                  "${sheduleClassesAndTypes?[index].teacher_FullName}",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.04,
+                      color: Colors.white,
+                      fontFamily: 'MontserratLight'),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              child: Icon(
                 sheduleClassesAndTypes![index].isActive!
                     ? Icons.beenhere_outlined
                     : Icons.block_outlined,
                 color: sheduleClassesUsersFullInfo!
                         .where((x) =>
                             x.scheduleClass_id ==
-                                sheduleClassesAndTypes![index]
-                                    .id_ScheduleClass &&
+                                sheduleClassesAndTypes![index].id_ScheduleClass &&
                             x.isActiveUser == true)
                         .isNotEmpty
                     ? Color.fromARGB(255, 142, 255, 185)
                     : Color.fromARGB(255, 56, 124, 220),
-                size: 30.0,
+                size: MediaQuery.of(context).size.width * 0.08,
               ),
-            ],
-          )
-        ]),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -478,7 +477,8 @@ class _ShedulesPageState extends State<ShedulesPage> {
                           Text(
                             "${DateFormat('EE').format(dateInApi?[index].date as DateTime)}",
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.05,
                               fontFamily: 'MontserratLight',
                               color: Colors.white,
                             ),
@@ -486,7 +486,8 @@ class _ShedulesPageState extends State<ShedulesPage> {
                           Text(
                             "${DateFormat('MMMMd').format(dateInApi![index].date as DateTime)}",
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.045,
                               fontFamily: 'MontserratLight',
                               color: Colors.white,
                             ),

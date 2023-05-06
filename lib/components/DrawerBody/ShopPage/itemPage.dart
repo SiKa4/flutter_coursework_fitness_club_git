@@ -54,10 +54,10 @@ class _ItemPageState extends State<ItemPage> {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter mystate) {
             return FractionallySizedBox(
-              heightFactor: MediaQuery.of(context).size.height * 0.00094,
+              heightFactor: 0.816,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.83,
+                height: MediaQuery.of(context).size.height * 0.94,
                 decoration: BoxDecoration(
                     color: Color.fromARGB(255, 48, 48, 48),
                     borderRadius: BorderRadius.only(
@@ -66,14 +66,14 @@ class _ItemPageState extends State<ItemPage> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.fromLTRB(10, 20, 10, 5),
+                      padding: EdgeInsets.fromLTRB(15, 20, 15, 5),
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.07,
                         child: Text(
                           "${item.shopItemName}",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 22.0,
+                            fontSize: MediaQuery.of(context).size.width * 0.058,
                             fontFamily: 'MontserratBold',
                             color: Colors.white,
                           ),
@@ -136,7 +136,9 @@ class _ItemPageState extends State<ItemPage> {
                                   "${item.description}",
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
-                                    fontSize: 18.0,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.05,
                                     fontFamily: 'MontserratLight',
                                     color: Colors.white,
                                   ),
@@ -156,14 +158,15 @@ class _ItemPageState extends State<ItemPage> {
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(children: [
                         Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 "${item.price}₽",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  fontSize: 22.0,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.05,
                                   fontFamily: 'MontserratBold',
                                   color: Colors.white,
                                 ),
@@ -184,32 +187,37 @@ class _ItemPageState extends State<ItemPage> {
                                   "${item.itemCount}шт. в нал.",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontSize: 14.0,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.034,
                                     fontFamily: 'MontserratLight',
                                     color: Colors.white,
                                   ),
                                 ),
                               ]),
                             ]),
-                        InkWell(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
-                              color: Color.fromARGB(255, 28, 55, 92),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                          child: InkWell(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                                color: Color.fromARGB(255, 28, 55, 92),
+                              ),
+                              child: Icon(
+                                Icons.remove,
+                                color: Color.fromARGB(255, 149, 178, 218),
+                                size: MediaQuery.of(context).size.width * 0.1,
+                              ),
                             ),
-                            child: Icon(
-                              Icons.remove,
-                              color: Color.fromARGB(255, 149, 178, 218),
-                              size: 40,
-                            ),
+                            onTap: () {
+                              if (cntItem > 1)
+                                mystate(() {
+                                  cntItem--;
+                                });
+                            },
                           ),
-                          onTap: () {
-                            if (cntItem > 1)
-                              mystate(() {
-                                cntItem--;
-                              });
-                          },
                         ),
                         Column(children: [
                           Container(
@@ -218,7 +226,8 @@ class _ItemPageState extends State<ItemPage> {
                             child: Text("${cntItem} шт.",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  fontSize: 16.0,
+                                  fontSize:
+                                      MediaQuery.of(context).size.height * 0.02,
                                   fontFamily: 'MontserratLight',
                                   color: Colors.white,
                                 )),
@@ -232,7 +241,9 @@ class _ItemPageState extends State<ItemPage> {
                                   "${double.parse((cntItem * item.price!).toStringAsFixed(1))}₽",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontSize: 13.0,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.034,
                                     fontFamily: 'MontserratBold',
                                     color: Colors.white,
                                   )),
@@ -249,7 +260,7 @@ class _ItemPageState extends State<ItemPage> {
                             child: Icon(
                               Icons.add,
                               color: Color.fromARGB(255, 149, 178, 218),
-                              size: 40,
+                              size: MediaQuery.of(context).size.width * 0.1,
                             ),
                           ),
                           onTap: () {
@@ -262,19 +273,19 @@ class _ItemPageState extends State<ItemPage> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
                           child: Container(
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            height: MediaQuery.of(context).size.width * 0.1,
+                            width: MediaQuery.of(context).size.width * 0.31,
+                            height: MediaQuery.of(context).size.height * 0.05,
                             child: OutlinedButton(
                               // ignore: sort_child_properties_last
                               child: Text(
                                 "Добавить",
                                 style: TextStyle(
-                                  fontSize: 15.5,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.042,
                                   color: Color.fromARGB(255, 149, 178, 218),
                                   fontFamily: 'MontserratBold',
                                 ),
                               ),
-
                               style: OutlinedButton.styleFrom(
                                   primary: Colors.white,
                                   backgroundColor:
@@ -338,7 +349,7 @@ class _ItemPageState extends State<ItemPage> {
                           "${listItem![index].shopItemName!.length > 12 ? "${listItem![index].shopItemName!.substring(0, 12)}..." : "${listItem![index].shopItemName}"}",
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontSize: 18.0,
+                            fontSize: MediaQuery.of(context).size.width * 0.046,
                             fontFamily: 'MontserratBold',
                             color: Colors.white,
                           ),
@@ -353,7 +364,8 @@ class _ItemPageState extends State<ItemPage> {
                           "${listItem![index].description!.length > 42 ? "${listItem![index].description!.substring(0, 42)}..." : "${listItem![index].description}"}",
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontSize: 16.0,
+                            fontSize:
+                                MediaQuery.of(context).size.width * 0.0428,
                             fontFamily: 'MontserratLight',
                             color: Colors.white,
                           ),
@@ -374,9 +386,9 @@ class _ItemPageState extends State<ItemPage> {
                       child: Row(children: [
                         Text(
                           "${listItem![index].price}₽",
-                          textAlign: TextAlign.left,
+                          textAlign: TextAlign.start,
                           style: TextStyle(
-                            fontSize: 16.0,
+                            fontSize: MediaQuery.of(context).size.width * 0.04,
                             fontFamily: 'MontserratBold',
                             color: Colors.white,
                           ),
@@ -396,10 +408,11 @@ class _ItemPageState extends State<ItemPage> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(2, 0, 0, 0),
                           child: Text(
-                            "${listItem![index].itemCount}шт. в нал.",
+                            "${listItem![index].itemCount}шт.",
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                              fontSize: 14.0,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.035,
                               fontFamily: 'MontserratLight',
                               color: Colors.white,
                             ),
