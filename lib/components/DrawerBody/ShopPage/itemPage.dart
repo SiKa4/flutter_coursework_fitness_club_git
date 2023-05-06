@@ -153,7 +153,7 @@ class _ItemPageState extends State<ItemPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
+                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(children: [
                         Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -163,7 +163,7 @@ class _ItemPageState extends State<ItemPage> {
                                 "${item.price}₽",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  fontSize: 26.0,
+                                  fontSize: 22.0,
                                   fontFamily: 'MontserratBold',
                                   color: Colors.white,
                                 ),
@@ -181,7 +181,7 @@ class _ItemPageState extends State<ItemPage> {
                                                   255, 142, 255, 185)),
                                 ),
                                 Text(
-                                  "${item.itemCount}шт. в наличии",
+                                  "${item.itemCount}шт. в нал.",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontSize: 14.0,
@@ -223,17 +223,20 @@ class _ItemPageState extends State<ItemPage> {
                                   color: Colors.white,
                                 )),
                           ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.18,
-                            alignment: Alignment.center,
-                            child: Text(
-                                "${double.parse((cntItem * item.price!).toStringAsFixed(1))}₽",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontSize: 13.0,
-                                  fontFamily: 'MontserratBold',
-                                  color: Colors.white,
-                                )),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.18,
+                              alignment: Alignment.center,
+                              child: Text(
+                                  "${double.parse((cntItem * item.price!).toStringAsFixed(1))}₽",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize: 13.0,
+                                    fontFamily: 'MontserratBold',
+                                    color: Colors.white,
+                                  )),
+                            ),
                           ),
                         ]),
                         InkWell(
@@ -259,7 +262,7 @@ class _ItemPageState extends State<ItemPage> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
                           child: Container(
-                            width: MediaQuery.of(context).size.width * 0.274,
+                            width: MediaQuery.of(context).size.width * 0.3,
                             height: MediaQuery.of(context).size.width * 0.1,
                             child: OutlinedButton(
                               // ignore: sort_child_properties_last
