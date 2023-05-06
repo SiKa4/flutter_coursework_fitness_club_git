@@ -44,6 +44,7 @@ class _ItemPageState extends State<ItemPage> {
   PageController _controller = PageController();
 
   void ShowBottomSheet(Item item) {
+    int cntItem = 1;
     showModalBottomSheet<void>(
         context: context,
         barrierColor: Colors.black45,
@@ -53,7 +54,7 @@ class _ItemPageState extends State<ItemPage> {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter mystate) {
             return FractionallySizedBox(
-              heightFactor: 0.83,
+              heightFactor: MediaQuery.of(context).size.height * 0.00094,
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.83,
@@ -151,14 +152,138 @@ class _ItemPageState extends State<ItemPage> {
                         thickness: 2,
                       ),
                     ),
-                    Text(
-                      "${item.price}₽",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 26.0,
-                        fontFamily: 'MontserratBold',
-                        color: Colors.white,
-                      ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
+                      child: Row(children: [
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${item.price}₽",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 26.0,
+                                  fontFamily: 'MontserratBold',
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Row(children: [
+                                Text(
+                                  "●",
+                                  style: TextStyle(
+                                      color: item.itemCount! < 10 &&
+                                              item.itemCount! > 0
+                                          ? Color.fromARGB(255, 255, 200, 2)
+                                          : item.itemCount! == 0
+                                              ? Color.fromARGB(255, 255, 67, 67)
+                                              : Color.fromARGB(
+                                                  255, 142, 255, 185)),
+                                ),
+                                Text(
+                                  "${item.itemCount}шт. в наличии",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    fontFamily: 'MontserratLight',
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ]),
+                            ]),
+                        InkWell(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              color: Color.fromARGB(255, 28, 55, 92),
+                            ),
+                            child: Icon(
+                              Icons.remove,
+                              color: Color.fromARGB(255, 149, 178, 218),
+                              size: 40,
+                            ),
+                          ),
+                          onTap: () {
+                            if (cntItem > 1)
+                              mystate(() {
+                                cntItem--;
+                              });
+                          },
+                        ),
+                        Column(children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            alignment: Alignment.center,
+                            child: Text("${cntItem} шт.",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontFamily: 'MontserratLight',
+                                  color: Colors.white,
+                                )),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.18,
+                            alignment: Alignment.center,
+                            child: Text(
+                                "${double.parse((cntItem * item.price!).toStringAsFixed(1))}₽",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 13.0,
+                                  fontFamily: 'MontserratBold',
+                                  color: Colors.white,
+                                )),
+                          ),
+                        ]),
+                        InkWell(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              color: Color.fromARGB(255, 28, 55, 92),
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              color: Color.fromARGB(255, 149, 178, 218),
+                              size: 40,
+                            ),
+                          ),
+                          onTap: () {
+                            if (cntItem < item.itemCount!)
+                              mystate(() {
+                                cntItem++;
+                              });
+                          },
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.274,
+                            height: MediaQuery.of(context).size.width * 0.1,
+                            child: OutlinedButton(
+                              // ignore: sort_child_properties_last
+                              child: Text(
+                                "Добавить",
+                                style: TextStyle(
+                                  fontSize: 15.5,
+                                  color: Color.fromARGB(255, 149, 178, 218),
+                                  fontFamily: 'MontserratBold',
+                                ),
+                              ),
+
+                              style: OutlinedButton.styleFrom(
+                                  primary: Colors.white,
+                                  backgroundColor:
+                                      Color.fromARGB(255, 28, 55, 92),
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20)))),
+                              onPressed: () async {},
+                            ),
+                          ),
+                        ),
+                      ]),
                     ),
                   ],
                 ),
