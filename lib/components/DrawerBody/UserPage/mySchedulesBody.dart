@@ -41,7 +41,7 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
   void ShowToast(String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message),
-      duration: const Duration(seconds: 2000),
+      duration: const Duration(seconds: 2),
     ));
   }
 

@@ -36,8 +36,8 @@ class _AuthPageState extends State<AuthPage> {
   RegExp number_valid = new RegExp(
       '^((\\+7|7|8) \\(([0-9]{3})\\) ([0-9]){3}-([0-9]){2}-([0-9]){2})\$');
   void ShowToast(String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message), duration: const Duration(seconds: 2)));
   }
 
   bool isCodeEnter = false;

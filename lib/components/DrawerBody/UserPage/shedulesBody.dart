@@ -310,8 +310,8 @@ class _ShedulesPageState extends State<ShedulesPage> {
   }
 
   void ShowToast(String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message), duration: const Duration(seconds: 2)));
   }
 
   Widget cardList(int index) {
@@ -422,7 +422,8 @@ class _ShedulesPageState extends State<ShedulesPage> {
                 color: sheduleClassesUsersFullInfo!
                         .where((x) =>
                             x.scheduleClass_id ==
-                                sheduleClassesAndTypes![index].id_ScheduleClass &&
+                                sheduleClassesAndTypes![index]
+                                    .id_ScheduleClass &&
                             x.isActiveUser == true)
                         .isNotEmpty
                     ? Color.fromARGB(255, 142, 255, 185)

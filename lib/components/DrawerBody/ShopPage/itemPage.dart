@@ -9,7 +9,15 @@ import '../UserPage/homeImageView.dart';
 
 class ItemPage extends StatefulWidget {
   final void Function(bool) callback;
-  const ItemPage({super.key, required this.callback});
+  final ValueGetter<List<BasketFullInfo>?> getListBasket;
+  final ValueSetter<BasketFullInfo> setListBasketItem;
+  final void Function(String) showToast;
+  const ItemPage(
+      {super.key,
+      required this.callback,
+      required this.getListBasket,
+      required this.setListBasketItem,
+      required this.showToast});
 
   @override
   State<ItemPage> createState() => _ItemPageState();
@@ -17,6 +25,7 @@ class ItemPage extends StatefulWidget {
 
 class _ItemPageState extends State<ItemPage> {
   List<Item>? listItem;
+
   bool? isDispose = false;
   @override
   void initState() {
@@ -43,8 +52,8 @@ class _ItemPageState extends State<ItemPage> {
 
   PageController _controller = PageController();
 
-  void ShowBottomSheet(Item item) {
-    int cntItem = 1;
+  void ShowBottomSheet(Item item, BasketFullInfo? basket) {
+    int cntItem = basket == null ? 1 : basket.shopItemCount ?? 1;
     showModalBottomSheet<void>(
         context: context,
         barrierColor: Colors.black45,
@@ -150,7 +159,7 @@ class _ItemPageState extends State<ItemPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.95,
                       child: Divider(
-                        color: Color.fromARGB(255, 56, 124, 220),
+                        color: basket == null ? Color.fromARGB(255, 56, 124, 220) : Color.fromARGB(255, 142, 255, 185),
                         thickness: 2,
                       ),
                     ),
@@ -161,14 +170,18 @@ class _ItemPageState extends State<ItemPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "${item.price}₽",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.05,
-                                  fontFamily: 'MontserratBold',
-                                  color: Colors.white,
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.26,
+                                child: Text(
+                                  "${item.price}₽",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.05,
+                                    fontFamily: 'MontserratBold',
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                               Row(children: [
@@ -273,15 +286,15 @@ class _ItemPageState extends State<ItemPage> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
                           child: Container(
-                            width: MediaQuery.of(context).size.width * 0.31,
+                            width: MediaQuery.of(context).size.width * 0.27,
                             height: MediaQuery.of(context).size.height * 0.05,
                             child: OutlinedButton(
                               // ignore: sort_child_properties_last
                               child: Text(
-                                "Добавить",
+                                "${basket == null ? "Добавить" : "Изменить"}",
                                 style: TextStyle(
                                   fontSize:
-                                      MediaQuery.of(context).size.width * 0.042,
+                                      MediaQuery.of(context).size.width * 0.036,
                                   color: Color.fromARGB(255, 149, 178, 218),
                                   fontFamily: 'MontserratBold',
                                 ),
@@ -293,7 +306,18 @@ class _ItemPageState extends State<ItemPage> {
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20)))),
-                              onPressed: () async {},
+                              onPressed: () async {
+                                BasketFullInfo? answer = await ApiService()
+                                    .PostBasket(ApiService.user.id_User,
+                                        item.id_ShopItem, cntItem);
+                                Navigator.pop(context);
+                                if (answer != null) {
+                                  widget.setListBasketItem(answer);
+                                  widget.showToast("Успешно, корзина обновлена!");
+                                } else {
+                                  widget.showToast("Ошибка!!!");
+                                }
+                              },
                             ),
                           ),
                         ),
@@ -326,7 +350,19 @@ class _ItemPageState extends State<ItemPage> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(20.0),
                 onTap: () {
-                  ShowBottomSheet(listItem![index]);
+                  ShowBottomSheet(
+                      listItem![index],
+                      (widget.getListBasket
+                              .call()!
+                              .where((x) =>
+                                  x.item_id == listItem![index].id_ShopItem)
+                              .isNotEmpty
+                          ? widget.getListBasket
+                              .call()!
+                              .where((x) =>
+                                  x.item_id == listItem![index].id_ShopItem)
+                              .first
+                          : null));
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -384,13 +420,17 @@ class _ItemPageState extends State<ItemPage> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(10, 1, 0, 0),
                       child: Row(children: [
-                        Text(
-                          "${listItem![index].price}₽",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.04,
-                            fontFamily: 'MontserratBold',
-                            color: Colors.white,
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: Text(
+                            "${listItem![index].price}₽",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.04,
+                              fontFamily: 'MontserratBold',
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                         Padding(

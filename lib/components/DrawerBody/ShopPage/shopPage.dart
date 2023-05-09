@@ -18,21 +18,54 @@ class ShopPage extends StatefulWidget {
   State<ShopPage> createState() => _ShopPageState();
 }
 
-
-
-
 class _ShopPageState extends State<ShopPage> {
   @override
   bool isLoading = false;
   bool isDispose = false;
+  List<BasketFullInfo>? listBasket;
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _asyncMethodGet();
+    });
     super.initState();
   }
 
   @override
-  void dispose(){
+  void dispose() {
     isDispose = true;
     super.dispose();
+  }
+
+  void _asyncMethodGet() async {
+    _setState(true);
+    listBasket =
+        await ApiService().GetAllBasketFullInfoByIdUser(ApiService.user.id_User)
+                as List<BasketFullInfo>? ??
+            <BasketFullInfo>[];
+    _setState(false);
+  }
+
+  List<BasketFullInfo>? GetListBasket() {
+    return listBasket;
+  }
+
+  void ShowToast(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message), duration: const Duration(seconds: 2)));
+  }
+
+  void SetListBasketItem(BasketFullInfo? basket) {
+    bool? isEmpty = listBasket
+        ?.where((x) => x.id_ShopBasket == basket!.id_ShopBasket)
+        .isEmpty;
+    if (!isEmpty!) {
+      var index = listBasket?.indexOf(listBasket
+          ?.where((x) => x.id_ShopBasket == basket!.id_ShopBasket)
+          .first as BasketFullInfo);
+      listBasket![index!] = basket!;
+    } else {
+      listBasket!.add(basket!);
+    }
   }
 
   void _setState(bool _isLoading) {
@@ -48,7 +81,10 @@ class _ShopPageState extends State<ShopPage> {
 
   Widget build(BuildContext context) {
     final listPage = <StatefulWidget>[
-      ItemPage(callback: _setState),
+      ItemPage(
+          callback: _setState,
+          getListBasket: GetListBasket,
+          setListBasketItem: SetListBasketItem, showToast: ShowToast),
       BasketPage(callback: _setState),
       HistoryPage(callback: _setState)
     ];

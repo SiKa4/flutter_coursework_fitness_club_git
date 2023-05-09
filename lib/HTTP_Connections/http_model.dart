@@ -223,6 +223,36 @@ class ApiService {
     }
   }
 
+  Future<List<BasketFullInfo?>?> GetAllBasketFullInfoByIdUser(
+      int idUser) async {
+    final response = await http.get(
+        Uri.parse('$baseUrl/shopBasket/userIdFullInfo/${idUser}'),
+        headers: headers);
+    if (response.statusCode == 200) {
+      List<BasketFullInfo> basketFullInfo = List<BasketFullInfo>.from(json
+          .decode(response.body)
+          .map((model) => BasketFullInfo.fromJson(model)));
+      return basketFullInfo;
+    } else {
+      return null;
+    }
+  }
+
+  Future<BasketFullInfo?> PostBasket(int idUser, idItem, itemCount) async {
+    var body = {
+      'shopItem_id': idItem,
+      'user_id': idUser,
+      'shopItemCount': itemCount
+    };
+    final response = await http.post(Uri.parse('$baseUrl/shopBasket'),
+        headers: headers, body: json.encode(body));
+    if (response.statusCode == 200) {
+      return await BasketFullInfo.fromJson(json.decode(response.body));
+    } else {
+      return null;
+    }
+  }
+
   static var hubConnection;
   static Future<void> GetNewShedulesAndFullInfo() async {
     hubConnection = HubConnectionBuilder()
