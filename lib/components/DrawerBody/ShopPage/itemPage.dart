@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sizing/sizing.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../HTTP_Connections/http_model.dart';
@@ -82,8 +83,7 @@ class _ItemPageState extends State<ItemPage> {
                           "${item.shopItemName}",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize:
-                                20 * MediaQuery.of(context).textScaleFactor,
+                            fontSize: 24.fss,
                             fontFamily: 'MontserratBold',
                             color: Colors.white,
                           ),
@@ -146,8 +146,7 @@ class _ItemPageState extends State<ItemPage> {
                                   "${item.description}",
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
-                                    fontSize: 15 *
-                                        MediaQuery.of(context).textScaleFactor,
+                                    fontSize: 20.fss,
                                     fontFamily: 'MontserratLight',
                                     color: Colors.white,
                                   ),
@@ -178,8 +177,7 @@ class _ItemPageState extends State<ItemPage> {
                                   "${item.price}₽",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontSize: 17 *
-                                        MediaQuery.of(context).textScaleFactor,
+                                    fontSize: 20.fss,
                                     fontFamily: 'MontserratBold',
                                     color: Colors.white,
                                   ),
@@ -201,8 +199,7 @@ class _ItemPageState extends State<ItemPage> {
                                   "${item.itemCount}шт. в нал.",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontSize: 11.5 *
-                                        MediaQuery.of(context).textScaleFactor,
+                                    fontSize: 14.fss,
                                     fontFamily: 'MontserratLight',
                                     color: Colors.white,
                                   ),
@@ -221,8 +218,7 @@ class _ItemPageState extends State<ItemPage> {
                               child: Icon(
                                 Icons.remove,
                                 color: Color.fromARGB(255, 149, 178, 218),
-                                size:
-                                    33 * MediaQuery.of(context).textScaleFactor,
+                                size: 36.ss,
                               ),
                             ),
                             onTap: () {
@@ -240,8 +236,7 @@ class _ItemPageState extends State<ItemPage> {
                             child: Text("${cntItem} шт.",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.height * 0.02,
+                                  fontSize: 18.fss,
                                   fontFamily: 'MontserratLight',
                                   color: Colors.white,
                                 )),
@@ -255,8 +250,7 @@ class _ItemPageState extends State<ItemPage> {
                                   "${double.parse((cntItem * item.price!).toStringAsFixed(1))}₽",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontSize: 10.2 *
-                                        MediaQuery.of(context).textScaleFactor,
+                                    fontSize: 13.fss,
                                     fontFamily: 'MontserratBold',
                                     color: Colors.white,
                                   )),
@@ -273,7 +267,7 @@ class _ItemPageState extends State<ItemPage> {
                             child: Icon(
                               Icons.add,
                               color: Color.fromARGB(255, 149, 178, 218),
-                              size: 33 * MediaQuery.of(context).textScaleFactor,
+                              size: 36.ss,
                             ),
                           ),
                           onTap: () {
@@ -293,8 +287,7 @@ class _ItemPageState extends State<ItemPage> {
                               child: Text(
                                 "${basket == null ? "Добавить" : "Изменить"}",
                                 style: TextStyle(
-                                  fontSize: 10.5 *
-                                      MediaQuery.of(context).textScaleFactor,
+                                  fontSize: 13.3.fss,
                                   color: Color.fromARGB(255, 149, 178, 218),
                                   fontFamily: 'MontserratBold',
                                 ),
@@ -338,8 +331,8 @@ class _ItemPageState extends State<ItemPage> {
       padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
       child: GridView.builder(
           physics: BouncingScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, mainAxisExtent: 350),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, mainAxisExtent: 330.ss),
           itemCount: listItem?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
             return Card(
@@ -386,8 +379,7 @@ class _ItemPageState extends State<ItemPage> {
                           "${listItem![index].shopItemName!.length > 12 ? "${listItem![index].shopItemName!.substring(0, 12)}..." : "${listItem![index].shopItemName}"}",
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontSize:
-                                16 * MediaQuery.of(context).textScaleFactor,
+                            fontSize: 19.fss,
                             fontFamily: 'MontserratBold',
                             color: Colors.white,
                           ),
@@ -402,8 +394,7 @@ class _ItemPageState extends State<ItemPage> {
                           "${listItem![index].description!.length > 42 ? "${listItem![index].description!.substring(0, 42)}..." : "${listItem![index].description}"}",
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontSize:
-                                13 * MediaQuery.of(context).textScaleFactor,
+                            fontSize: 15.fss,
                             fontFamily: 'MontserratLight',
                             color: Colors.white,
                           ),
@@ -428,8 +419,7 @@ class _ItemPageState extends State<ItemPage> {
                             "${listItem![index].price}₽",
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                              fontSize:
-                                  14 * MediaQuery.of(context).textScaleFactor,
+                              fontSize: 16.5.fss,
                               fontFamily: 'MontserratBold',
                               color: Colors.white,
                             ),
@@ -453,8 +443,7 @@ class _ItemPageState extends State<ItemPage> {
                             "${listItem![index].itemCount}шт.",
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                              fontSize:
-                                  12 * MediaQuery.of(context).textScaleFactor,
+                              fontSize: 15.fss,
                               fontFamily: 'MontserratLight',
                               color: Colors.white,
                             ),

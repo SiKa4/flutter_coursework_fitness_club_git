@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizing/sizing_builder.dart';
 import 'HTTP_Connections/http_model.dart';
 import 'Pages/auth.dart';
 import 'Pages/home.dart';
@@ -30,13 +31,15 @@ class MyThemeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const Landing(),
-        '/home': (context) => const HomePageUser(),
-      },
+    return SizingBuilder(
+      builder: () => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const Landing(),
+          '/home': (context) => const HomePageUser(),
+        },
+      ),
     );
   }
 }
