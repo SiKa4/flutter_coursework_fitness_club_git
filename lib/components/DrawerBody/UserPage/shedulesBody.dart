@@ -50,77 +50,48 @@ class _ShedulesPageState extends State<ShedulesPage> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
-                      Text(
-                        "${sheduleClassesAndTypes.type_Name}",
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'MontserratBold',
-                          color: Colors.white,
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                        child: Text(
+                          "${sheduleClassesAndTypes.type_Name}",
+                          style: TextStyle(
+                            fontSize:
+                                20 * MediaQuery.of(context).textScaleFactor,
+                            fontFamily: 'MontserratBold',
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                      const SizedBox(
-                        width: 200,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.7,
                         child: Divider(
                           color: Color.fromARGB(255, 56, 124, 220),
+                          thickness: 2,
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Начало: ",
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'MontserratLight',
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            "${DateFormat('kk:mm').format(sheduleClassesAndTypes.timeStart as DateTime)}",
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'MontserratLight',
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            " (${sheduleClassesAndTypes.timeDuration?.inMinutes} мин)",
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'MontserratLight',
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        "Начало: ${DateFormat('kk:mm').format(sheduleClassesAndTypes.timeStart as DateTime)} (${sheduleClassesAndTypes.timeDuration?.inMinutes} минут)",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'MontserratLight',
+                          color: Colors.white,
+                        ),
                       ),
                       Icon(
                         Icons.arrow_downward_sharp,
                         color: Color.fromARGB(255, 56, 124, 220),
-                        size: 30.0,
+                        size: 30 * MediaQuery.of(context).textScaleFactor,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Конец: ",
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'MontserratLight',
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            "${DateFormat('kk:mm').format(sheduleClassesAndTypes.timeEnd as DateTime)}",
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'MontserratLight',
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        "Конец: ${DateFormat('kk:mm').format(sheduleClassesAndTypes.timeEnd as DateTime)}",
+                        style: TextStyle(
+                          fontSize: 18 * MediaQuery.of(context).textScaleFactor,
+                          fontFamily: 'MontserratLight',
+                          color: Colors.white,
+                        ),
                       ),
-                      const SizedBox(
-                        width: 300,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.6,
                         child: Divider(
                           color: Color.fromARGB(255, 56, 124, 220),
                         ),
@@ -133,10 +104,11 @@ class _ShedulesPageState extends State<ShedulesPage> {
                         width: MediaQuery.of(context).size.width * 0.6,
                         child: OutlinedButton.icon(
                           // ignore: sort_child_properties_last
-                          label: const Text(
+                          label: Text(
                             'Записаться',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize:
+                                  16 * MediaQuery.of(context).textScaleFactor,
                               color: Color.fromARGB(255, 149, 178, 218),
                               fontFamily: 'MontserratBold',
                             ),
@@ -144,6 +116,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
                           icon: Icon(
                             Icons.add_box_outlined,
                             color: Color.fromARGB(255, 149, 178, 218),
+                            size: 20 * MediaQuery.of(context).textScaleFactor,
                           ),
                           style: OutlinedButton.styleFrom(
                               primary: Colors.white,
@@ -170,8 +143,8 @@ class _ShedulesPageState extends State<ShedulesPage> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.01,
                       ),
-                      const SizedBox(
-                        width: 300,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.6,
                         child: Divider(
                           color: Color.fromARGB(255, 56, 124, 220),
                         ),
@@ -179,7 +152,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
                       Text(
                         "Кабинет: ${sheduleClassesAndTypes.location}",
                         style: TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 15 * MediaQuery.of(context).textScaleFactor,
                           fontFamily: 'MontserratLight',
                           color: Colors.white,
                         ),
@@ -190,15 +163,16 @@ class _ShedulesPageState extends State<ShedulesPage> {
                       Text(
                         "Преподаватель: ${sheduleClassesAndTypes.teacher_FullName}",
                         style: TextStyle(
-                          fontSize: 13.0,
+                          fontSize: 12 * MediaQuery.of(context).textScaleFactor,
                           fontFamily: 'MontserratLight',
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(
-                        width: 350,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.88,
                         child: Divider(
                           color: Color.fromARGB(255, 56, 124, 220),
+                          thickness: 2,
                         ),
                       ),
                       Padding(
@@ -207,7 +181,8 @@ class _ShedulesPageState extends State<ShedulesPage> {
                           "${sheduleClassesAndTypes.details}",
                           textAlign: TextAlign.justify,
                           style: TextStyle(
-                            fontSize: 13.0,
+                            fontSize:
+                                10 * MediaQuery.of(context).textScaleFactor,
                             fontFamily: 'MontserratLight',
                             color: Colors.white,
                           ),
@@ -222,8 +197,8 @@ class _ShedulesPageState extends State<ShedulesPage> {
                           child: Image.network(
                             '${sheduleClassesAndTypes.image_Type}',
                             fit: BoxFit.fill,
-                            height: 150,
-                            width: 300,
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            width: MediaQuery.of(context).size.width,
                           ),
                         ),
                       )
@@ -350,7 +325,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
                 DateFormat('kk:mm').format(
                     sheduleClassesAndTypes?[index].timeStart ?? DateTime.now()),
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.06,
+                    fontSize: 18 * MediaQuery.of(context).textScaleFactor,
                     color: Colors.white,
                     fontFamily: 'MontserratBold'),
                 textAlign: TextAlign.center,
@@ -361,21 +336,21 @@ class _ShedulesPageState extends State<ShedulesPage> {
               Text(
                 "${sheduleClassesAndTypes?[index].timeDuration?.inMinutes} мин",
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.044,
+                    fontSize: 14 * MediaQuery.of(context).textScaleFactor,
                     color: Colors.white,
                     fontFamily: 'MontserratLight'),
               ),
             ]),
             SizedBox(
                 height: MediaQuery.of(context).size.height * 0.12,
-                width: MediaQuery.of(context).size.width * 0.07),
+                width: MediaQuery.of(context).size.width * 0.04),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "${sheduleClassesAndTypes?[index].type_Name}",
                   style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.05,
+                      fontSize: 18 * MediaQuery.of(context).textScaleFactor,
                       color: Colors.white,
                       fontFamily: 'MontserratBold'),
                   textAlign: TextAlign.center,
@@ -383,7 +358,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
                 Text(
                   "${sheduleClassesAndTypes?[index].location}",
                   style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.044,
+                      fontSize: 15 * MediaQuery.of(context).textScaleFactor,
                       color: Colors.white,
                       fontFamily: 'MontserratLight'),
                   textAlign: TextAlign.center,
@@ -406,7 +381,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
                 Text(
                   "${sheduleClassesAndTypes?[index].teacher_FullName}",
                   style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.04,
+                      fontSize: 13 * MediaQuery.of(context).textScaleFactor,
                       color: Colors.white,
                       fontFamily: 'MontserratLight'),
                   textAlign: TextAlign.center,
@@ -428,7 +403,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
                         .isNotEmpty
                     ? Color.fromARGB(255, 142, 255, 185)
                     : Color.fromARGB(255, 56, 124, 220),
-                size: MediaQuery.of(context).size.width * 0.08,
+                size: 30 * MediaQuery.of(context).textScaleFactor,
               ),
             ),
           ],
@@ -440,6 +415,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
   final ItemScrollController itemScrollController = ItemScrollController();
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -469,7 +445,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
                       _selectedDayIndex = index;
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      padding: EdgeInsets.symmetric(horizontal: 30.0),
                       alignment: Alignment.center,
                       color:
                           index == _selectedDayIndex ? Colors.grey[800] : null,
@@ -479,7 +455,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
                             "${DateFormat('EE').format(dateInApi?[index].date as DateTime)}",
                             style: TextStyle(
                               fontSize:
-                                  MediaQuery.of(context).size.width * 0.05,
+                                  18 * MediaQuery.of(context).textScaleFactor,
                               fontFamily: 'MontserratLight',
                               color: Colors.white,
                             ),
@@ -488,7 +464,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
                             "${DateFormat('MMMMd').format(dateInApi![index].date as DateTime)}",
                             style: TextStyle(
                               fontSize:
-                                  MediaQuery.of(context).size.width * 0.045,
+                                  12 * MediaQuery.of(context).textScaleFactor,
                               fontFamily: 'MontserratLight',
                               color: Colors.white,
                             ),
