@@ -37,12 +37,10 @@ class _ShopPageState extends State<ShopPage> {
   }
 
   void _asyncMethodGet() async {
-    _setState(true);
     listBasket =
         await ApiService().GetAllBasketFullInfoByIdUser(ApiService.user.id_User)
                 as List<BasketFullInfo>? ??
             <BasketFullInfo>[];
-    _setState(false);
   }
 
   List<BasketFullInfo>? GetListBasket() {
@@ -84,7 +82,8 @@ class _ShopPageState extends State<ShopPage> {
       ItemPage(
           callback: _setState,
           getListBasket: GetListBasket,
-          setListBasketItem: SetListBasketItem, showToast: ShowToast),
+          setListBasketItem: SetListBasketItem,
+          showToast: ShowToast),
       BasketPage(callback: _setState),
       HistoryPage(callback: _setState)
     ];
@@ -121,7 +120,7 @@ class _ShopPageState extends State<ShopPage> {
                     ),
                     SalomonBottomBarItem(
                       icon:
-                          Icon(Icons.shopping_cart_checkout_outlined, size: 25),
+                          Icon(Icons.shopping_basket_outlined, size: 25),
                       title: Text("Корзина",
                           style: TextStyle(
                               fontSize: 15, fontFamily: 'MontserratBold')),

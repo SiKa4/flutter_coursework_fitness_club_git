@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_coursework_fitness_club/HTTP_Connections/http_model.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:sizing/sizing.dart';
 
 import '../../../Models/ScheduleСlassesUsers.dart';
 
@@ -63,7 +64,7 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
             child: Text(
               "${DateFormat('MMMMd').format(sheduleClassesUsersFullInfo?[index].timeStart as DateTime)}",
               style: TextStyle(
-                fontSize: 20.0,
+                fontSize: 20.fss,
                 fontFamily: 'MontserratBold',
                 color: Colors.white,
               ),
@@ -108,21 +109,22 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
                       Text(
                         "${scheduleUserFullInfo.type_Name}",
                         style: TextStyle(
-                          fontSize: 22.0,
+                          fontSize: 24.fss,
                           fontFamily: 'MontserratBold',
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(
-                        width: 200,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.5,
                         child: Divider(
                           color: Color.fromARGB(255, 56, 124, 220),
+                          thickness: 1.3,
                         ),
                       ),
                       Text(
                         "Начало: ${DateFormat('kk:mm').format(scheduleUserFullInfo.timeStart as DateTime)} (${scheduleUserFullInfo.timeDuration?.inMinutes} мин)",
                         style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 20.fss,
                           fontFamily: 'MontserratLight',
                           color: Colors.white,
                         ),
@@ -135,15 +137,16 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
                       Text(
                         "Конец: ${DateFormat('kk:mm').format(scheduleUserFullInfo.timeEnd as DateTime)}",
                         style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 20.fss,
                           fontFamily: 'MontserratLight',
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(
-                        width: 300,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.6,
                         child: Divider(
                           color: Color.fromARGB(255, 56, 124, 220),
+                          thickness: 1.3,
                         ),
                       ),
                       SizedBox(
@@ -154,10 +157,10 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
                         width: MediaQuery.of(context).size.width * 0.6,
                         child: OutlinedButton.icon(
                           // ignore: sort_child_properties_last
-                          label: const Text(
+                          label: Text(
                             'Отменить запись',
                             style: TextStyle(
-                              fontSize: 17,
+                              fontSize: 17.fss,
                               color: Color.fromARGB(255, 149, 178, 218),
                               fontFamily: 'MontserratBold',
                             ),
@@ -252,7 +255,7 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
                                 Text(
                                   "${DateFormat('MMMMd').format(sheduleClassesUsersFullInfo?[index].timeStart as DateTime)}",
                                   style: TextStyle(
-                                    fontSize: 20.0,
+                                    fontSize: 20.fss,
                                     fontFamily: 'MontserratBold',
                                     color: Colors.white,
                                   ),
@@ -262,12 +265,20 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
                                         0.005,
                                     width: MediaQuery.of(context).size.width *
                                         0.05),
-                                Text(
-                                  "${DateFormat('kk:mm (${sheduleClassesUsersFullInfo?[index].timeDuration?.inMinutes} мин)').format(sheduleClassesUsersFullInfo?[index].timeStart as DateTime)}",
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontFamily: 'MontserratLight',
-                                    color: Colors.white,
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.2,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.05,
+                                  child: Text(
+                                    "${DateFormat('kk:mm ' + '\n' + ' (${sheduleClassesUsersFullInfo?[index].timeDuration?.inMinutes} мин)').format(sheduleClassesUsersFullInfo?[index].timeStart as DateTime)}",
+                                    maxLines: 2,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16.7.fss,
+                                      fontFamily: 'MontserratLight',
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ]),
@@ -279,30 +290,31 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
                             children: [
                               Text(
                                 "${sheduleClassesUsersFullInfo?[index].type_Name}",
-                                style: const TextStyle(
-                                    fontSize: 22.0,
+                                style: TextStyle(
+                                    fontSize: 22.fss,
                                     color: Colors.white,
                                     fontFamily: 'MontserratBold'),
                                 textAlign: TextAlign.center,
                               ),
                               Text(
                                 "${sheduleClassesUsersFullInfo?[index].location}",
-                                style: const TextStyle(
-                                    fontSize: 18.0,
+                                style: TextStyle(
+                                    fontSize: 17.7.fss,
                                     color: Colors.white,
                                     fontFamily: 'MontserratLight'),
                                 textAlign: TextAlign.center,
                               ),
-                              const SizedBox(
-                                width: 200,
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.5,
                                 child: Divider(
                                   color: Color.fromARGB(255, 56, 124, 220),
+                                  thickness: 1.3,
                                 ),
                               ),
                               Text(
                                 "${sheduleClassesUsersFullInfo?[index].teacher_FullName}",
-                                style: const TextStyle(
-                                    fontSize: 12.0,
+                                style: TextStyle(
+                                    fontSize: 16.5.fss,
                                     color: Colors.white,
                                     fontFamily: 'MontserratLight'),
                                 textAlign: TextAlign.center,
@@ -327,7 +339,7 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
                 color: Colors.black45,
                 child: LoadingAnimationWidget.fourRotatingDots(
                   color: Colors.blue,
-                  size: 50,
+                  size: 50.ss,
                 ))
             : SizedBox.shrink()
       ]),

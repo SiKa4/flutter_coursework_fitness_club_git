@@ -158,9 +158,11 @@ class _ItemPageState extends State<ItemPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.95,
                       child: Divider(
-                        color: basket == null
-                            ? Color.fromARGB(255, 56, 124, 220)
-                            : Color.fromARGB(255, 142, 255, 185),
+                        color: item.itemCount! < 10 && item.itemCount! > 0
+                            ? Color.fromARGB(255, 255, 200, 2)
+                            : item.itemCount! == 0
+                                ? Color.fromARGB(255, 255, 67, 67)
+                                : Color.fromARGB(255, 142, 255, 185),
                         thickness: 2,
                       ),
                     ),
@@ -285,9 +287,10 @@ class _ItemPageState extends State<ItemPage> {
                             child: OutlinedButton(
                               // ignore: sort_child_properties_last
                               child: Text(
-                                "${basket == null ? "Добавить" : "Изменить"}",
+                                "${item.itemCount == 0 ? "Нет в наличии" : basket == null ? "Добавить" : "Изменить"}",
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 13.3.fss,
+                                  fontSize: 13.fss,
                                   color: Color.fromARGB(255, 149, 178, 218),
                                   fontFamily: 'MontserratBold',
                                 ),
@@ -299,19 +302,25 @@ class _ItemPageState extends State<ItemPage> {
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20)))),
-                              onPressed: () async {
-                                BasketFullInfo? answer = await ApiService()
-                                    .PostBasket(ApiService.user.id_User,
-                                        item.id_ShopItem, cntItem);
-                                Navigator.pop(context);
-                                if (answer != null) {
-                                  widget.setListBasketItem(answer);
-                                  widget
-                                      .showToast("Успешно, корзина обновлена!");
-                                } else {
-                                  widget.showToast("Ошибка!!!");
-                                }
-                              },
+                              onPressed: item.itemCount != 0
+                                  ? () async {
+                                      Navigator.pop(context);
+                                      BasketFullInfo? answer =
+                                          await ApiService().PostBasket(
+                                              ApiService.user.id_User,
+                                              item.id_ShopItem,
+                                              cntItem);
+                                      if (answer != null) {
+                                        setState(() {
+                                          widget.setListBasketItem(answer);
+                                        });
+                                        widget.showToast(
+                                            "Успешно, корзина обновлена!");
+                                      } else {
+                                        widget.showToast("Ошибка!!!");
+                                      }
+                                    }
+                                  : null,
                             ),
                           ),
                         ),
@@ -361,16 +370,52 @@ class _ItemPageState extends State<ItemPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: SizedBox.fromSize(
-                          size: Size.fromRadius(100),
-                          child: Image.network('${listItem![index].image_URL}',
-                              fit: BoxFit.cover),
+                    Stack(children: [
+                      Center(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: SizedBox.fromSize(
+                            size: Size.fromRadius(100),
+                            child: Image.network(
+                                '${listItem![index].image_URL}',
+                                fit: BoxFit.cover),
+                          ),
                         ),
                       ),
-                    ),
+                      widget.getListBasket
+                              .call()!
+                              .where((x) =>
+                                  x.item_id == listItem![index].id_ShopItem)
+                              .isNotEmpty
+                          ? Positioned.fill(
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.12,
+                                width:
+                                    MediaQuery.of(context).size.width * 0.977,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Color.fromARGB(149, 25, 25, 25),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(10, 0, 0, 5),
+                                  child: Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(0, 0, 0, 5),
+                                        child: Icon(
+                                          Icons.shopping_cart_checkout_outlined,
+                                          color:
+                                              Color.fromARGB(255, 255, 255, 255),
+                                          size: 30.ss,
+                                        )),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : SizedBox.shrink()
+                    ]),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.036,
                       child: Padding(

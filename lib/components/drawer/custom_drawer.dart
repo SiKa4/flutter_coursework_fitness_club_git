@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizing/sizing.dart';
 
 import '../../Pages/home.dart';
 import 'bottom_user_info.dart';
@@ -120,7 +121,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         ? Icons.arrow_back_ios
                         : Icons.arrow_forward_ios,
                     color: Colors.white,
-                    size: 16,
+                    size: 18.ss,
                   ),
                   onPressed: () {
                     setState(() {

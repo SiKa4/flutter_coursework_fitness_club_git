@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_coursework_fitness_club/HTTP_Connections/http_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizing/sizing.dart';
 
 import '../../Animation/anim.dart';
 import '../../Pages/profile.dart';
@@ -31,9 +32,8 @@ class BottomUserInfo extends StatelessWidget {
                     Expanded(
                       flex: 2,
                       child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 10),
-                        width: 40,
-                        height: 40,
+                        margin: const EdgeInsets.symmetric(horizontal: 7),
+                        height: MediaQuery.of(context).size.height * 0.05,
                         decoration: BoxDecoration(
                           color: Colors.grey,
                           borderRadius: BorderRadius.circular(20),
@@ -42,7 +42,7 @@ class BottomUserInfo extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                             child: Icon(
                               Icons.account_box_outlined,
-                              size: 30,
+                              size: 30.ss,
                             )),
                       ),
                     ),
@@ -59,8 +59,8 @@ class BottomUserInfo extends StatelessWidget {
                                 ApiService.user.fullName.toString(),
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                                  fontFamily: 'MontserratBold',
+                                  fontSize: 14.fss,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.clip,
@@ -72,6 +72,8 @@ class BottomUserInfo extends StatelessWidget {
                               '${ApiService.user.role_Name}',
                               style: TextStyle(
                                 color: Colors.grey,
+                                fontFamily: 'MontserratLight',
+                                  fontSize: 14.fss,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -117,8 +119,8 @@ class BottomUserInfo extends StatelessWidget {
                   child: InkWell(
                     child: Container(
                       margin: const EdgeInsets.only(top: 10),
-                      width: 40,
-                      height: 40,
+                      width: MediaQuery.of(context).size.width * 0.1,
+                      height: MediaQuery.of(context).size.height * 0.05,
                       decoration: BoxDecoration(
                         color: Colors.grey,
                         borderRadius: BorderRadius.circular(20),
@@ -145,10 +147,10 @@ class BottomUserInfo extends StatelessWidget {
                       Navigator.pushNamedAndRemoveUntil(
                                 context, "/", (route) => false);
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.logout,
                       color: Colors.white,
-                      size: 18,
+                      size: 18.ss,
                     ),
                   ),
                 ),

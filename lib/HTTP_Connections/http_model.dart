@@ -195,7 +195,6 @@ class ApiService {
   }
 
   Future<List<Item?>?> GetAllItem() async {
-    await Future.delayed(const Duration(seconds: 1));
     final response =
         await http.get(Uri.parse('$baseUrl/shopItem'), headers: headers);
     if (response.statusCode == 200) {

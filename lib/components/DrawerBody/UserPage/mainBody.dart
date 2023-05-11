@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_coursework_fitness_club/Pages/profile.dart';
+import 'package:sizing/sizing_extension.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../Animation/anim.dart';
@@ -67,10 +68,10 @@ class _MainBodyState extends State<MainBody> {
         width: MediaQuery.of(context).size.width * 0.75,
         child: OutlinedButton.icon(
           // ignore: sort_child_properties_last
-          label: const Text(
+          label: Text(
             'Личный кабинет',
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 14.fss,
               color: Color.fromARGB(255, 149, 178, 218),
               fontFamily: 'MontserratBold',
             ),
@@ -99,10 +100,10 @@ class _MainBodyState extends State<MainBody> {
             width: MediaQuery.of(context).size.width * 0.45,
             child: OutlinedButton.icon(
               // ignore: sort_child_properties_last
-              label: const Text(
+              label: Text(
                 "Магазин",
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 14.fss,
                   color: Color.fromARGB(255, 149, 178, 218),
                   fontFamily: 'MontserratBold',
                 ),
@@ -126,10 +127,10 @@ class _MainBodyState extends State<MainBody> {
             width: MediaQuery.of(context).size.width * 0.45,
             child: OutlinedButton.icon(
               // ignore: sort_child_properties_last
-              label: const Text(
+              label: Text(
                 'Обратный звонок',
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 14.fss,
                   color: Color.fromARGB(255, 149, 178, 218),
                   fontFamily: 'MontserratBold',
                 ),
@@ -149,8 +150,8 @@ class _MainBodyState extends State<MainBody> {
         ],
       ),
       SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-      const SizedBox(
-        width: 350,
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.9,
         child: Divider(
           color: Color.fromARGB(255, 56, 124, 220),
         ),

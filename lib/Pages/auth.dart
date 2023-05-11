@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizing/sizing.dart';
 
 import '../Animation/anim.dart';
 import '../HTTP_Connections/http_model.dart';
@@ -167,11 +168,11 @@ class _AuthPageState extends State<AuthPage> {
                                   horizontal: 24.0, vertical: 32.0),
                               child: !isCodeEnter
                                   ? Column(children: [
-                                      const Text(
+                                      Text(
                                         "Зарегистрируйте аккаунт используя \nпочту и пароль",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 15,
+                                          fontSize: 15.fss,
                                           fontFamily: 'MontserratLight',
                                           fontWeight: FontWeight.bold,
                                           color:
@@ -218,13 +219,13 @@ class _AuthPageState extends State<AuthPage> {
                                             label: Text("Почта",
                                                 style: TextStyle(
                                                     color: Colors.white30,
-                                                    fontSize: 20)),
+                                                    fontSize: 20.fss)),
                                             hintStyle:
                                                 TextStyle(color: Colors.white),
                                             prefixIcon: Icon(
                                                 Icons.alternate_email,
                                                 color: Colors.white,
-                                                size: 40)),
+                                                size: 36.ss)),
                                         onChanged: (value) {
                                           if (isCheck) {
                                             _formKey.currentState!.validate();
@@ -239,8 +240,8 @@ class _AuthPageState extends State<AuthPage> {
                                           }
                                           return null;
                                         },
-                                        style: const TextStyle(
-                                            fontSize: 22.0,
+                                        style: TextStyle(
+                                            fontSize: 20.fss,
                                             color: Colors.white,
                                             fontFamily: 'MontserratLight'),
                                         cursorColor: Colors.white10,
@@ -297,15 +298,15 @@ class _AuthPageState extends State<AuthPage> {
                                             label: Text("ФИО",
                                                 style: TextStyle(
                                                     color: Colors.white30,
-                                                    fontSize: 20)),
+                                                    fontSize: 20.fss)),
                                             hintStyle:
                                                 TextStyle(color: Colors.white),
                                             prefixIcon: Icon(
                                                 Icons.account_circle_rounded,
                                                 color: Colors.white,
-                                                size: 40)),
-                                        style: const TextStyle(
-                                            fontSize: 22.0,
+                                                size: 36.ss)),
+                                        style: TextStyle(
+                                            fontSize: 20.fss,
                                             color: Colors.white,
                                             fontFamily: 'MontserratLight'),
                                         cursorColor: Colors.white10,
@@ -364,13 +365,13 @@ class _AuthPageState extends State<AuthPage> {
                                             label: Text("Номер телефона",
                                                 style: TextStyle(
                                                     color: Colors.white30,
-                                                    fontSize: 20)),
+                                                    fontSize: 20.fss)),
                                             hintStyle:
                                                 TextStyle(color: Colors.white),
                                             prefixIcon: Icon(Icons.call,
-                                                color: Colors.white, size: 40)),
-                                        style: const TextStyle(
-                                            fontSize: 22.0,
+                                                color: Colors.white, size: 36.ss)),
+                                        style: TextStyle(
+                                            fontSize: 20.fss,
                                             color: Colors.white,
                                             fontFamily: 'MontserratLight'),
                                         cursorColor: Colors.white10,
@@ -428,11 +429,11 @@ class _AuthPageState extends State<AuthPage> {
                                             filled: true,
                                             fillColor:
                                                 Color.fromARGB(255, 54, 54, 54),
-                                            label: const Text(
+                                            label: Text(
                                               "Пароль",
                                               style: TextStyle(
                                                 color: Colors.white30,
-                                                fontSize: 20,
+                                                fontSize: 20.fss,
                                               ),
                                             ),
                                             suffixIcon: IconButton(
@@ -451,10 +452,10 @@ class _AuthPageState extends State<AuthPage> {
                                                 TextStyle(color: Colors.white),
                                             // ignore: prefer_const_constructors
                                             prefixIcon: Icon(Icons.password,
-                                                color: Colors.white, size: 40)),
+                                                color: Colors.white, size: 36.ss)),
 
-                                        style: const TextStyle(
-                                            fontSize: 22.0,
+                                        style: TextStyle(
+                                            fontSize: 20.fss,
                                             color: Colors.white,
                                             fontFamily: 'MontserratLight'),
                                         cursorColor: Colors.white10,
@@ -500,11 +501,11 @@ class _AuthPageState extends State<AuthPage> {
                                             filled: true,
                                             fillColor:
                                                 Color.fromARGB(255, 54, 54, 54),
-                                            label: const Text(
+                                            label: Text(
                                               "Повторите пароль",
                                               style: TextStyle(
                                                   color: Colors.white30,
-                                                  fontSize: 20),
+                                                  fontSize: 20.fss),
                                             ),
                                             border: OutlineInputBorder(
                                               borderRadius:
@@ -542,7 +543,7 @@ class _AuthPageState extends State<AuthPage> {
                                                 color: Colors.white),
                                             // ignore: prefer_const_constructors
                                             prefixIcon: Icon(Icons.password,
-                                                color: Colors.white, size: 40)),
+                                                color: Colors.white, size: 36.ss)),
                                         validator: (value) {
                                           if (passwordReg.text !=
                                                   password2Reg.text ||
@@ -556,8 +557,8 @@ class _AuthPageState extends State<AuthPage> {
                                             _formKey.currentState!.validate();
                                           }
                                         },
-                                        style: const TextStyle(
-                                            fontSize: 22.0,
+                                        style: TextStyle(
+                                            fontSize: 20.fss,
                                             color: Colors.white,
                                             fontFamily: 'MontserratLight'),
 
@@ -628,10 +629,10 @@ class _AuthPageState extends State<AuthPage> {
                                     ])
                                   : Column(
                                       children: [
-                                        const Text(
+                                        Text(
                                           "Подтвердите почту",
                                           style: TextStyle(
-                                            fontSize: 22,
+                                            fontSize: 22.fss,
                                             fontFamily: 'MontserratBold',
                                             color: Color.fromARGB(
                                                 255, 149, 178, 218),
@@ -642,10 +643,10 @@ class _AuthPageState extends State<AuthPage> {
                                                     .size
                                                     .height *
                                                 0.01),
-                                        const Text(
+                                        Text(
                                           "Код был отправлен вам на почтовый адрес",
                                           style: TextStyle(
-                                            fontSize: 15,
+                                            fontSize: 15.fss,
                                             fontFamily: 'MontserratLight',
                                             fontWeight: FontWeight.bold,
                                             color: Color.fromARGB(
@@ -709,7 +710,7 @@ class _AuthPageState extends State<AuthPage> {
                                                 style: TextStyle(
                                                     color: Color.fromARGB(
                                                         255, 38, 122, 240),
-                                                    fontSize: 45),
+                                                    fontSize: 40.fss),
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
@@ -767,7 +768,7 @@ class _AuthPageState extends State<AuthPage> {
                                                 style: TextStyle(
                                                     color: Color.fromARGB(
                                                         255, 38, 122, 240),
-                                                    fontSize: 45),
+                                                    fontSize: 40.fss),
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
@@ -825,7 +826,7 @@ class _AuthPageState extends State<AuthPage> {
                                                 style: TextStyle(
                                                     color: Color.fromARGB(
                                                         255, 38, 122, 240),
-                                                    fontSize: 45),
+                                                    fontSize: 40.fss),
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
@@ -883,7 +884,7 @@ class _AuthPageState extends State<AuthPage> {
                                                 style: TextStyle(
                                                     color: Color.fromARGB(
                                                         255, 38, 122, 240),
-                                                    fontSize: 45),
+                                                    fontSize: 40.fss),
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
@@ -941,7 +942,7 @@ class _AuthPageState extends State<AuthPage> {
                                                 style: TextStyle(
                                                     color: Color.fromARGB(
                                                         255, 38, 122, 240),
-                                                    fontSize: 45),
+                                                    fontSize: 40.fss),
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
@@ -996,13 +997,13 @@ class _AuthPageState extends State<AuthPage> {
                             topRight: Radius.circular(60))),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 24.0, vertical: 32.0),
+                          horizontal: 0, vertical: 32.0),
                       child: Column(
                         children: [
-                          const Text(
+                          Text(
                             "Фитнес-клуб - 'GLY UP'",
                             style: TextStyle(
-                              fontSize: 24,
+                              fontSize: 22.fss,
                               fontFamily: 'MontserratBold',
                               color: Color.fromARGB(255, 149, 178, 218),
                             ),
@@ -1010,10 +1011,10 @@ class _AuthPageState extends State<AuthPage> {
                           SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.007),
-                          const Text(
+                          Text(
                             "Войдите в свой аккаунт",
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 15.fss,
                               fontFamily: 'MontserratLight',
                               fontWeight: FontWeight.bold,
                               color: Color.fromARGB(255, 43, 82, 136),
@@ -1042,9 +1043,9 @@ class _AuthPageState extends State<AuthPage> {
                                 hintStyle: const TextStyle(color: Colors.white),
                                 // ignore: prefer_const_constructors
                                 prefixIcon: Icon(Icons.alternate_email,
-                                    color: Colors.white, size: 40)),
-                            style: const TextStyle(
-                                fontSize: 22.0,
+                                    color: Colors.white, size: 36.ss)),
+                            style: TextStyle(
+                                fontSize: 20.fss,
                                 color: Colors.white,
                                 fontFamily: 'MontserratLight'),
                             cursorColor: Colors.white10,
@@ -1069,17 +1070,17 @@ class _AuthPageState extends State<AuthPage> {
                                 ),
                                 filled: true,
                                 fillColor: Color.fromARGB(255, 54, 54, 54),
-                                label: const Text(
+                                label: Text(
                                   "Пароль",
                                   style: TextStyle(
-                                      color: Colors.white30, fontSize: 20),
+                                      color: Colors.white30, fontSize: 20.fss),
                                 ),
                                 hintStyle: TextStyle(color: Colors.white),
                                 // ignore: prefer_const_constructors
                                 prefixIcon: Icon(Icons.password,
-                                    color: Colors.white, size: 40)),
-                            style: const TextStyle(
-                                fontSize: 22.0,
+                                    color: Colors.white, size: 36.ss)),
+                            style: TextStyle(
+                                fontSize: 20.fss,
                                 color: Colors.white,
                                 fontFamily: 'MontserratLight'),
                             cursorColor: Colors.white10,
@@ -1092,10 +1093,10 @@ class _AuthPageState extends State<AuthPage> {
                             width: MediaQuery.of(context).size.width * 0.75,
                             child: OutlinedButton(
                               // ignore: sort_child_properties_last
-                              child: const Text(
+                              child: Text(
                                 'Войти',
                                 style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 19.fss,
                                     color: Color.fromARGB(255, 149, 178, 218),
                                     fontFamily: 'MontserratBold'),
                               ),
@@ -1142,7 +1143,7 @@ class _AuthPageState extends State<AuthPage> {
                             width: MediaQuery.of(context).size.width * 0.6,
                             // ignore: prefer_const_constructors
                             child: Divider(
-                              thickness: 1,
+                              thickness: 1.3,
                               color: const Color.fromARGB(255, 43, 82, 136),
                             ),
                           ),
@@ -1154,10 +1155,10 @@ class _AuthPageState extends State<AuthPage> {
                             width: MediaQuery.of(context).size.width * 0.75,
                             child: OutlinedButton(
                               // ignore: sort_child_properties_last
-                              child: const Text(
+                              child: Text(
                                 'Регистрация',
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 19.fss,
                                   color: Color.fromARGB(255, 149, 178, 218),
                                   fontFamily: 'MontserratBold',
                                 ),
@@ -1185,11 +1186,11 @@ class _AuthPageState extends State<AuthPage> {
                           SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.02),
-                          const InkWell(
+                          InkWell(
                             child: Text(
                               "Забыли пароль? Восстановить.",
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 13.fss,
                                 fontFamily: 'MontserratBold',
                                 color: Color.fromARGB(255, 149, 178, 218),
                               ),

@@ -35,10 +35,10 @@ class _ShedulesPageState extends State<ShedulesPage> {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter mystate) {
             return FractionallySizedBox(
-              heightFactor: 0.73,
+              heightFactor: 0.55,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.73,
+                height: MediaQuery.of(context).size.height * 0.55,
                 decoration: BoxDecoration(
                     color: Color.fromARGB(255, 48, 48, 48),
                     borderRadius: BorderRadius.only(
@@ -72,7 +72,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
                       Text(
                         "Начало: ${DateFormat('kk:mm').format(sheduleClassesAndTypes.timeStart as DateTime)} (${sheduleClassesAndTypes.timeDuration?.inMinutes} минут)",
                         style: TextStyle(
-                          fontSize: 22.fss,
+                          fontSize: 20.fss,
                           fontFamily: 'MontserratLight',
                           color: Colors.white,
                         ),
@@ -85,15 +85,19 @@ class _ShedulesPageState extends State<ShedulesPage> {
                       Text(
                         "Конец: ${DateFormat('kk:mm').format(sheduleClassesAndTypes.timeEnd as DateTime)}",
                         style: TextStyle(
-                          fontSize: 22.fss,
+                          fontSize: 20.fss,
                           fontFamily: 'MontserratLight',
                           color: Colors.white,
                         ),
+                      ),
+                       SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.6,
                         child: Divider(
                           color: Color.fromARGB(255, 56, 124, 220),
+                          thickness: 1.3,
                         ),
                       ),
                       SizedBox(
@@ -146,7 +150,11 @@ class _ShedulesPageState extends State<ShedulesPage> {
                         width: MediaQuery.of(context).size.width * 0.6,
                         child: Divider(
                           color: Color.fromARGB(255, 56, 124, 220),
+                          thickness: 1.3,
                         ),
+                      ),
+                       SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
                       ),
                       Text(
                         "Кабинет: ${sheduleClassesAndTypes.location}",
@@ -189,17 +197,17 @@ class _ShedulesPageState extends State<ShedulesPage> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: SizedBox.fromSize(
-                          child: Image.network(
-                            '${sheduleClassesAndTypes.image_Type}',
-                            fit: BoxFit.fill,
-                            height: 150.ss,
-                            width: MediaQuery.of(context).size.width,
-                          ),
-                        ),
-                      )
+                      // ClipRRect(
+                      //   borderRadius: BorderRadius.circular(20),
+                      //   child: SizedBox.fromSize(
+                      //     child: Image.network(
+                      //       '${sheduleClassesAndTypes.image_Type}',
+                      //       fit: BoxFit.fill,
+                      //       height: 150.ss,
+                      //       width: MediaQuery.of(context).size.width,
+                      //     ),
+                      //   ),
+                      // )
                     ],
                   ),
                 ),
@@ -482,21 +490,16 @@ class _ShedulesPageState extends State<ShedulesPage> {
                   } else {
                     return Stack(children: [
                       cardList(index),
-                      Center(
-                        child: Column(children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.005,
+                      Positioned.fill(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.12,
+                          width: MediaQuery.of(context).size.width * 0.977,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Color.fromARGB(149, 25, 25, 25),
                           ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.12,
-                            width: MediaQuery.of(context).size.width * 0.977,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Color.fromARGB(149, 25, 25, 25),
-                            ),
-                          ),
-                        ]),
-                      )
+                        ),
+                      ),
                     ]);
                   }
                 },

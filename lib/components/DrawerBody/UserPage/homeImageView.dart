@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:sizing/sizing.dart';
 
 class homeImageView extends StatelessWidget {
   const homeImageView(this.heading, this.image, {super.key});
@@ -17,13 +18,16 @@ class homeImageView extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.3,
               width: MediaQuery.of(context).size.width),
           Positioned.fill(child: Container(color: Colors.black38)),
-          Text(
-            heading,
-            textAlign: TextAlign.left,
-            style: const TextStyle(
-              fontSize: 25.0,
-              fontFamily: 'MontserratLight',
-              color: Color.fromARGB(255, 220, 220, 220),
+          Padding(
+            padding: EdgeInsets.all(5),
+            child: Text(
+              heading,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 22.fss,
+                fontFamily: 'MontserratLight',
+                color: Color.fromARGB(255, 220, 220, 220),
+              ),
             ),
           ),
         ]),

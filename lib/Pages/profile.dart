@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizing/sizing.dart';
 
 import '../HTTP_Connections/http_model.dart';
 import '../Models/UsersLogins.dart';
@@ -95,12 +96,12 @@ class _MyProfileState extends State<MyProfile> {
                       ),
                       label: Text("ФИО",
                           style:
-                              TextStyle(color: Colors.white30, fontSize: 20)),
+                              TextStyle(color: Colors.white30, fontSize: 20.fss)),
                       hintStyle: TextStyle(color: Colors.white),
                       prefixIcon: Icon(Icons.account_circle_rounded,
-                          color: Colors.white, size: 40)),
-                  style: const TextStyle(
-                      fontSize: 22.0,
+                          color: Colors.white, size: 36.ss)),
+                  style: TextStyle(
+                      fontSize: 20.fss,
                       color: Colors.white,
                       fontFamily: 'MontserratLight'),
                   cursorColor: Colors.white10,
@@ -129,10 +130,10 @@ class _MyProfileState extends State<MyProfile> {
                       ),
                       label: Text("Почта",
                           style:
-                              TextStyle(color: Colors.white30, fontSize: 20)),
+                              TextStyle(color: Colors.white30, fontSize: 20.fss)),
                       hintStyle: TextStyle(color: Colors.white),
                       prefixIcon: Icon(Icons.alternate_email,
-                          color: Colors.white, size: 40)),
+                          color: Colors.white, size: 36.ss)),
                   onChanged: (value) {
                     if (isCheck) {
                       _formKey.currentState!.validate();
@@ -146,8 +147,8 @@ class _MyProfileState extends State<MyProfile> {
                     }
                     return null;
                   },
-                  style: const TextStyle(
-                      fontSize: 22.0,
+                  style: TextStyle(
+                      fontSize: 20.fss,
                       color: Colors.white,
                       fontFamily: 'MontserratLight'),
                   cursorColor: Colors.white10,
@@ -190,12 +191,12 @@ class _MyProfileState extends State<MyProfile> {
                       ),
                       label: Text("Номер телефона",
                           style:
-                              TextStyle(color: Colors.white30, fontSize: 20)),
+                              TextStyle(color: Colors.white30, fontSize: 20.fss)),
                       hintStyle: TextStyle(color: Colors.white),
                       prefixIcon:
-                          Icon(Icons.call, color: Colors.white, size: 40)),
-                  style: const TextStyle(
-                      fontSize: 22.0,
+                          Icon(Icons.call, color: Colors.white, size: 36.ss)),
+                  style: TextStyle(
+                      fontSize: 20.fss,
                       color: Colors.white,
                       fontFamily: 'MontserratLight'),
                   cursorColor: Colors.white10,
@@ -224,19 +225,19 @@ class _MyProfileState extends State<MyProfile> {
                       ),
                       label: Text("Роль",
                           style:
-                              TextStyle(color: Colors.white30, fontSize: 20)),
+                              TextStyle(color: Colors.white30, fontSize: 20.fss)),
                       hintStyle: TextStyle(color: Colors.white),
                       prefixIcon: Icon(Icons.account_circle_rounded,
-                          color: Colors.white, size: 40)),
-                  style: const TextStyle(
-                      fontSize: 22.0,
+                          color: Colors.white, size: 36.ss)),
+                  style: TextStyle(
+                      fontSize: 20.fss,
                       color: Colors.white,
                       fontFamily: 'MontserratLight'),
                   cursorColor: Colors.white10,
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                const SizedBox(
-                  width: 350,
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
                   child: Divider(
                     color: Color.fromARGB(255, 56, 124, 220),
                   ),
@@ -244,13 +245,13 @@ class _MyProfileState extends State<MyProfile> {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
-                  width: MediaQuery.of(context).size.width * 0.75,
+                  width: MediaQuery.of(context).size.width * 0.5,
                   child: OutlinedButton(
                     // ignore: sort_child_properties_last
-                    child: const Text(
+                    child: Text(
                       'Сохранить',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16.fss,
                         color: Color.fromARGB(255, 149, 178, 218),
                         fontFamily: 'MontserratBold',
                       ),

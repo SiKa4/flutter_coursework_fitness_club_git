@@ -1,5 +1,6 @@
 import 'package:drop_shadow/drop_shadow.dart';
 import 'package:flutter/material.dart';
+import 'package:sizing/sizing.dart';
 
 class CustomDrawerHeader extends StatelessWidget {
   final bool isColapsed;
@@ -13,7 +14,7 @@ class CustomDrawerHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
-      height: 60,
+      height: MediaQuery.of(context).size.height * 0.07,
       width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -22,19 +23,19 @@ class CustomDrawerHeader extends StatelessWidget {
             child: Image.asset(
                 "assets/images/logofitnes.png",
                 fit: BoxFit.cover,
-                width: MediaQuery.of(context).size.width * 0.2
+                width: MediaQuery.of(context).size.width * 0.3
               ),
           ), 
           if (isColapsed) const SizedBox(width: 10),
           if (isColapsed)
-            const Expanded(
+            Expanded(
               flex: 3,
               child: Text(
                 'GLY UP',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: 20.fss,
                 ),
                 maxLines: 1,
               ),

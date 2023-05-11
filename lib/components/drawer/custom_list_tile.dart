@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizing/sizing.dart';
 
 class CustomListTile extends StatelessWidget {
   final bool isCollapsed;
@@ -20,7 +21,7 @@ class CustomListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
         duration: const Duration(milliseconds: 500),
-        width: isCollapsed ? 300 : 80,
+        width: isCollapsed ? MediaQuery.of(context).size.width * 0.7 : MediaQuery.of(context).size.width * 0.2,
         height: 40,
         child: Row(
           children: [
@@ -60,7 +61,9 @@ class CustomListTile extends StatelessWidget {
                       flex: 4,
                       child: Text(
                         title,
-                        style: const TextStyle(
+                        style: TextStyle(
+                          fontSize: 13.fss,
+                          fontFamily: 'MontserratBold',
                           color: Colors.white,
                         ),
                         maxLines: 1,
@@ -100,7 +103,7 @@ class CustomListTile extends StatelessWidget {
                     ? Icon(
                           doHaveMoreOptions,
                           color: Colors.white,
-                          size: 12,
+                          size: 12.ss,
                       )
                     : const Center(),
               ),
