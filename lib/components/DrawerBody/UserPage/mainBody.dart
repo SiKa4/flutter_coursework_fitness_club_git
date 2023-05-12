@@ -10,7 +10,7 @@ import '../../../Animation/anim.dart';
 import 'homeImageView.dart';
 
 class MainBody extends StatefulWidget {
-  final void Function(int) callback;
+  final void Function(int, int) callback;
   const MainBody({super.key, required this.callback});
 
   @override
@@ -118,7 +118,7 @@ class _MainBodyState extends State<MainBody> {
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)))),
               onPressed: () {
-                widget.callback(4);
+                widget.callback(4, 4);
               },
             ),
           ),

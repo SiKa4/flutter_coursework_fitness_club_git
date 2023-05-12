@@ -7,7 +7,7 @@ import 'custom_list_tile.dart';
 import 'header.dart';
 
 class CustomDrawer extends StatefulWidget {
-  final void Function(int) callback;
+  final void Function(int, int) callback;
   const CustomDrawer({Key? key, required this.callback}) : super(key: key);
 
   @override
@@ -50,7 +50,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   infoCount: 0,
                 ),
                 onTap: () {
-                  widget.callback(0);
+                  widget.callback(0, 0);
                   Navigator.pop(context);
                 },
               ),
@@ -63,7 +63,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   infoCount: 0,
                 ),
                 onTap: () {
-                  widget.callback(1);
+                  widget.callback(1, 1);
                   Navigator.pop(context);
                 },
               ),
@@ -76,7 +76,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   infoCount: 0,
                 ),
                 onTap: () {
-                  widget.callback(2);
+                  widget.callback(2, 2);
                   Navigator.pop(context);
                 },
               ),
@@ -89,7 +89,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   infoCount: 0,
                 ),
                 onTap: () {
-                  widget.callback(3);
+                  widget.callback(3, 3);
                   Navigator.pop(context);
                 },
               ),
@@ -102,7 +102,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   infoCount: 0,
                 ),
                 onTap: () {
-                  widget.callback(4);
+                  widget.callback(4, 4);
                   Navigator.pop(context);
                 },
               ),
