@@ -27,6 +27,7 @@ class _ShopPageState extends State<ShopPage> {
   @override
   bool isLoading = false;
   bool isDispose = false;
+  bool isActiveNavBar = true;
   List<BasketFullInfo>? listBasket;
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -48,6 +49,10 @@ class _ShopPageState extends State<ShopPage> {
             <BasketFullInfo>[];
   }
 
+  void SetIsSelectedItem(int index, bool isSelected) {
+    listBasket![index].isSelected = isSelected;
+  }
+
   List<BasketFullInfo>? GetListBasket() {
     return listBasket;
   }
@@ -55,6 +60,12 @@ class _ShopPageState extends State<ShopPage> {
   void ShowToast(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(message), duration: const Duration(seconds: 2)));
+  }
+
+  void NavBarShopPage(bool isActiveNavBar) {
+    setState(() {
+      this.isActiveNavBar = isActiveNavBar;
+    });
   }
 
   void SetListBasketItem(BasketFullInfo? basket) {
@@ -371,7 +382,12 @@ class _ShopPageState extends State<ShopPage> {
           callback: _setState,
           getListBasket: GetListBasket,
           showBottomSheet: ShowBottomSheet),
-      BasketPage(getListBasket: GetListBasket, showToast: ShowToast),
+      BasketPage(
+        getListBasket: GetListBasket,
+        showToast: ShowToast,
+        setIsSelectedItem: SetIsSelectedItem,
+        navBarShopPage: NavBarShopPage,
+      ),
       HistoryPage(callback: _setState, getListBasket: GetListBasket)
     ];
 
@@ -380,53 +396,58 @@ class _ShopPageState extends State<ShopPage> {
           extendBody: true,
           extendBodyBehindAppBar: true,
           backgroundColor: Color.fromARGB(255, 28, 28, 28),
-          bottomNavigationBar: Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 3),
-            child: Container(
-              decoration: new BoxDecoration(
-                border: Border.all(
-                    width: 1, color: Color.fromARGB(255, 20, 20, 20)),
-                borderRadius: new BorderRadius.all(Radius.circular(25.0)),
-              ),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(23)),
-                child: SalomonBottomBar(
-                  backgroundColor: Color.fromARGB(255, 47, 47, 47),
-                  currentIndex: index,
-                  onTap: (i) {
-                    setState(() {
-                      index = i;
-                      widget.callback(4, 4 + i);
-                    });
-                  },
-                  unselectedItemColor: Colors.white60,
-                  selectedItemColor: Color.fromARGB(255, 92, 140, 207),
-                  items: [
-                    SalomonBottomBarItem(
-                      icon: Icon(Icons.apps_outlined, size: 25),
-                      title: Text(
-                        "Товары",
-                        style: TextStyle(
-                            fontSize: 15, fontFamily: 'MontserratBold'),
+          bottomNavigationBar: isActiveNavBar
+              ? Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 3),
+                  child: Container(
+                    decoration: new BoxDecoration(
+                      border: Border.all(
+                          width: 1, color: Color.fromARGB(255, 20, 20, 20)),
+                      borderRadius: new BorderRadius.all(Radius.circular(25.0)),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(23)),
+                      child: SalomonBottomBar(
+                        backgroundColor: Color.fromARGB(255, 47, 47, 47),
+                        currentIndex: index,
+                        onTap: (i) {
+                          setState(() {
+                            index = i;
+                            widget.callback(4, 4 + i);
+                          });
+                        },
+                        unselectedItemColor: Colors.white60,
+                        selectedItemColor: Color.fromARGB(255, 92, 140, 207),
+                        items: [
+                          SalomonBottomBarItem(
+                            icon: Icon(Icons.apps_outlined, size: 25),
+                            title: Text(
+                              "Товары",
+                              style: TextStyle(
+                                  fontSize: 15, fontFamily: 'MontserratBold'),
+                            ),
+                          ),
+                          SalomonBottomBarItem(
+                            icon:
+                                Icon(Icons.shopping_basket_outlined, size: 25),
+                            title: Text("Корзина",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'MontserratBold')),
+                          ),
+                          SalomonBottomBarItem(
+                            icon: Icon(Icons.history_outlined, size: 25),
+                            title: Text("История заказовы",
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'MontserratBold')),
+                          ),
+                        ],
                       ),
                     ),
-                    SalomonBottomBarItem(
-                      icon: Icon(Icons.shopping_basket_outlined, size: 25),
-                      title: Text("Корзина",
-                          style: TextStyle(
-                              fontSize: 15, fontFamily: 'MontserratBold')),
-                    ),
-                    SalomonBottomBarItem(
-                      icon: Icon(Icons.history_outlined, size: 25),
-                      title: Text("История заказовы",
-                          style: TextStyle(
-                              fontSize: 13, fontFamily: 'MontserratBold')),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+                  ),
+                )
+              : SizedBox.shrink(),
           body: IndexedStack(index: index, children: listPage)),
       isLoading
           ? Container(

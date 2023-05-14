@@ -36,6 +36,7 @@ class BasketFullInfo {
   num? fullPriceThisPosition;
   int? shopItemCount;
   String? image_URL;
+  bool? isSelected;
   BasketFullInfo(
       {this.id_ShopBasket,
       this.item_id,
@@ -47,7 +48,8 @@ class BasketFullInfo {
       this.user_Name,
       this.fullPriceThisPosition,
       this.shopItemCount,
-      this.image_URL});
+      this.image_URL,
+      this.isSelected});
   static fromJson(Map<String, dynamic> jsonResponse) {
     return BasketFullInfo(
         id_ShopBasket: jsonResponse['id_ShopBasket'],
@@ -60,6 +62,7 @@ class BasketFullInfo {
         user_Name: jsonResponse['user_Name'],
         fullPriceThisPosition: jsonResponse['fullPriceThisPosition'],
         shopItemCount: jsonResponse['shopItemCount'],
-        image_URL: jsonResponse['image_URL']);
+        image_URL: jsonResponse['image_URL'],
+        isSelected: false);
   }
 }
