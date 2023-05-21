@@ -16,6 +16,106 @@ class BottomUserInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AlertDialogExit() {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(32.0))),
+              contentPadding: EdgeInsets.only(top: 10.0, left: 5, right: 5),
+              backgroundColor: Color.fromARGB(224, 61, 73, 91),
+              content: Container(
+                height: MediaQuery.of(context).size.height * 0.17,
+                width: MediaQuery.of(context).size.width * 0.3,
+                child: Column(
+                  children: [
+                    Text(
+                      "Вы уверены, что хотите выйти?",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 20.fss,
+                          color: Colors.white,
+                          fontFamily: 'MontserratBold'),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.01,
+                    ),
+                    Icon(
+                      Icons.exit_to_app_outlined,
+                      color: Colors.white,
+                      size: 30.ss,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.01,
+                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.035,
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        child: OutlinedButton(
+                          // ignore: sort_child_properties_last
+                          child: Text(
+                            'Да',
+                            style: TextStyle(
+                              fontSize: 18.fss,
+                              color: Color.fromARGB(255, 149, 178, 218),
+                              fontFamily: 'MontserratBold',
+                            ),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Color.fromARGB(255, 28, 55, 92),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20)))),
+                          onPressed: () async {
+                            Navigator.pop(context);
+                            final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            await prefs.setInt('UserId', -1);
+                            ApiService.user = null;
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, "/", (route) => false);
+                            FocusScope.of(context).unfocus();
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.04,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.035,
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        child: OutlinedButton(
+                          // ignore: sort_child_properties_last
+                          child: Text(
+                            'Нет',
+                            style: TextStyle(
+                              fontSize: 18.fss,
+                              color: Color.fromARGB(255, 149, 178, 218),
+                              fontFamily: 'MontserratBold',
+                            ),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Color.fromARGB(255, 28, 55, 92),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20)))),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    ]),
+                  ],
+                ),
+              ),
+            );
+          });
+    }
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       height: isCollapsed ? 70 : 100,
@@ -73,7 +173,7 @@ class BottomUserInfo extends StatelessWidget {
                               style: TextStyle(
                                 color: Colors.grey,
                                 fontFamily: 'MontserratLight',
-                                  fontSize: 14.fss,
+                                fontSize: 14.fss,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -89,13 +189,7 @@ class BottomUserInfo extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 10),
                         child: IconButton(
                           onPressed: () async {
-                            final SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            await prefs.setInt('UserId', -1);
-                            ApiService.user = null;
-                            // ignore: use_build_context_synchronously
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, "/", (route) => false);
+                            AlertDialogExit();
                           },
                           icon: const Icon(
                             Icons.logout,
@@ -139,13 +233,7 @@ class BottomUserInfo extends StatelessWidget {
                 Expanded(
                   child: IconButton(
                     onPressed: () async {
-                      final SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      await prefs.setInt('UserId', -1);
-                       ApiService.user = null;
-                      // ignore: use_build_context_synchronously
-                      Navigator.pushNamedAndRemoveUntil(
-                                context, "/", (route) => false);
+                      AlertDialogExit();
                     },
                     icon: Icon(
                       Icons.logout,

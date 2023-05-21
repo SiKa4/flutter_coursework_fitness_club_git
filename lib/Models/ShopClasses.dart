@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Item {
   int? id_ShopItem;
   String? shopItemName;
@@ -37,6 +39,7 @@ class BasketFullInfo {
   int? shopItemCount;
   String? image_URL;
   bool? isSelected;
+  int? order_id;
   BasketFullInfo(
       {this.id_ShopBasket,
       this.item_id,
@@ -49,7 +52,8 @@ class BasketFullInfo {
       this.fullPriceThisPosition,
       this.shopItemCount,
       this.image_URL,
-      this.isSelected});
+      this.isSelected,
+      this.order_id});
   static fromJson(Map<String, dynamic> jsonResponse) {
     return BasketFullInfo(
         id_ShopBasket: jsonResponse['id_ShopBasket'],
@@ -63,6 +67,41 @@ class BasketFullInfo {
         fullPriceThisPosition: jsonResponse['fullPriceThisPosition'],
         shopItemCount: jsonResponse['shopItemCount'],
         image_URL: jsonResponse['image_URL'],
+        order_id: jsonResponse['order_id'],
         isSelected: false);
+  }
+}
+
+class ShopOrderFullInfo {
+  int? id_Order;
+  int? orderStatus_id;
+  int? user_id;
+  String? orderStatus_Name;
+  DateTime? orderDate;
+  num? totalSum;
+  List<BasketFullInfo>? shopBaskets;
+  String? paymentUri;
+
+  ShopOrderFullInfo(
+      {this.id_Order,
+      this.orderStatus_id,
+      this.user_id,
+      this.orderStatus_Name,
+      this.orderDate,
+      this.totalSum,
+      this.shopBaskets,
+      this.paymentUri});
+
+  static fromJson(Map<String, dynamic> jsonResponse) {
+    return ShopOrderFullInfo(
+        id_Order: jsonResponse['id_Order'],
+        orderStatus_id: jsonResponse['orderStatus_id'],
+        user_id: jsonResponse['user_id'],
+        orderStatus_Name: jsonResponse['orderStatus_Name'],
+        orderDate: DateTime.parse(jsonResponse['orderDate']),
+        totalSum: jsonResponse['totalSum'],
+        shopBaskets: List<BasketFullInfo>.from((jsonResponse['shopBaskets'])
+            .map((model) => BasketFullInfo.fromJson(model))),
+        paymentUri: jsonResponse['paymentUri']);
   }
 }

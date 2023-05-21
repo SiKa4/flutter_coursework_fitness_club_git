@@ -432,6 +432,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
               height: 50.ss,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
+                physics: BouncingScrollPhysics(),
                 // itemScrollController: itemScrollController,
                 // itemPositionsListener: itemPositionsListener,
                 itemCount: dateInApi?.length ?? 0,

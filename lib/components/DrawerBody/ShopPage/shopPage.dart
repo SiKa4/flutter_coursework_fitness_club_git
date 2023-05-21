@@ -49,12 +49,8 @@ class _ShopPageState extends State<ShopPage> {
             <BasketFullInfo>[];
   }
 
-  void SetIsSelectedItem(int index, bool isSelected) {
-    listBasket![index].isSelected = isSelected;
-  }
-
   List<BasketFullInfo>? GetListBasket() {
-    return listBasket;
+    return listBasket?.where((element) => element.order_id == 0).toList();
   }
 
   void ShowToast(String message) {
@@ -385,7 +381,6 @@ class _ShopPageState extends State<ShopPage> {
       BasketPage(
         getListBasket: GetListBasket,
         showToast: ShowToast,
-        setIsSelectedItem: SetIsSelectedItem,
         navBarShopPage: NavBarShopPage,
       ),
       HistoryPage(callback: _setState, getListBasket: GetListBasket)

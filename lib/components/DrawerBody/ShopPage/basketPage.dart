@@ -3,29 +3,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_launcher_icons/xml_templates.dart';
 import 'package:sizing/sizing.dart';
 
+import '../../../Animation/anim.dart';
+import '../../../HTTP_Connections/http_model.dart';
 import '../../../Models/ShopClasses.dart';
+import 'basketRegistrationPage.dart';
 
 class BasketPage extends StatefulWidget {
-  const BasketPage(
-      {super.key,
-      required this.getListBasket,
-      required this.showToast,
-      required this.setIsSelectedItem,
-      required this.navBarShopPage});
+  const BasketPage({
+    super.key,
+    required this.getListBasket,
+    required this.showToast,
+    required this.navBarShopPage,
+  });
   final ValueGetter<List<BasketFullInfo?>?> getListBasket;
   final void Function(String) showToast;
-  final void Function(int, bool) setIsSelectedItem;
   final void Function(bool) navBarShopPage;
+  //final void Function(BasketFullInfo) setBasket;
   @override
   State<BasketPage> createState() => _BasketPageState();
 }
 
 class _BasketPageState extends State<BasketPage> {
   @override
+  void setStatee(int idOrder) {
+    for (var i
+        in widget.getListBasket.call()!.where((x) => x!.isSelected == true)) {
+      setState(() {
+        i!.order_id = idOrder;
+      });
+    }
+  }
+
   void onLongPress(int index) {
     setState(() {
-      widget.setIsSelectedItem(
-          index, !widget.getListBasket.call()![index]!.isSelected!);
+      widget.getListBasket.call()![index]!.isSelected =
+          !widget.getListBasket.call()![index]!.isSelected!;
       if (widget.getListBasket
           .call()!
           .where((x) => x?.isSelected == true)
@@ -72,8 +84,26 @@ class _BasketPageState extends State<BasketPage> {
                     borderRadius: new BorderRadius.all(Radius.circular(25.0)),
                   ),
                   child: OutlinedButton(
-                    onPressed: () {
-                      //выделил жлементы теперь оформление
+                    onPressed: () async {
+                      Navigator.of(context)
+                          .push(Animations().createRoute(BasketRegistrationPage(
+                        listBasket: widget.getListBasket
+                            .call()!
+                            .where((x) => x!.isSelected == true)
+                            .toList(),
+                        setStateBasket: setStatee,
+                      )));
+                      // for (var i in widget.getListBasket
+                      //     .call()!
+                      //     .where((x) => x!.isSelected == true)
+                      //     .toList()) {
+                      //   i!.isSelected = false;
+                      // }
+                      setState(() {
+                        isSelected = false;
+                        widget.navBarShopPage(true);
+                        isEnabledNavBar = false;
+                      });
                     },
                     style: OutlinedButton.styleFrom(
                         shape: const RoundedRectangleBorder(
@@ -101,7 +131,7 @@ class _BasketPageState extends State<BasketPage> {
                         ]),
                   )),
             )
-          : SizedBox.shrink(),
+          : null,
       body: Center(
         child: Column(
           children: [
@@ -314,8 +344,23 @@ class _BasketPageState extends State<BasketPage> {
                                             size: 36.ss,
                                           ),
                                         ),
-                                        onTap: () {
-                                          //if (widget.getListBasket.call()?[index]!.shopItemCount > 1)
+                                        onTap: () async {
+                                          if (widget.getListBasket
+                                                  .call()![index]!
+                                                  .shopItemCount! >
+                                              1) {
+                                            var temp = widget.getListBasket
+                                                .call()![index]!;
+                                            setState(() {
+                                              temp.shopItemCount =
+                                                  temp.shopItemCount! - 1;
+                                            });
+                                            if (!await ApiService()
+                                                .PutBasket(temp)) {
+                                              temp.shopItemCount =
+                                                  temp.shopItemCount! + 1;
+                                            }
+                                          }
                                         },
                                       ),
                                     ),
@@ -350,11 +395,27 @@ class _BasketPageState extends State<BasketPage> {
                                           size: 36.ss,
                                         ),
                                       ),
-                                      onTap: () {
-                                        // if (cntItem < item.itemCount!)
-                                        //   mystate(() {
-                                        //     cntItem++;
-                                        //   });
+                                      onTap: () async {
+                                        if (widget.getListBasket
+                                                .call()![index]!
+                                                .shopItemCount! <
+                                            widget.getListBasket
+                                                .call()![index]!
+                                                .item_Count!) {
+                                          var temp = widget.getListBasket
+                                              .call()![index]!;
+                                          setState(() {
+                                            temp.shopItemCount =
+                                                temp.shopItemCount! + 1;
+                                          });
+                                          if (!await ApiService()
+                                              .PutBasket(temp)) {
+                                            setState(() {
+                                              temp.shopItemCount =
+                                                  temp.shopItemCount! - 1;
+                                            });
+                                          }
+                                        }
                                       },
                                     ),
                                     isSelected == true
