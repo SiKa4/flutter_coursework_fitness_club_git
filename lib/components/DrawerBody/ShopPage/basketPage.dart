@@ -99,11 +99,11 @@ class _BasketPageState extends State<BasketPage> {
                       //     .toList()) {
                       //   i!.isSelected = false;
                       // }
-                      setState(() {
-                        isSelected = false;
-                        widget.navBarShopPage(true);
-                        isEnabledNavBar = false;
-                      });
+                      // setState(() {
+                      //   isSelected = false;
+                      //   widget.navBarShopPage(true);
+                      //   isEnabledNavBar = false;
+                      // });
                     },
                     style: OutlinedButton.styleFrom(
                         shape: const RoundedRectangleBorder(
@@ -117,7 +117,7 @@ class _BasketPageState extends State<BasketPage> {
                             style: TextStyle(
                               fontSize: 17.fss,
                               fontFamily: 'MontserratBold',
-                              color: Colors.white,
+                              color: const Color.fromARGB(255, 149, 178, 218),
                             ),
                           ),
                           Text(
@@ -125,7 +125,7 @@ class _BasketPageState extends State<BasketPage> {
                             style: TextStyle(
                               fontSize: 14.fss,
                               fontFamily: 'MontserratBold',
-                              color: Colors.white,
+                              color: const Color.fromARGB(255, 149, 178, 218),
                             ),
                           ),
                         ]),
@@ -149,10 +149,31 @@ class _BasketPageState extends State<BasketPage> {
                           customBorder: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          onLongPress: () => onLongPress(index),
+                          onLongPress: widget.getListBasket
+                                          .call()![index]!
+                                          .shopItemCount! <=
+                                      widget.getListBasket
+                                          .call()![index]!
+                                          .item_Count! &&
+                                  widget.getListBasket
+                                          .call()![index]!
+                                          .shopItemCount! !=
+                                      0
+                              ? () => onLongPress(index)
+                              : () => null,
                           onTap: () {
                             setState(() {
-                              if (isSelected) {
+                              if (isSelected &&
+                                  widget.getListBasket
+                                          .call()![index]!
+                                          .shopItemCount! <=
+                                      widget.getListBasket
+                                          .call()![index]!
+                                          .item_Count! &&
+                                  widget.getListBasket
+                                          .call()![index]!
+                                          .shopItemCount! !=
+                                      0) {
                                 onLongPress(index);
                               } else {
                                 //openItem
@@ -345,12 +366,29 @@ class _BasketPageState extends State<BasketPage> {
                                           ),
                                         ),
                                         onTap: () async {
+                                          var temp = widget.getListBasket
+                                              .call()![index]!;
+                                          if (widget.getListBasket
+                                                  .call()![index]!
+                                                  .shopItemCount! >
+                                              widget.getListBasket
+                                                  .call()![index]!
+                                                  .item_Count!) {
+                                            var tempValue;
+                                            setState(() {
+                                              tempValue = temp.shopItemCount;
+                                              temp.shopItemCount =
+                                                  temp.item_Count;
+                                            });
+                                            if (!await ApiService()
+                                                .PutBasket(temp)) {
+                                              temp.shopItemCount = tempValue;
+                                            }
+                                          }
                                           if (widget.getListBasket
                                                   .call()![index]!
                                                   .shopItemCount! >
                                               1) {
-                                            var temp = widget.getListBasket
-                                                .call()![index]!;
                                             setState(() {
                                               temp.shopItemCount =
                                                   temp.shopItemCount! - 1;

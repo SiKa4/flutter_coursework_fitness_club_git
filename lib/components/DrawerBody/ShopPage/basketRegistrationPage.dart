@@ -51,21 +51,18 @@ class _BasketRegistrationPageState extends State<BasketRegistrationPage> {
   }
 
   String? sUrl;
-  
+
   @override
   bool isPlaced = false;
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 28, 28, 28),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 28, 55, 92),
-        title: !isPlaced
-            ? const Text("Оформление заказа")
-            : const Text("Вернуться на страницу оплаты"),
-      ),
+          backgroundColor: Color.fromARGB(255, 28, 55, 92),
+          title: const Text("Оформление заказа")),
       bottomNavigationBar: Container(
         width: MediaQuery.of(context).size.width * 0.6,
-        height: MediaQuery.of(context).size.height * 0.05,
+        height: MediaQuery.of(context).size.height * 0.07,
         child: Padding(
           padding: EdgeInsets.all(5),
           child: OutlinedButton(
@@ -99,10 +96,10 @@ class _BasketRegistrationPageState extends State<BasketRegistrationPage> {
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)))),
               child: Text(
-                "Оформить заказ",
+                !isPlaced ? "Оформить заказ" : "Вернуться на страницу оплаты",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 15.fss,
+                  fontSize: 17.fss,
                   color: const Color.fromARGB(255, 149, 178, 218),
                   fontFamily: 'MontserratBold',
                 ),

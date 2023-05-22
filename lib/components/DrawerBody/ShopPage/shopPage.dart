@@ -25,7 +25,7 @@ class ShopPage extends StatefulWidget {
 
 class _ShopPageState extends State<ShopPage> {
   @override
-  bool isLoading = false;
+  bool isLoading = true;
   bool isDispose = false;
   bool isActiveNavBar = true;
   List<BasketFullInfo>? listBasket;
@@ -47,6 +47,11 @@ class _ShopPageState extends State<ShopPage> {
         await ApiService().GetAllBasketFullInfoByIdUser(ApiService.user.id_User)
                 as List<BasketFullInfo>? ??
             <BasketFullInfo>[];
+    if (!isDispose) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   List<BasketFullInfo>? GetListBasket() {
@@ -443,17 +448,16 @@ class _ShopPageState extends State<ShopPage> {
                   ),
                 )
               : SizedBox.shrink(),
-          body: IndexedStack(index: index, children: listPage)),
-      isLoading
-          ? Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.black45,
-              child: LoadingAnimationWidget.fourRotatingDots(
-                color: Colors.blue,
-                size: 50,
-              ))
-          : SizedBox.shrink()
+          body: isLoading
+              ? Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.black45,
+                  child: LoadingAnimationWidget.fourRotatingDots(
+                    color: Colors.blue,
+                    size: 50,
+                  ))
+              : IndexedStack(index: index, children: listPage)),
     ]);
   }
 }

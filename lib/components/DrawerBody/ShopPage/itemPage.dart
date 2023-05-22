@@ -41,9 +41,7 @@ class _ItemPageState extends State<ItemPage> {
   }
 
   void _asyncMethodGet() async {
-    widget.callback(true);
     listItem = await ApiService().GetAllItem() as List<Item>;
-    widget.callback(false);
     if (!isDispose!) {
       setState(() {});
     }

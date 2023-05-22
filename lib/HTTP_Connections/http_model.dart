@@ -282,6 +282,21 @@ class ApiService {
     }
   }
 
+  Future<List<ShopOrderFullInfo?>?> GetShopOrder(
+      List<BasketFullInfo?> basket) async {
+    final response = await http.get(
+        Uri.parse('$baseUrl/shopOrders/${user.id_User}'),
+        headers: headers);
+    if (response.statusCode == 200) {
+      List<ShopOrderFullInfo> shopOrders = List<ShopOrderFullInfo>.from(json
+          .decode(response.body)
+          .map((model) => ShopOrderFullInfo.fromJson(model)));
+      return shopOrders;
+    } else {
+      return null;
+    }
+  }
+
   static var hubConnection;
   static Future<void> GetNewShedulesAndFullInfo() async {
     hubConnection = HubConnectionBuilder()
