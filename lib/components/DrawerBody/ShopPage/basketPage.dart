@@ -9,15 +9,16 @@ import '../../../Models/ShopClasses.dart';
 import 'basketRegistrationPage.dart';
 
 class BasketPage extends StatefulWidget {
-  const BasketPage({
-    super.key,
-    required this.getListBasket,
-    required this.showToast,
-    required this.navBarShopPage,
-  });
+  const BasketPage(
+      {super.key,
+      required this.getListBasket,
+      required this.showToast,
+      required this.navBarShopPage,
+      required this.listShopOrders});
   final ValueGetter<List<BasketFullInfo?>?> getListBasket;
   final void Function(String) showToast;
   final void Function(bool) navBarShopPage;
+  final ValueGetter<List<ShopOrderFullInfo>?>? listShopOrders;
   //final void Function(BasketFullInfo) setBasket;
   @override
   State<BasketPage> createState() => _BasketPageState();
@@ -30,6 +31,11 @@ class _BasketPageState extends State<BasketPage> {
         in widget.getListBasket.call()!.where((x) => x!.isSelected == true)) {
       setState(() {
         i!.order_id = idOrder;
+      });
+      setState(() {
+        isSelected = false;
+        widget.navBarShopPage(true);
+        isEnabledNavBar = true;
       });
     }
   }
@@ -85,14 +91,14 @@ class _BasketPageState extends State<BasketPage> {
                   ),
                   child: OutlinedButton(
                     onPressed: () async {
-                      Navigator.of(context)
-                          .push(Animations().createRoute(BasketRegistrationPage(
-                        listBasket: widget.getListBasket
-                            .call()!
-                            .where((x) => x!.isSelected == true)
-                            .toList(),
-                        setStateBasket: setStatee,
-                      )));
+                      Navigator.of(context).push(Animations().createRoute(
+                          BasketRegistrationPage(
+                              listBasket: widget.getListBasket
+                                  .call()!
+                                  .where((x) => x!.isSelected == true)
+                                  .toList(),
+                              setStateBasket: setStatee,
+                              listShopOrders: widget.listShopOrders)));
                       // for (var i in widget.getListBasket
                       //     .call()!
                       //     .where((x) => x!.isSelected == true)

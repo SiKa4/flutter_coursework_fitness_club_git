@@ -8,15 +8,23 @@ import '../Models/ScheduleСlassesUsers.dart';
 import '../Models/SheduleClassesAndTypes.dart';
 import '../Models/ShopClasses.dart';
 import '../Models/UsersLogins.dart';
+import 'dart:io';
 
-class ApiService {
+class ApiService extends HttpOverrides {
   static var user;
   static var login;
-  var baseUrl = 'http://217.66.25.160:5001/api';
+  var baseUrl = 'https://217.66.25.160:8443/api';
   var headers = {
     'ApiKey': 'gc2tPOwfXPOFHX5SYOzZFFmN9DXiH40xzN2o3h0MQzJ5y',
     'Content-Type': 'application/json'
   };
+
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
 
   Future<Users?> getUserByLogPass(String login, String password) async {
     await Future.delayed(const Duration(seconds: 1));
@@ -282,10 +290,9 @@ class ApiService {
     }
   }
 
-  Future<List<ShopOrderFullInfo?>?> GetShopOrder(
-      List<BasketFullInfo?> basket) async {
+  Future<List<ShopOrderFullInfo?>?> GetShopOrderByUserId(int userId) async {
     final response = await http.get(
-        Uri.parse('$baseUrl/shopOrders/${user.id_User}'),
+        Uri.parse('$baseUrl/shopOrders/${userId}'),
         headers: headers);
     if (response.statusCode == 200) {
       List<ShopOrderFullInfo> shopOrders = List<ShopOrderFullInfo>.from(json
@@ -300,8 +307,16 @@ class ApiService {
   static var hubConnection;
   static Future<void> GetNewShedulesAndFullInfo() async {
     hubConnection = HubConnectionBuilder()
-        .withUrl("http://217.66.25.160:5001/signalRHubShedules")
+        .withUrl("https://217.66.25.160:8443/signalRHubShedules")
         .build();
     hubConnection.start();
+  }
+
+  static var hubConnectionOrderStatus;
+  static Future<void> GetNewConnectionOrderStatus() async {
+    hubConnectionOrderStatus = HubConnectionBuilder()
+        .withUrl("https://217.66.25.160:8443/signalRHubOrderStatus")
+        .build();
+    hubConnectionOrderStatus.start();
   }
 }

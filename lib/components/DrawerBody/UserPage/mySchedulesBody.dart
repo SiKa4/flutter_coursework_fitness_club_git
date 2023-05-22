@@ -209,129 +209,125 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
   Widget build(BuildContext context) {
     return Center(
       child: Stack(children: [
-        Column(children: [
-          SizedBox(height: MediaQuery.of(context).size.height * 0.007),
-          Expanded(
-            child: ListView.builder(
-              itemCount: sheduleClassesUsersFullInfo?.length ?? 0,
-              physics: BouncingScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                if (sheduleClassesUsersFullInfo![index].isActive! &&
-                    sheduleClassesUsersFullInfo![index].isActiveUser!) {
-                  return Column(children: [
-                    getBlockDateTime(index),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          side: const BorderSide(color: Colors.black)),
-                      color: sheduleClassesUsersFullInfo![index].isActive! &&
-                              sheduleClassesUsersFullInfo![index].isActiveUser!
-                          ? Color.fromARGB(255, 54, 54, 54)
-                          : Color.fromARGB(255, 37, 37, 37),
-                      child: InkWell(
-                        customBorder: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        onTap: () => {
-                          if (sheduleClassesUsersFullInfo![index].isActive! &&
-                              sheduleClassesUsersFullInfo![index].isActiveUser!)
-                            {
-                              ShowBottomSheet(
-                                  sheduleClassesUsersFullInfo![index], index)
-                            }
-                          else
-                            {
-                              ShowToast(
-                                  "Вы больше не можете просмотреть детали мероприятия!")
-                            }
-                        },
-                        child: Row(children: [
-                          SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.1,
-                              width: MediaQuery.of(context).size.width * 0.05),
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "${DateFormat('MMMMd').format(sheduleClassesUsersFullInfo?[index].timeStart as DateTime)}",
-                                  style: TextStyle(
-                                    fontSize: 20.fss,
-                                    fontFamily: 'MontserratBold',
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.005,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.05),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.2,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.05,
-                                  child: Text(
-                                    "${DateFormat('kk:mm ' + '\n' + ' (${sheduleClassesUsersFullInfo?[index].timeDuration?.inMinutes} мин)').format(sheduleClassesUsersFullInfo?[index].timeStart as DateTime)}",
-                                    maxLines: 2,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 16.7.fss,
-                                      fontFamily: 'MontserratLight',
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ]),
-                          SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.12,
-                              width: MediaQuery.of(context).size.width * 0.04),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${sheduleClassesUsersFullInfo?[index].type_Name}",
-                                style: TextStyle(
-                                    fontSize: 22.fss,
-                                    color: Colors.white,
-                                    fontFamily: 'MontserratBold'),
-                                textAlign: TextAlign.center,
-                              ),
-                              Text(
-                                "${sheduleClassesUsersFullInfo?[index].location}",
-                                style: TextStyle(
-                                    fontSize: 17.7.fss,
-                                    color: Colors.white,
-                                    fontFamily: 'MontserratLight'),
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                child: Divider(
-                                  color: Color.fromARGB(255, 56, 124, 220),
-                                  thickness: 1.3,
-                                ),
-                              ),
-                              Text(
-                                "${sheduleClassesUsersFullInfo?[index].teacher_FullName}",
-                                style: TextStyle(
-                                    fontSize: 16.5.fss,
-                                    color: Colors.white,
-                                    fontFamily: 'MontserratLight'),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ]),
-                      ),
+        ListView.builder(
+           padding: EdgeInsets.only(top: 5),
+          itemCount: sheduleClassesUsersFullInfo?.length ?? 0,
+          physics: BouncingScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            if (sheduleClassesUsersFullInfo![index].isActive! &&
+                sheduleClassesUsersFullInfo![index].isActiveUser!) {
+              return Column(children: [
+                getBlockDateTime(index),
+                Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      side: const BorderSide(color: Colors.black)),
+                  color: sheduleClassesUsersFullInfo![index].isActive! &&
+                          sheduleClassesUsersFullInfo![index].isActiveUser!
+                      ? Color.fromARGB(255, 54, 54, 54)
+                      : Color.fromARGB(255, 37, 37, 37),
+                  child: InkWell(
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                  ]);
-                } else {
-                  return SizedBox.shrink();
-                }
-              },
-            ),
-          ),
-        ]),
+                    onTap: () => {
+                      if (sheduleClassesUsersFullInfo![index].isActive! &&
+                          sheduleClassesUsersFullInfo![index].isActiveUser!)
+                        {
+                          ShowBottomSheet(
+                              sheduleClassesUsersFullInfo![index], index)
+                        }
+                      else
+                        {
+                          ShowToast(
+                              "Вы больше не можете просмотреть детали мероприятия!")
+                        }
+                    },
+                    child: Row(children: [
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          width: MediaQuery.of(context).size.width * 0.05),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "${DateFormat('MMMMd').format(sheduleClassesUsersFullInfo?[index].timeStart as DateTime)}",
+                              style: TextStyle(
+                                fontSize: 20.fss,
+                                fontFamily: 'MontserratBold',
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                                height: MediaQuery.of(context).size.height *
+                                    0.005,
+                                width: MediaQuery.of(context).size.width *
+                                    0.05),
+                            Container(
+                              width:
+                                  MediaQuery.of(context).size.width * 0.24,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.05,
+                              child: Text(
+                                "${DateFormat('kk:mm ' + '\n' + ' (${sheduleClassesUsersFullInfo?[index].timeDuration?.inMinutes} мин)').format(sheduleClassesUsersFullInfo?[index].timeStart as DateTime)}",
+                                maxLines: 2,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 16.7.fss,
+                                  fontFamily: 'MontserratLight',
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ]),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.12,
+                          width: MediaQuery.of(context).size.width * 0.04),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${sheduleClassesUsersFullInfo?[index].type_Name}",
+                            style: TextStyle(
+                                fontSize: 22.fss,
+                                color: Colors.white,
+                                fontFamily: 'MontserratBold'),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            "${sheduleClassesUsersFullInfo?[index].location}",
+                            style: TextStyle(
+                                fontSize: 17.7.fss,
+                                color: Colors.white,
+                                fontFamily: 'MontserratLight'),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Divider(
+                              color: Color.fromARGB(255, 56, 124, 220),
+                              thickness: 1.3,
+                            ),
+                          ),
+                          Text(
+                            "${sheduleClassesUsersFullInfo?[index].teacher_FullName}",
+                            style: TextStyle(
+                                fontSize: 14.4.fss,
+                                color: Colors.white,
+                                fontFamily: 'MontserratLight'),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ]),
+                  ),
+                ),
+              ]);
+            } else {
+              return SizedBox.shrink();
+            }
+          },
+        ),
         isLoading
             ? Container(
                 height: MediaQuery.of(context).size.height,

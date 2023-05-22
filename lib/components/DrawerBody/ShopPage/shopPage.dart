@@ -29,6 +29,9 @@ class _ShopPageState extends State<ShopPage> {
   bool isDispose = false;
   bool isActiveNavBar = true;
   List<BasketFullInfo>? listBasket;
+  List<ShopOrderFullInfo>? listShopOrders;
+
+  @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _asyncMethodGet();
@@ -47,6 +50,10 @@ class _ShopPageState extends State<ShopPage> {
         await ApiService().GetAllBasketFullInfoByIdUser(ApiService.user.id_User)
                 as List<BasketFullInfo>? ??
             <BasketFullInfo>[];
+    listShopOrders =
+        await ApiService().GetShopOrderByUserId(ApiService.user.id_User)
+                as List<ShopOrderFullInfo>? ??
+            <ShopOrderFullInfo>[];
     if (!isDispose) {
       setState(() {
         isLoading = false;
@@ -56,6 +63,12 @@ class _ShopPageState extends State<ShopPage> {
 
   List<BasketFullInfo>? GetListBasket() {
     return listBasket?.where((element) => element.order_id == 0).toList();
+    
+  }
+
+  List<ShopOrderFullInfo>? GetListOrders() {
+    listShopOrders!.sort((a, b) => a.orderDate!.compareTo(b.orderDate!));
+    return listShopOrders;
   }
 
   void ShowToast(String message) {
@@ -387,8 +400,9 @@ class _ShopPageState extends State<ShopPage> {
         getListBasket: GetListBasket,
         showToast: ShowToast,
         navBarShopPage: NavBarShopPage,
+        listShopOrders: GetListOrders,
       ),
-      HistoryPage(callback: _setState, getListBasket: GetListBasket)
+      HistoryPage(callback: _setState, getListBasket: GetListBasket, listShopOrders: GetListOrders,)
     ];
 
     return Stack(children: [

@@ -38,7 +38,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
               heightFactor: 0.55,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.55,
+                height: MediaQuery.of(context).size.height * 0.57,
                 decoration: BoxDecoration(
                     color: Color.fromARGB(255, 48, 48, 48),
                     borderRadius: BorderRadius.only(
@@ -169,6 +169,7 @@ class _ShedulesPageState extends State<ShedulesPage> {
                       ),
                       Text(
                         "Преподаватель: ${sheduleClassesAndTypes.teacher_FullName}",
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 16.fss,
                           fontFamily: 'MontserratLight',
@@ -384,18 +385,22 @@ class _ShedulesPageState extends State<ShedulesPage> {
                     thickness: 1.3,
                   ),
                 ),
-                Text(
-                  "${sheduleClassesAndTypes?[index].teacher_FullName}",
-                  style: TextStyle(
-                      fontSize: 16.5.fss,
-                      color: Colors.white,
-                      fontFamily: 'MontserratLight'),
-                  textAlign: TextAlign.center,
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: Text(
+                    "${sheduleClassesAndTypes?[index].teacher_FullName}",
+                    
+                    style: TextStyle(
+                        fontSize: 14.4.fss,
+                        color: Colors.white,
+                        fontFamily: 'MontserratLight'),
+                    textAlign: TextAlign.left,
+                  ),
                 ),
               ],
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+            Align(
+              alignment: Alignment.centerRight,
               child: Icon(
                 sheduleClassesAndTypes![index].isActive!
                     ? Icons.beenhere_outlined

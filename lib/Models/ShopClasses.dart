@@ -100,8 +100,8 @@ class ShopOrderFullInfo {
         orderStatus_Name: jsonResponse['orderStatus_Name'],
         orderDate: DateTime.parse(jsonResponse['orderDate']),
         totalSum: jsonResponse['totalSum'],
-        shopBaskets: List<BasketFullInfo>.from((jsonResponse['shopBaskets'])
-            .map((model) => BasketFullInfo.fromJson(model))),
-        paymentUri: jsonResponse['paymentUri']);
+        shopBaskets: jsonResponse['shopBaskets'] != null ? List<BasketFullInfo>.from((jsonResponse['shopBaskets'])
+                .map((model) => BasketFullInfo.fromJson(model))) : null,
+        paymentUri: jsonResponse['paymentUri'] != null ? jsonResponse['paymentUri'] : null);
   }
 }

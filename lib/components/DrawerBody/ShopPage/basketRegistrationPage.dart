@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_coursework_fitness_club/HTTP_Connections/http_model.dart';
 import 'package:sizing/sizing.dart';
+import '../../../Animation/anim.dart';
 import '../../../Models/ShopClasses.dart';
 import '../../RadioButton/myRadioListTitle.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class BasketRegistrationPage extends StatefulWidget {
   const BasketRegistrationPage(
-      {super.key, required this.listBasket, required this.setStateBasket});
+      {super.key,
+      required this.listBasket,
+      required this.setStateBasket,
+      required this.listShopOrders});
   final List<BasketFullInfo?> listBasket;
+  final ValueGetter<List<ShopOrderFullInfo>?>? listShopOrders;
   final void Function(int idOrder) setStateBasket;
   @override
   State<BasketRegistrationPage> createState() => _BasketRegistrationPageState();
@@ -18,13 +23,55 @@ class _BasketRegistrationPageState extends State<BasketRegistrationPage> {
   int _valueRadio = 1;
   double priceSelectedItem = 0;
   int cntItem = 0;
+
   @override
   void initState() {
     for (var i in widget.listBasket) {
       priceSelectedItem += i!.shopItemCount! * i.item_Price!;
       cntItem += i.shopItemCount!;
     }
+    asyncInitState();
     super.initState();
+  }
+
+  Future<void> asyncInitState() async {
+    await ApiService.GetNewConnectionOrderStatus();
+    initSession();
+  }
+
+  void ShowToast(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message), duration: const Duration(seconds: 2)));
+  }
+
+  void initSession() async {
+    await ApiService.hubConnectionOrderStatus
+        .on("GetStatus", _handleAClientProvidedFunction);
+  }
+
+  void _handleAClientProvidedFunction(var parameters) {
+    ShopOrderFullInfo basketStatus = ShopOrderFullInfo.fromJson(parameters[0]);
+
+    if (ApiService.user.id_User == basketStatus.user_id) {
+      widget.listShopOrders!
+          .call()![widget.listShopOrders!.call()!.indexOf(widget.listShopOrders!
+              .call()!
+              .where((x) => x.id_Order == basketStatus.id_Order)
+              .first)]
+          .orderStatus_Name = basketStatus.orderStatus_Name;
+      widget.listShopOrders!
+          .call()![widget.listShopOrders!.call()!.indexOf(widget.listShopOrders!
+              .call()!
+              .where((x) => x.id_Order == basketStatus.id_Order)
+              .first)]
+          .orderStatus_id = basketStatus.orderStatus_id;
+      if (basketStatus.orderStatus_id == 2 ||
+          basketStatus.orderStatus_id == 1) {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        ShowToast("Заказ оплачен, ожидает подтверждения!");
+      }
+    }
   }
 
   getController(var url) {
@@ -70,25 +117,32 @@ class _BasketRegistrationPageState extends State<BasketRegistrationPage> {
                   ? () async {
                       var answer =
                           await ApiService().PostShopOrder(widget.listBasket);
-                      widget.setStateBasket(answer!.id_Order!);
+                      widget.listShopOrders!.call()!.add(answer!);
+                      widget.setStateBasket(answer.id_Order!);
                       sUrl = answer.paymentUri;
                       // ignore: use_build_context_synchronously
-                      await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => WebViewWidget(
-                                  controller:
-                                      getController(answer.paymentUri))));
+                      await Navigator.of(context)
+                          .push(Animations().createRoute(Scaffold(
+                        appBar: AppBar(
+                          title: Text("Страница оплаты заказа"),
+                          backgroundColor: Color.fromARGB(255, 28, 55, 92),
+                        ),
+                        body: WebViewWidget(
+                            controller: getController(answer.paymentUri)),
+                      )));
                       setState(() {
                         isPlaced = true;
                       });
                     }
                   : () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => WebViewWidget(
-                                  controller: getController(sUrl))));
+                      Navigator.of(context)
+                          .push(Animations().createRoute(Scaffold(
+                        appBar: AppBar(
+                          title: Text("Страница оплаты заказа"),
+                          backgroundColor: Color.fromARGB(255, 28, 55, 92),
+                        ),
+                        body: WebViewWidget(controller: getController(sUrl)),
+                      )));
                     },
               style: OutlinedButton.styleFrom(
                   primary: Colors.white,
@@ -153,6 +207,8 @@ class _BasketRegistrationPageState extends State<BasketRegistrationPage> {
                             ),
                           ),
                           Container(
+                            height: MediaQuery.of(context).size.height * 0.03,
+                            width: MediaQuery.of(context).size.width * 0.14,
                             decoration: new BoxDecoration(
                               color: Color.fromARGB(255, 41, 41, 41),
                               border: Border.all(
@@ -161,13 +217,16 @@ class _BasketRegistrationPageState extends State<BasketRegistrationPage> {
                               borderRadius:
                                   new BorderRadius.all(Radius.circular(25.0)),
                             ),
-                            child: Text(
-                              '${widget.listBasket[index]!.shopItemCount} шт.',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 17.fss,
-                                fontFamily: 'MontserratBold',
-                                color: Colors.white,
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              child: Text(
+                                '${widget.listBasket[index]!.shopItemCount} шт.',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 16.fss,
+                                  fontFamily: 'MontserratBold',
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),

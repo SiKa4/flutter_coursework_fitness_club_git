@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -15,7 +17,7 @@ void main() async {
   final int? id_User = prefs.getInt('UserId');
   Intl.systemLocale = 'ru';
   initializeDateFormatting('ru');
-
+  HttpOverrides.global = ApiService();
   if (id_User != -1 && id_User != null) {
     ApiService.user = await ApiService().getUserById(id_User);
     ApiService.login = await ApiService().getLoginsByIdUser(id_User);
