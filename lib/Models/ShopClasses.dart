@@ -81,6 +81,7 @@ class ShopOrderFullInfo {
   num? totalSum;
   List<BasketFullInfo>? shopBaskets;
   String? paymentUri;
+  List<StatusAndDate>? statusAndDates;
 
   ShopOrderFullInfo(
       {this.id_Order,
@@ -90,18 +91,39 @@ class ShopOrderFullInfo {
       this.orderDate,
       this.totalSum,
       this.shopBaskets,
-      this.paymentUri});
+      this.paymentUri,
+      this.statusAndDates});
 
   static fromJson(Map<String, dynamic> jsonResponse) {
     return ShopOrderFullInfo(
         id_Order: jsonResponse['id_Order'],
-        orderStatus_id: jsonResponse['orderStatus_id'],
         user_id: jsonResponse['user_id'],
-        orderStatus_Name: jsonResponse['orderStatus_Name'],
-        orderDate: DateTime.parse(jsonResponse['orderDate']),
         totalSum: jsonResponse['totalSum'],
-        shopBaskets: jsonResponse['shopBaskets'] != null ? List<BasketFullInfo>.from((jsonResponse['shopBaskets'])
-                .map((model) => BasketFullInfo.fromJson(model))) : null,
-        paymentUri: jsonResponse['paymentUri'] != null ? jsonResponse['paymentUri'] : null);
+        shopBaskets: jsonResponse['shopBaskets'] != null
+            ? List<BasketFullInfo>.from((jsonResponse['shopBaskets'])
+                .map((model) => BasketFullInfo.fromJson(model)))
+            : null,
+        statusAndDates: jsonResponse['statusAndDates'] != null
+            ? List<StatusAndDate>.from((jsonResponse['statusAndDates'])
+                .map((model) => StatusAndDate.fromJson(model)))
+            : null,
+        paymentUri: jsonResponse['paymentUri'] != null
+            ? jsonResponse['paymentUri']
+            : null);
+  }
+}
+
+class StatusAndDate {
+  int? orderStatus_id;
+  String? status;
+  DateTime? dateOrder;
+
+  StatusAndDate({this.orderStatus_id, this.status, this.dateOrder});
+
+  static fromJson(Map<String, dynamic> jsonResponse) {
+    return StatusAndDate(
+        orderStatus_id: jsonResponse['orderStatus_id'],
+        status: jsonResponse['status'],
+        dateOrder: DateTime.parse(jsonResponse['dateOrder']));
   }
 }

@@ -62,12 +62,11 @@ class _ShopPageState extends State<ShopPage> {
   }
 
   List<BasketFullInfo>? GetListBasket() {
-    return listBasket?.where((element) => element.order_id == 0).toList();
-    
+    return listBasket?.where((element) => element.order_id == 0).toList(); 
   }
 
   List<ShopOrderFullInfo>? GetListOrders() {
-    listShopOrders!.sort((a, b) => a.orderDate!.compareTo(b.orderDate!));
+    //listShopOrders!.sort((a, b) => a.orderDate!.compareTo(b.orderDate!));
     return listShopOrders;
   }
 

@@ -9,7 +9,6 @@ import 'package:sizing/sizing_builder.dart';
 import 'HTTP_Connections/http_model.dart';
 import 'Pages/auth.dart';
 import 'Pages/home.dart';
-import 'Pages/profile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

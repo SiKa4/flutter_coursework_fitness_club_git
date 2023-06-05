@@ -52,26 +52,26 @@ class _BasketRegistrationPageState extends State<BasketRegistrationPage> {
   void _handleAClientProvidedFunction(var parameters) {
     ShopOrderFullInfo basketStatus = ShopOrderFullInfo.fromJson(parameters[0]);
 
-    if (ApiService.user.id_User == basketStatus.user_id) {
-      widget.listShopOrders!
-          .call()![widget.listShopOrders!.call()!.indexOf(widget.listShopOrders!
-              .call()!
-              .where((x) => x.id_Order == basketStatus.id_Order)
-              .first)]
-          .orderStatus_Name = basketStatus.orderStatus_Name;
-      widget.listShopOrders!
-          .call()![widget.listShopOrders!.call()!.indexOf(widget.listShopOrders!
-              .call()!
-              .where((x) => x.id_Order == basketStatus.id_Order)
-              .first)]
-          .orderStatus_id = basketStatus.orderStatus_id;
-      if (basketStatus.orderStatus_id == 2 ||
-          basketStatus.orderStatus_id == 1) {
-        Navigator.pop(context);
-        Navigator.pop(context);
-        ShowToast("Заказ оплачен, ожидает подтверждения!");
-      }
-    }
+    // if (ApiService.user.id_User == basketStatus.user_id) {
+    //   widget.listShopOrders!
+    //       .call()![widget.listShopOrders!.call()!.indexOf(widget.listShopOrders!
+    //           .call()!
+    //           .where((x) => x.id_Order == basketStatus.id_Order)
+    //           .first)]
+    //       .orderStatus_Name = basketStatus.orderStatus_Name;
+    //   widget.listShopOrders!
+    //       .call()![widget.listShopOrders!.call()!.indexOf(widget.listShopOrders!
+    //           .call()!
+    //           .where((x) => x.id_Order == basketStatus.id_Order)
+    //           .first)]
+    //       .orderStatus_id = basketStatus.orderStatus_id;
+    //   if (basketStatus.orderStatus_id == 2 ||
+    //       basketStatus.orderStatus_id == 1) {
+    //     Navigator.pop(context);
+    //     Navigator.pop(context);
+    //     ShowToast("Заказ оплачен, ожидает подтверждения!");
+    //   }
+    // }
   }
 
   getController(var url) {
