@@ -51,6 +51,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   salomon_bottom_bar: ^3.3.2
   sizing: ^1.1.2
+  cookie_jar: ^4.0.3
 
 dev_dependencies:
   flutter_test:

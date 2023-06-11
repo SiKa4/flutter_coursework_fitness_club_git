@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:signalr_netcore/signalr_client.dart';
@@ -29,8 +30,8 @@ class ApiService extends HttpOverrides {
   Future<Users?> getUserByLogPass(String login, String password) async {
     await Future.delayed(const Duration(seconds: 1));
     var body = {'Login': '$login', 'Password': '$password'};
-
-    final response = await http.post(Uri.parse('$baseUrl/logins/logPass'),
+    var client = new http.Client();
+    final response = await client.post(Uri.parse('$baseUrl/logins/logPass'),
         headers: headers, body: json.encode(body));
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
@@ -292,8 +293,7 @@ class ApiService extends HttpOverrides {
   }
 
   Future<List<ShopOrderFullInfo?>?> GetShopOrderByUserId(int userId) async {
-    final response = await http.get(
-        Uri.parse('$baseUrl/shopOrders/${userId}'),
+    final response = await http.get(Uri.parse('$baseUrl/shopOrders/${userId}'),
         headers: headers);
     if (response.statusCode == 200) {
       List<ShopOrderFullInfo> shopOrders = List<ShopOrderFullInfo>.from(json
