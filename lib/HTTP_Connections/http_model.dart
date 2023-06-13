@@ -1,7 +1,4 @@
 import 'dart:convert';
-
-import 'package:cookie_jar/cookie_jar.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:signalr_netcore/signalr_client.dart';
 

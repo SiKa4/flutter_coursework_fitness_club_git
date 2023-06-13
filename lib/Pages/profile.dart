@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizing/sizing.dart';
 
 import '../HTTP_Connections/http_model.dart';
-import '../Models/UsersLogins.dart';
 
 class MyProfile extends StatefulWidget {
   const MyProfile({super.key});

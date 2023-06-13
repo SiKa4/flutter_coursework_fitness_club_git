@@ -1,12 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sizing/sizing.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 import '../../../HTTP_Connections/http_model.dart';
-import '../../../Models/ScheduleСlassesUsers.dart';
 import '../../../Models/ShopClasses.dart';
-import '../UserPage/homeImageView.dart';
 
 class ItemPage extends StatefulWidget {
   final void Function(bool) callback;

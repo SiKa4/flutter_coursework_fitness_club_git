@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_coursework_fitness_club/Models/ShopClasses.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -24,7 +23,6 @@ class ShopPage extends StatefulWidget {
 }
 
 class _ShopPageState extends State<ShopPage> {
-  @override
   bool isLoading = true;
   bool isDispose = false;
   bool isActiveNavBar = true;

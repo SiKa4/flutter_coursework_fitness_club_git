@@ -7,6 +7,7 @@ class ScheduleClassesUsers {
       {this.scheduleclass_id, this.user_id, this.recordingTime, this.isActive});
 
   static fromJson(Map<String, dynamic> jsonResponse) {
+    // ignore: unnecessary_null_comparison
     if (jsonResponse == null) return null;
     return ScheduleClassesUsers(
         scheduleclass_id: jsonResponse['scheduleСlass_id'],
@@ -52,6 +53,7 @@ class ScheduleClassesUsersFullInfo {
       this.isActive});
 
   static fromJson(Map<String, dynamic> jsonResponse) {
+    // ignore: unnecessary_null_comparison
     if (jsonResponse == null) return null;
     return ScheduleClassesUsersFullInfo(
         scheduleClass_id: jsonResponse['scheduleСlass_id'],

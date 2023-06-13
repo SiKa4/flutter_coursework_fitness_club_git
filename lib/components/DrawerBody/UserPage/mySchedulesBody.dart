@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_coursework_fitness_club/HTTP_Connections/http_model.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -183,6 +182,7 @@ class _MySchedulesBodyState extends State<MySchedulesBody> {
                                     as ScheduleClassesUsersFullInfo;
                             Navigator.pop(context);
                             setState(() {
+                              // ignore: unnecessary_null_comparison
                               if (answer != null) {
                                 sheduleClassesUsersFullInfo?[index] = answer;
                                 blockDateTime = null;

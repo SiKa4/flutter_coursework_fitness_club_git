@@ -56,6 +56,7 @@ class DateInApi {
   DateInApi({this.date});
 
   static fromJson(Map<String, dynamic> jsonResponse) {
+    // ignore: unnecessary_null_comparison
     if (jsonResponse == null) return null;
     return DateInApi(date: DateTime.parse(jsonResponse['date']));
   }

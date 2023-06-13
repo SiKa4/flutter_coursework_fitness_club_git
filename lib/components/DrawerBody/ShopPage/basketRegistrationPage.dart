@@ -92,8 +92,8 @@ class _BasketRegistrationPageState extends State<BasketRegistrationPage> {
 
   String? sUrl;
 
-  @override
   bool isPlaced = false;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 28, 28, 28),

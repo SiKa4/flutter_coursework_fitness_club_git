@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_coursework_fitness_club/HTTP_Connections/http_model.dart';
 
 class TeacherRaitingPage extends StatefulWidget {

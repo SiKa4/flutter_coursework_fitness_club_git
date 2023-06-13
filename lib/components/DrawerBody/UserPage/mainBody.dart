@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_coursework_fitness_club/Pages/profile.dart';
 import 'package:sizing/sizing_extension.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -17,9 +16,9 @@ class MainBody extends StatefulWidget {
   State<MainBody> createState() => _MainBodyState();
 }
 
-class _MainBodyState extends State<MainBody> {
-  @override
+class _MainBodyState extends State<MainBody> {  
   PageController _controller = PageController();
+  @override
   Widget build(BuildContext context) {
     return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       Stack(alignment: Alignment.bottomRight, children: [

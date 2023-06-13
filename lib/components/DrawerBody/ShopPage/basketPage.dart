@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_launcher_icons/xml_templates.dart';
 import 'package:sizing/sizing.dart';
 
 import '../../../Animation/anim.dart';
@@ -25,7 +24,6 @@ class BasketPage extends StatefulWidget {
 }
 
 class _BasketPageState extends State<BasketPage> {
-  @override
   void setStatee(int idOrder) {
     for (var i
         in widget.getListBasket.call()!.where((x) => x!.isSelected == true)) {

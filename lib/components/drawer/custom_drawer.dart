@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sizing/sizing.dart';
-
-import '../../Pages/home.dart';
 import 'bottom_user_info.dart';
 import 'custom_list_tile.dart';
 import 'header.dart';

@@ -4,12 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizing/sizing.dart';
 
-import '../Animation/anim.dart';
+
 import '../HTTP_Connections/http_model.dart';
 import '../Models/UsersLogins.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
